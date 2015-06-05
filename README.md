@@ -1,2 +1,2 @@
 # taskerbox
-Java automation engine based on producers (channels) &amp; consumer (actions)
+Java automation engine based on producers (channels) &amp; consumers (actions)
