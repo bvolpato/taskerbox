@@ -1,0 +1,120 @@
+package org.brunocunha.taskerbox.impl.custom.slickdeals;
+
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import lombok.extern.log4j.Log4j;
+
+import org.brunocunha.taskerbox.core.utils.TaskerboxFileUtils;
+import org.brunocunha.taskerbox.impl.email.EmailDelegateAction;
+import org.brunocunha.taskerbox.impl.toaster.StringToasterAction;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+@Log4j
+public class SlickDealsAction extends EmailDelegateAction<Document> {
+
+	private static final String HOST = "http://slickdeals.net";
+	
+	private Set<String> alreadyAct = new TreeSet<String>();
+
+	private List<String> ignored;
+	
+	@Override
+	public void setup() {
+		try {
+			alreadyAct = (Set<String>) TaskerboxFileUtils
+					.deserializeMemory(this);
+		} catch (Exception e) {
+			logWarn(log, "Error occurred while deserializing data for "
+					+ this.getId() + ": " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void action(final Document entry) {
+		
+		post:
+		for (Element el : entry.select("tr[id^=sdpostrow]").select(".threadtitleline")) {
+			
+			final String url = el.select("a[id^=thread_title]").attr("href");
+			final String postTitle = el.select("a[id^=thread_title]").text();
+
+			if (!alreadyAct.contains(postTitle)) {
+				alreadyAct.add(postTitle);
+				
+				if (ignored != null) {
+					for (String ignoredString : ignored) {
+						if (postTitle.toLowerCase().contains(ignoredString.toLowerCase())) {
+							continue post;
+						}
+					}
+				}
+				
+				
+				spreadAction(HOST + url, postTitle);
+				
+				try {
+					TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+
+		}
+
+	}
+
+	public void spreadAction(final String url, String postTitle) {
+		StringToasterAction toasterAction = new StringToasterAction();
+		toasterAction.setActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI(url));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		toasterAction.setTitle("SlickDeals Alert");
+		toasterAction.action(postTitle);
+		
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<String> getIgnored() {
+		return ignored;
+	}
+
+	public void setIgnored(List<String> ignored) {
+		this.ignored = ignored;
+	}
+
+	
+}
