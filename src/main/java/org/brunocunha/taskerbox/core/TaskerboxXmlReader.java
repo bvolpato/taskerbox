@@ -17,21 +17,25 @@ import org.dom4j.io.XMLWriter;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
 
+/**
+ * Centralized taskerbox*.xml Files Parsing
+ * 
+ * @author Bruno Candido Volpato da Cunha
+ *
+ */
 @Log4j
 public class TaskerboxXmlReader {
 
 	private Taskerbox tasker;
-	
-	
+
 	public TaskerboxXmlReader(Taskerbox tasker) {
 		super();
 		this.tasker = tasker;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	public void handleTaskerboxStream(InputStream stream) throws Exception {
-		
+
 		Document dom = new SAXReader().read(stream);
 
 		for (Element xmlChannel : (List<Element>) dom.getRootElement()
@@ -53,8 +57,6 @@ public class TaskerboxXmlReader {
 
 	}
 
-	
-
 	private void handleConcreteChannelNode(Element xmlChannel) throws Exception {
 		log.info("Found channel: " + xmlChannel.getName() + ": "
 				+ xmlChannel.toString());
@@ -66,25 +68,28 @@ public class TaskerboxXmlReader {
 		String macroElement = sw.toString();
 
 		for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
-			macroElement = macroElement.replace("{" + defaultAttr + "}",
-					tasker.getDefaultProperties().get(defaultAttr));
+			macroElement = macroElement.replace("{" + defaultAttr + "}", tasker
+					.getDefaultProperties().get(defaultAttr));
 		}
 		for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
 			macroElement = macroElement.replace(
 					"default-" + defaultAttr + "=\"\"",
 					defaultAttr
 							+ "=\""
-							+ StringEscapeUtils.escapeXml(tasker.getDefaultProperties()
-									.get(defaultAttr)) + "\"");
+							+ StringEscapeUtils.escapeXml(tasker
+									.getDefaultProperties().get(defaultAttr))
+							+ "\"");
 		}
 
 		log.debug("Creating channel: " + macroElement);
 		Element replacedXmlChannel = new SAXReader().read(
 				new StringReader(macroElement)).getRootElement();
 
-		TaskerboxChannel<?> channel = TaskerboxFactory.buildChannel(replacedXmlChannel);
-		TaskerboxLauncher.startChannel(channel, tasker.getFrame(), tasker.getDaemons(), tasker.getChannels());
-		
+		TaskerboxChannel<?> channel = TaskerboxFactory
+				.buildChannel(replacedXmlChannel);
+		TaskerboxLauncher.startChannel(channel, tasker.getFrame(),
+				tasker.getDaemons(), tasker.getChannels());
+
 	}
 
 	private void handleMacroUsageNode(Element xmlChannel) throws Exception {
@@ -93,47 +98,47 @@ public class TaskerboxXmlReader {
 		log.debug("Found macro! " + macroName);
 
 		if (!tasker.getMacros().containsKey(macroName)) {
-			throw new IllegalArgumentException(
-					"Using unexistent macro " + macroName);
+			throw new IllegalArgumentException("Using unexistent macro "
+					+ macroName);
 		}
 
 		String macroElement = tasker.getMacros().get(macroName);
 
 		for (Object attrObj : xmlChannel.attributes()) {
 			DefaultAttribute a = (DefaultAttribute) attrObj;
-			macroElement = macroElement.replace(
-					"{" + a.getName() + "}", a.getValue());
+			macroElement = macroElement.replace("{" + a.getName() + "}",
+					a.getValue());
 		}
 
 		for (Object attrMacro : tasker.getMacroAttrs().get(macroName)) {
 			DefaultAttribute a = (DefaultAttribute) attrMacro;
-			macroElement = macroElement.replace(
-					"{" + a.getName() + "}", a.getValue());
+			macroElement = macroElement.replace("{" + a.getName() + "}",
+					a.getValue());
 		}
 
 		for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
-			macroElement = macroElement.replace(
-					"{" + defaultAttr + "}",
-					tasker.getDefaultProperties().get(defaultAttr));
+			macroElement = macroElement.replace("{" + defaultAttr + "}", tasker
+					.getDefaultProperties().get(defaultAttr));
 		}
 		for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
 			macroElement = macroElement.replace(
 					"default-" + defaultAttr + "=\"\"",
 					defaultAttr
 							+ "=\""
-							+ StringEscapeUtils
-									.escapeXml(tasker.getDefaultProperties()
-											.get(defaultAttr)) + "\"");
+							+ StringEscapeUtils.escapeXml(tasker
+									.getDefaultProperties().get(defaultAttr))
+							+ "\"");
 		}
 
 		log.debug("Creating Macro channel: " + macroElement);
 
-		Element el = new SAXReader().read(
-				new StringReader(macroElement)).getRootElement();
-		
+		Element el = new SAXReader().read(new StringReader(macroElement))
+				.getRootElement();
+
 		TaskerboxChannel<?> channel = TaskerboxFactory.buildChannel(el);
-		TaskerboxLauncher.startChannel(channel, tasker.getFrame(), tasker.getDaemons(), tasker.getChannels());
-		
+		TaskerboxLauncher.startChannel(channel, tasker.getFrame(),
+				tasker.getDaemons(), tasker.getChannels());
+
 	}
 
 	private void handleMacrosNode(Element xmlChannel) throws IOException {
@@ -146,15 +151,15 @@ public class TaskerboxXmlReader {
 			writer.write(e.elements());
 
 			if (tasker.getMacros().containsKey(e.attributeValue("name"))) {
-				throw new RuntimeException("Macro "
-						+ e.attributeValue("name")
+				throw new RuntimeException("Macro " + e.attributeValue("name")
 						+ " already exists in map.");
 			}
 
 			tasker.getMacros().put(e.attributeValue("name"), sw.toString());
-			tasker.getMacroAttrs().put(e.attributeValue("name"), e.attributes());
+			tasker.getMacroAttrs()
+					.put(e.attributeValue("name"), e.attributes());
 		}
-		
+
 	}
 
 	private void handleSystemPropertiesNode(Element xmlChannel) {
@@ -172,5 +177,5 @@ public class TaskerboxXmlReader {
 					e.attributeValue("value"));
 		}
 	}
-	
+
 }
