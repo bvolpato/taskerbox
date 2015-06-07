@@ -15,6 +15,11 @@ import org.brunocunha.taskerbox.core.utils.validation.TaskerboxValidationUtils;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultAttribute;
 
+/**
+ * Class that centralizes the creation of channels and actions, based on XML.
+ * @author Bruno Candido Volpato da Cunha
+ *
+ */
 @Log4j
 public class TaskerboxFactory {
 	

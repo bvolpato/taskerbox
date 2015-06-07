@@ -20,8 +20,15 @@ import org.brunocunha.taskerbox.core.TaskerboxConstants;
 @Log4j
 public class TaskerboxTrayUtils {
 
+	/**
+	 * 
+	 */
 	private static TrayIcon trayIconInstance;
 
+	/**
+	 * Gets the {@link TrayIcon} reference
+	 * @return
+	 */
 	public static TrayIcon getTrayIcon() {
 		if (trayIconInstance == null) {
 
@@ -39,6 +46,13 @@ public class TaskerboxTrayUtils {
 		return trayIconInstance;
 	}
 
+	/**
+	 * Displays a message at the system tray
+	 * @param caption
+	 * @param text
+	 * @param messageType
+	 * @param listener
+	 */
 	public static void displayMessage(String caption, String text, MessageType messageType, ActionListener listener) {
 
 		log.info(messageType + ": " + text);
@@ -54,6 +68,9 @@ public class TaskerboxTrayUtils {
 		}
 	}
 
+	/**
+	 * Remove tray listeners
+	 */
 	public static void removeAllListeners() {
 		for (ActionListener listener : getTrayIcon().getActionListeners()) {
 			getTrayIcon().removeActionListener(listener);

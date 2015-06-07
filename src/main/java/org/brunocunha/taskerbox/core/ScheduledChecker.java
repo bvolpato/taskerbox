@@ -25,6 +25,9 @@ public class ScheduledChecker extends Thread {
 	@Getter @Setter
 	private TaskerboxChannel<?> channel;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		try {
 			if (!channel.isPaused()) {

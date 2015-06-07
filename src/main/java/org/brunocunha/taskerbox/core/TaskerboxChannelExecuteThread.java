@@ -16,12 +16,18 @@ public class TaskerboxChannelExecuteThread extends Thread {
 	@Getter
 	private Exception exception;
 	
+	/**
+	 * @param channel
+	 */
 	public TaskerboxChannelExecuteThread(TaskerboxChannel<?> channel) {
 		super();
 		this.channel = channel;
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		try {
 			channel.execute();

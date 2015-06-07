@@ -27,10 +27,22 @@ public interface ITaskerboxAction<T> {
 	 */
 	public void setup();
 	
+	/**
+	 * Ties a channel into an Action
+	 * @param channel
+	 */
 	public void setChannel(TaskerboxChannel<T> channel);
 	
+	/**
+	 * Returns the ID for action
+	 * @return
+	 */
 	public String getId();
 
+	/**
+	 * Sets the ID for action
+	 * @param id
+	 */
 	public void setId(String id);
 	
 }

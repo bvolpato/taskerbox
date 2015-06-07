@@ -48,6 +48,7 @@ import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 import org.brunocunha.taskerbox.core.http.auth.NTLMSchemeFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -64,55 +65,67 @@ public class TaskerboxHttpBox {
 
 	private static TaskerboxHttpBox instance;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private DefaultHttpClient httpClient;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private boolean useProxy;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private boolean authProxy;
 
 	@Getter
 	private boolean ntlmProxy;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private boolean proxySocks;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String socksHost;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private int socksPort;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String proxyHost;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private int proxyPort;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String proxyDomain;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String proxyUser;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String proxyPassword;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String proxyWorkstation;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private boolean useNtlm;
 
-	public static void main(String[] args) throws Exception {
-		TaskerboxHttpBox httpBox = TaskerboxHttpBox.getInstance();
-
-		System.out.println(httpBox.getStringBodyForURL("http://google.com/"));
-
-	}
-
+	/**
+	 * Getting Singleton
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public static synchronized TaskerboxHttpBox getInstance()
 			throws IOException {
 		if (instance == null) {
@@ -120,20 +133,21 @@ public class TaskerboxHttpBox {
 			log.info("Creating new HttpClient...");
 
 			Properties prop = new Properties();
-			
+
 			String hostName = InetAddress.getLocalHost().getHostName();
 			if (hostName.equals("BR-PC")) {
 				hostName = "BRUNOCUNHA-PC";
 			}
-			
-			String propertiesFileName = "local-taskerbox-"
-					+ hostName + ".properties";
+
+			String propertiesFileName = "local-taskerbox-" + hostName
+					+ ".properties";
 			File propertiesFile = new File(propertiesFileName);
 			if (propertiesFile.exists()) {
 				prop.load(new FileInputStream(propertiesFile));
 			} else {
-				InputStream is = TaskerboxHttpBox.class.getResourceAsStream("/" + propertiesFileName);
-				
+				InputStream is = TaskerboxHttpBox.class.getResourceAsStream("/"
+						+ propertiesFileName);
+
 				if (is != null) {
 					prop.load(is);
 				}
@@ -147,7 +161,7 @@ public class TaskerboxHttpBox {
 				instance.setProxyPort(Integer.valueOf(prop
 						.getProperty("proxy.port")));
 				instance.setAuthProxy(isTrue(prop.getProperty("proxy.auth")));
-				
+
 				instance.setProxySocks(isTrue(prop.getProperty("proxy.socks")));
 				instance.setUseNtlm(isTrue(prop.getProperty("http.use.ntlm")));
 				instance.setSocksHost(prop.getProperty("proxy.socks.host"));
@@ -165,18 +179,38 @@ public class TaskerboxHttpBox {
 		return instance;
 	}
 
+	/**
+	 * String boolean check
+	 * 
+	 * @param str
+	 * @return
+	 */
 	private static boolean isTrue(String str) {
 		return str != null && str.toLowerCase().equals("true");
 	}
 
+	/**
+	 * Setup a new http client
+	 */
 	public void setup() {
 		this.httpClient = buildNewHttpClient();
 	}
 
+	/**
+	 * Build new HTTP Client
+	 * 
+	 * @return
+	 */
 	public DefaultHttpClient buildNewHttpClient() {
 		return buildNewHttpClient(new BasicHttpParams());
 	}
-	
+
+	/**
+	 * Build a new HTTP Client for the given parameters
+	 * 
+	 * @param params
+	 * @return
+	 */
 	public DefaultHttpClient buildNewHttpClient(HttpParams params) {
 		PoolingClientConnectionManager cxMgr = new PoolingClientConnectionManager(
 				SchemeRegistryFactory.createDefault());
@@ -267,31 +301,90 @@ public class TaskerboxHttpBox {
 		return httpClient;
 	}
 
+	/**
+	 * Gets the {@link HttpResponse} object for a given url using the given Http
+	 * Client
+	 * 
+	 * @param client
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public HttpResponse getResponseForURL(DefaultHttpClient client, String url)
 			throws ClientProtocolException, IOException, URISyntaxException {
 		return getResponseForURL(client, new URI(url));
 	}
-	
+
+	/**
+	 * Gets the {@link HttpResponse} object for a given url with the Default
+	 * Http Client
+	 * 
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public HttpResponse getResponseForURL(String url)
 			throws ClientProtocolException, IOException, URISyntaxException {
 		return getResponseForURL(new URI(url));
 	}
 
+	/**
+	 * Gets the {@link HttpResponse} object for a given url with a brand-new
+	 * Http Client
+	 * 
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public HttpResponse getResponseForURLNewClient(String url)
 			throws ClientProtocolException, IOException, URISyntaxException {
 		return getResponseForURLNewClient(new URI(url));
 	}
 
+	/**
+	 * Gets the {@link HttpResponse} object for a given URI with the Default
+	 * Http Client
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public HttpResponse getResponseForURL(URI uri)
 			throws ClientProtocolException, IOException {
 		return getResponseForURL(httpClient, uri);
 	}
-	
+
+	/**
+	 * Gets the {@link HttpResponse} object for a given URI with a brand-new
+	 * Http Client
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public HttpResponse getResponseForURLNewClient(URI uri)
 			throws ClientProtocolException, IOException {
 		return getResponseForURL(buildNewHttpClient(new BasicHttpParams()), uri);
 	}
-	
+
+	/**
+	 * Gets the {@link HttpResponse} object for a given url using the given Http
+	 * Client
+	 * 
+	 * @param client
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public HttpResponse getResponseForURL(DefaultHttpClient client, URI uri)
 			throws ClientProtocolException, IOException {
 
@@ -301,40 +394,88 @@ public class TaskerboxHttpBox {
 		return response1;
 	}
 
+	/**
+	 * Returns the {@link HttpEntity} for a URI
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public HttpEntity getEntityForURL(URI uri) throws ClientProtocolException,
 			IOException, URISyntaxException {
 		return getResponseForURL(uri).getEntity();
 	}
 
+	/**
+	 * Returns the {@link HttpEntity} for string url
+	 * 
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public HttpEntity getEntityForURL(String url)
 			throws ClientProtocolException, IOException, URISyntaxException {
 		return getResponseForURL(url).getEntity();
 	}
 
+	/**
+	 * Returns the String body (response) for the given URI
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 * @throws URISyntaxException
+	 */
 	public String getStringBodyForURL(URI uri) throws ClientProtocolException,
 			IOException, IllegalStateException, URISyntaxException {
 		return readResponseFromEntity(getEntityForURL(uri));
 	}
 
+	/**
+	 * Returns the String body (response) for the given string url
+	 * 
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 * @throws URISyntaxException
+	 */
 	public String getStringBodyForURL(String url)
 			throws ClientProtocolException, IOException, IllegalStateException,
 			URISyntaxException {
 		return readResponseFromEntity(getEntityForURL(url));
 	}
 
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @deprecated Use directly EntityUtils.toString(entity) instead
+	 */
+	@Deprecated
 	public String readResponseFromEntity(HttpEntity entity)
 			throws IllegalStateException, IOException {
-		BufferedInputStream bis = new BufferedInputStream(entity.getContent());
-		ByteArrayOutputStream buf = new ByteArrayOutputStream();
-		int result = bis.read();
-		while (result != -1) {
-			byte b = (byte) result;
-			buf.write(b);
-			result = bis.read();
-		}
-		return buf.toString();
+		return EntityUtils.toString(entity);
 	}
 
+	/**
+	 * Build a cookie object for the given parameters
+	 * 
+	 * @param name
+	 * @param value
+	 * @param domain
+	 * @param path
+	 * @return
+	 */
 	public static BasicClientCookie buildCookie(String name, String value,
 			String domain, String path) {
 		BasicClientCookie cookie = new BasicClientCookie(name, value);
@@ -343,6 +484,10 @@ public class TaskerboxHttpBox {
 		return cookie;
 	}
 
+	/**
+	 * Default Trust Manager that trusts all certs
+	 * @return
+	 */
 	private TrustManager[] getTrustingManager() {
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 			@Override
@@ -366,7 +511,10 @@ public class TaskerboxHttpBox {
 		return trustAllCerts;
 	}
 
-
+	/**
+	 * Setter of NTLMProxy. If true, sets authenticated to true as well 
+	 * @param ntlmProxy
+	 */
 	public void setNtlmProxy(boolean ntlmProxy) {
 		if (ntlmProxy) {
 			this.authProxy = true;
@@ -374,9 +522,18 @@ public class TaskerboxHttpBox {
 		this.ntlmProxy = ntlmProxy;
 	}
 
-
-	
-	public Document getDocumentForURL(String url) throws ClientProtocolException, IllegalStateException, IOException, URISyntaxException {
+	/**
+	 * Gets a Jsoup {@link Document} for the given url
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public Document getDocumentForURL(String url)
+			throws ClientProtocolException, IllegalStateException, IOException,
+			URISyntaxException {
 		return Jsoup.parse(getStringBodyForURL(url));
 	}
 

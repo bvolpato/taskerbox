@@ -75,7 +75,7 @@ public abstract class TaskerboxChannel<T> {
 	@Getter
 	@Setter
 	private Map<String, String> storedPropertyBag = new LinkedHashMap<String, String>();
-	
+
 	@Getter
 	@Setter
 	private ScheduledChecker scheduledCheckerThread;
@@ -86,36 +86,46 @@ public abstract class TaskerboxChannel<T> {
 
 	@Getter
 	private boolean forced;
-	
+
 	@Getter
 	private boolean running;
-	
+
 	@Getter
 	@Setter
 	private long timeout;
-	
+
 	@Getter
 	@Setter
 	private long lastPerformed;
-	
+
 	@Getter
 	@Setter
 	private boolean pendingSerializerThread;
-	
+
 	@Getter
 	private TaskerboxChannelExecuteThread runningThread;
-	
+
+	/**
+	 * Check if an action for a entry was already called (considering the
+	 * channel is considered to do so)
+	 * 
+	 * @param entry
+	 * @return
+	 */
 	public boolean alreadyPerformedAction(T entry) {
 		if (singleItemAction) {
-			log.debug("Checking if already performed action for " + entry.toString());
+			log.debug("Checking if already performed action for "
+					+ entry.toString());
 		}
 		// else {
 		// log.debug("Not controlling single items.");
 		// return false;
 		// }
 
-		if (alreadyPerformed.contains(getItemFingerprint(entry).replaceAll("\r?\n", ""))) {
-			log.debug("Already performed action for " + getItemFingerprint(entry).replaceAll("\r?\n", ""));
+		if (alreadyPerformed.contains(getItemFingerprint(entry).replaceAll(
+				"\r?\n", ""))) {
+			log.debug("Already performed action for "
+					+ getItemFingerprint(entry).replaceAll("\r?\n", ""));
 			return true;
 		}
 
@@ -129,14 +139,16 @@ public abstract class TaskerboxChannel<T> {
 	 */
 	public void addAlreadyPerformedAction(T entry) {
 		lastPerformed = System.currentTimeMillis();
-		
-		synchronized(alreadyPerformed) {
-			alreadyPerformed.add(getItemFingerprint(entry).replaceAll("\r?\n", ""));
+
+		synchronized (alreadyPerformed) {
+			alreadyPerformed.add(getItemFingerprint(entry).replaceAll("\r?\n",
+					""));
 		}
-		
+
 		if (!pendingSerializerThread) {
 			pendingSerializerThread = true;
-			ChannelSerializerThread serializerThread = new ChannelSerializerThread(this);
+			ChannelSerializerThread serializerThread = new ChannelSerializerThread(
+					this);
 			serializerThread.start();
 		}
 	}
@@ -147,7 +159,7 @@ public abstract class TaskerboxChannel<T> {
 	 * @param entry
 	 */
 	public void removeAlreadyPerformedAction(T entry) {
-		synchronized(alreadyPerformed) {
+		synchronized (alreadyPerformed) {
 			alreadyPerformed.remove(getItemFingerprint(entry));
 		}
 	}
@@ -161,7 +173,7 @@ public abstract class TaskerboxChannel<T> {
 		if (this.isPaused() && !this.isForced()) {
 			return;
 		}
-		
+
 		if (!alreadyPerformedAction(entry)) {
 			this.perform(entry);
 			addAlreadyPerformedAction(entry);
@@ -177,7 +189,7 @@ public abstract class TaskerboxChannel<T> {
 		if (this.isPaused() && !this.isForced()) {
 			return;
 		}
-		
+
 		for (ITaskerboxAction<T> action : getActions()) {
 			try {
 				log.debug("Performing action in " + action.getClass());
@@ -187,7 +199,7 @@ public abstract class TaskerboxChannel<T> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Propagate exception for actions
 	 * 
@@ -197,7 +209,7 @@ public abstract class TaskerboxChannel<T> {
 		if (this.isPaused() && !this.isForced()) {
 			return;
 		}
-		
+
 		for (ITaskerboxAction<T> action : getActions()) {
 			try {
 				log.debug("Performing exception in " + action.getClass());
@@ -220,14 +232,15 @@ public abstract class TaskerboxChannel<T> {
 
 		this.scheduledCheckerThread = new ScheduledChecker(this);
 		this.scheduledCheckerThread.setName("scheduler-" + getId());
-		
-		//was scheduleWithFixedDelay
-		scheduler.scheduleAtFixedRate(scheduledCheckerThread, initialDelay, delay, unit);
-		
+
+		// was scheduleWithFixedDelay
+		scheduler.scheduleAtFixedRate(scheduledCheckerThread, initialDelay,
+				delay, unit);
+
 	}
 
 	public InputStream getAppResource(String resourceName) {
-		
+
 		InputStream is = getClass().getResourceAsStream("/" + resourceName);
 		if (is == null) {
 			is = getClass().getResourceAsStream(resourceName);
@@ -236,38 +249,47 @@ public abstract class TaskerboxChannel<T> {
 			is = getClass().getResourceAsStream("/" + resourceName);
 		}
 		if (is == null) {
-			is = getClass().getResourceAsStream("/META-INF/resources/" + resourceName);
+			is = getClass().getResourceAsStream(
+					"/META-INF/resources/" + resourceName);
 		}
 		if (is == null) {
-			is = getClass().getResourceAsStream("/WEB-INF/classes/" + resourceName);
+			is = getClass().getResourceAsStream(
+					"/WEB-INF/classes/" + resourceName);
 		}
 		if (is == null) {
 			is = getClass().getResourceAsStream("/resources/" + resourceName);
 		}
-		
+
 		if (is == null) {
-			log.error("Nao foi encontrado resource para " + resourceName + " na aplicacao.");
+			log.error("Not found resource for " + resourceName
+					+ " in your application.");
 		} else {
-			log.warn("Stream para '" + resourceName + "' foi encontrada!");
+			log.info("Stream for '" + resourceName + "' was found!");
 		}
-		
-		
+
 		return is;
 	}
-	
+
+	/**
+	 * Gets a {@link List} for the given file in the app
+	 * 
+	 * @param resourceName
+	 * @return
+	 */
 	public List<String> listFromResource(String resourceName) {
 		List<String> items;
 		try {
-			items = MyStringUtils.getContentListSplit(getAppResource(resourceName),
-					"\r\n");
-			log.info("Returning " + items.size() + " objects on " + resourceName);
+			items = MyStringUtils.getContentListSplit(
+					getAppResource(resourceName), "\r\n");
+			log.info("Returning " + items.size() + " objects on "
+					+ resourceName);
 			return items;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Main method of channel
 	 * 
@@ -292,40 +314,40 @@ public abstract class TaskerboxChannel<T> {
 	 */
 	public final void check(boolean force) throws Exception {
 		if (force || !isPaused()) {
-			
+
 			try {
-			this.checkCount++;
-			this.running = true;
-			TaskerboxControlFrame.getInstance().updateChannels();
-			
-			
-			this.forced = force;
-			
-			this.runningThread = new TaskerboxChannelExecuteThread(this);
-			try {
-				this.runningThread.start();
-				this.runningThread.join();
-				
-				if (this.runningThread != null) {
-					Exception throwExc = this.runningThread.getException();
-					boolean success = this.runningThread.isSuccess();
-					
-					this.runningThread = null;
-					
-					if (!success) {
-						if (throwExc == null) {
-							throw new RuntimeException("Thread not ran successfully! " + getId());
-						} else {
-							throw throwExc;
+				this.checkCount++;
+				this.running = true;
+				TaskerboxControlFrame.getInstance().updateChannels();
+
+				this.forced = force;
+
+				this.runningThread = new TaskerboxChannelExecuteThread(this);
+				try {
+					this.runningThread.start();
+					this.runningThread.join();
+
+					if (this.runningThread != null) {
+						Exception throwExc = this.runningThread.getException();
+						boolean success = this.runningThread.isSuccess();
+
+						this.runningThread = null;
+
+						if (!success) {
+							if (throwExc == null) {
+								throw new RuntimeException(
+										"Thread not ran successfully! "
+												+ getId());
+							} else {
+								throw throwExc;
+							}
 						}
 					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			} catch(InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			
-			} catch(Exception e) {
+
+			} catch (Exception e) {
 				throw e;
 			} finally {
 				this.running = false;
@@ -352,7 +374,7 @@ public abstract class TaskerboxChannel<T> {
 	protected void logDebug(Logger logger, String msg) {
 		logger.debug("[" + this.getId() + "] - " + msg);
 	}
-	
+
 	/**
 	 * Default to log.info displaying the channel id
 	 * 
@@ -362,7 +384,7 @@ public abstract class TaskerboxChannel<T> {
 	protected void logInfo(Logger logger, String msg) {
 		logger.info("[" + this.getId() + "] - " + msg);
 	}
-	
+
 	/**
 	 * Default to log.warn displaying the channel id
 	 * 
@@ -372,7 +394,7 @@ public abstract class TaskerboxChannel<T> {
 	protected void logWarn(Logger logger, String msg) {
 		logger.warn("[" + this.getId() + "] - " + msg);
 	}
-	
+
 	/**
 	 * Default to log.error displaying the channel id
 	 * 
@@ -448,8 +470,8 @@ public abstract class TaskerboxChannel<T> {
 	}
 
 	/**
-	 * Add key/value pair to stored property bag. It is used to work with generic
-	 * properties (not defined as a member of class)
+	 * Add key/value pair to stored property bag. It is used to work with
+	 * generic properties (not defined as a member of class)
 	 * 
 	 * @param key
 	 * @param value
@@ -457,9 +479,10 @@ public abstract class TaskerboxChannel<T> {
 	public void addStoredProperty(String key, String value) {
 		getStoredPropertyBag().put(key, value);
 	}
-	
+
 	/**
 	 * Delegate method to get property from bag
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -469,23 +492,31 @@ public abstract class TaskerboxChannel<T> {
 
 	/**
 	 * Delegate method to get property from stored bag
+	 * 
 	 * @param key
 	 * @return
 	 */
 	public String getStoredProperty(String key) {
 		return getStoredPropertyBag().get(key);
 	}
-	
+
 	/**
 	 * Defaults the display name (name that is shown in UI) to ID
+	 * 
 	 * @return
 	 */
 	public String getDisplayName() {
 		return this.getId();
 	}
 
+	/**
+	 * Gets the Group of the Channel. It is mostly used in case to join channels
+	 * together in the UI
+	 * 
+	 * @return
+	 */
 	public String getGroupName() {
 		return this.getClass().getSimpleName().replace("Channel", "");
 	}
-	
+
 }

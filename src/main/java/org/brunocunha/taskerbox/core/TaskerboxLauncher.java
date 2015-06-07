@@ -7,6 +7,13 @@ import lombok.extern.log4j.Log4j;
 
 import org.brunocunha.taskerbox.gui.TaskerboxControlFrame;
 
+/**
+ * Class responsible for launching channels. It creates threads that are called
+ * in intervals for timed threads, or a new single-thread for daemons.
+ * 
+ * @author Bruno Candido Volpato da Cunha
+ *
+ */
 @Log4j
 public class TaskerboxLauncher {
 
@@ -26,7 +33,7 @@ public class TaskerboxLauncher {
 							synchronized (channels) {
 								channels.add(channel);
 							}
-							
+
 							if (frame != null) {
 								frame.updateChannels();
 							}
@@ -34,15 +41,15 @@ public class TaskerboxLauncher {
 							while (true) {
 								try {
 									channel.check();
-								} catch(Exception e) {
+								} catch (Exception e) {
 									e.printStackTrace();
 								}
-								
+
 								try {
 									Thread.sleep(channel.getEvery());
-								} catch(InterruptedException ex) {
+								} catch (InterruptedException ex) {
 								}
-								
+
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -59,7 +66,7 @@ public class TaskerboxLauncher {
 			daemons.add(channel);
 		} else {
 			try {
-				
+
 				Thread startThread = new Thread() {
 
 					public void run() {
@@ -75,11 +82,9 @@ public class TaskerboxLauncher {
 						if (frame != null) {
 							frame.updateChannels();
 						}
-						
+
 						channel.scheduleTask(0, channel.getEvery(),
 								TimeUnit.MILLISECONDS);
-						
-
 
 					}
 				};
