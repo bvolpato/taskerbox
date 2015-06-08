@@ -24,7 +24,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * 
  */
 @Log4j
-public class TwitterChannel extends TaskerboxChannel<Status> {
+public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
 
 	private String loggedUser;
 	
@@ -114,7 +114,10 @@ public class TwitterChannel extends TaskerboxChannel<Status> {
 				continue;
 			}
 
-			if (!alreadyPerformedAction(status)) {
+			
+			StatusWrapper statusWrapper = new StatusWrapper(status);
+			
+			if (!alreadyPerformedAction(statusWrapper)) {
 				if (ignoreUsers != null && ignoreUsers.contains(status.getUser().getScreenName())) {
 					continue;
 				}
@@ -128,15 +131,15 @@ public class TwitterChannel extends TaskerboxChannel<Status> {
 				
 				log.debug("Performing actions to entry: @" + status.getUser().getScreenName() + ": " + status.getText());
 
-				perform(status);
-				addAlreadyPerformedAction(status);
+				perform(statusWrapper);
+				addAlreadyPerformedAction(statusWrapper);
 			}
 
 		}
 	}
 
-	public String getItemFingerprint(Status status) {
-		return String.valueOf(status.getId());
+	public String getItemFingerprint(StatusWrapper status) {
+		return String.valueOf(status.getValue().getId());
 	}
 	
 	

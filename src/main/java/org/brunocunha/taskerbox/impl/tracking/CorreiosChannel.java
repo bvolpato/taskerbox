@@ -19,7 +19,7 @@ import org.brunocunha.taskerbox.core.utils.validation.CorreiosTracking;
  * 
  */
 @Log4j
-public class CorreiosChannel extends TaskerboxChannel<RegistroRastreamento> {
+public class CorreiosChannel extends TaskerboxChannel<CorreiosTrackingWrapper> {
 
 	@CorreiosTracking
 	@Getter @Setter
@@ -41,7 +41,7 @@ public class CorreiosChannel extends TaskerboxChannel<RegistroRastreamento> {
 					logInfo(log, "Status: " + registro.getDataHora() + " - "+ registro.getAcao() + " - " + registro.getLocal() + " - " + registro.getDetalhe());
 				}
 				
-				performUnique(registro);
+				performUnique(new CorreiosTrackingWrapper(registro));
 				
 	
 			}
@@ -51,8 +51,8 @@ public class CorreiosChannel extends TaskerboxChannel<RegistroRastreamento> {
 		
 	}
 
-	public String getItemFingerprint(RegistroRastreamento registro) {
-		return tracking + ";" + registro.getDataHora() + ";"+ registro.getAcao() + ";" + registro.getLocal() + ";" + registro.getDetalhe();
+	public String getItemFingerprint(CorreiosTrackingWrapper registro) {
+		return tracking + ";" + registro.getValue().getDataHora() + ";"+ registro.getValue().getAcao() + ";" + registro.getValue().getLocal() + ";" + registro.getValue().getDetalhe();
 	}
  
 	@Override

@@ -3,7 +3,6 @@ package org.brunocunha.taskerbox.impl.email;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -28,25 +27,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
+import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocunha.taskerbox.core.http.ssl.SSLAuthenticator;
 import org.brunocunha.taskerbox.core.utils.TaskerboxDateUtils;
-import org.brunocunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocunha.taskerbox.impl.toaster.StringToasterAction;
-import org.brunocunha.taskerbox.impl.tracking.CorreiosChannel;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
-import twitter4j.Status;
-
-import com.buscape.developer.result.type.Offer;
-import com.sun.syndication.feed.synd.SyndEntry;
 
 /**
  * Action that shows Feeds in a Toaster Popup
@@ -105,41 +92,17 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 	@Override
 	public void action(final Object entry) {
 
-		if (entry instanceof Status) {
+		if (entry instanceof ITaskerboxEmailable) {
 
-			handleTweet((Status) entry);
-
-		} else if (entry instanceof RegistroRastreamento) {
-
-			EmailValueVO vo = new EmailValueVO();
-			vo.setTitle("Rastreamento " + getChannel().getProperty("tracking") + " - " + getChannel().getProperty("descricao"));
-			vo.setBody(CorreiosChannel
-					.formatTracking((RegistroRastreamento) entry, getChannel().getProperty("tracking"),
-							getChannel().getProperty("descricao")));
-			
-			handleEmailValue(vo);
-			
-
-		} else if (entry instanceof SyndEntry) {
-
-			handleRss((SyndEntry) entry);
+			handleEmailable((ITaskerboxEmailable) entry);
 
 		} else if (entry instanceof EmailValueVO) {
 
 			handleEmailValue((EmailValueVO) entry);
 
-		} else if (entry instanceof Offer) {
-			Offer offer = (Offer) entry;
-			
-			EmailValueVO vo = new EmailValueVO();
-			vo.setTitle(offer.getSeller().getSellerName() + ": " + offer.getOfferName() + " - " + offer.getPrice().getValue());
-			vo.setBody(offer.getLinks().getLinks().get(0).getUrl());
-			
-			handleEmailValue(vo);
-
 		} else {
 			
-			logWarn(log, "Email Unknown Action!! " + entry.getClass() + " --- " + entry.toString());
+			logWarn(log, "Email Unknown Action! " + entry.getClass() + " --- " + entry.toString());
 
 			EmailValueVO vo = new EmailValueVO();
 			vo.setTitle(emailTitle);
@@ -151,56 +114,17 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 
 	}
 
-	private void handleRss(SyndEntry entry) {
-		log.debug("RSS2Email --> " + entry.getTitle());
-
-		Properties templateProps = new Properties();
-		templateProps.put("entry", entry);
-
-		TaskerboxFileUtils.saveTempFile("rssEntry", entry.toString());
-
+	private void handleEmailable(ITaskerboxEmailable entry) {
+		
 		try {
-			send("[" + getChannel().getId() + "] " + entry.getTitle(), callTemplate("email/synd.html", templateProps));
+			send(entry.getEmailTitle(getChannel()), entry.getEmailBody(getChannel()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 
-	private static String callTemplate(String template, Properties props) {
 
-		Properties veProps = new Properties();
-		veProps.setProperty(Velocity.RESOURCE_LOADER, "classpath");
-		veProps.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-
-		// inicializando o velocity
-		VelocityEngine ve = new VelocityEngine(veProps);
-		ve.init();
-
-		// criando o contexto que liga o java ao template
-		VelocityContext context = new VelocityContext();
-
-		log.debug("Using template " + template);
-		Template t = ve.getTemplate(template);
-
-		for (Object prop : props.keySet()) {
-			context.put(prop.toString(), props.get(prop));
-		}
-
-		StringWriter writer = new StringWriter();
-		// mistura o contexto com o template
-		t.merge(context, writer);
-
-		writer.flush();
-
-		try {
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return writer.getBuffer().toString();
-	}
 
 	private void handleEmailValue(EmailValueVO email) {
 
@@ -212,22 +136,6 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 
 	}
 	
-	private void handleTweet(Status status) {
-		log.debug("Tweet2Email --> " + status.getUser().getScreenName() + ": " + status.getText());
-
-		Properties templateProps = new Properties();
-		templateProps.put("status", status);
-
-		TaskerboxFileUtils.saveTempFile("status", status.toString());
-
-		try {
-			send("Tweet de  @" + status.getUser().getScreenName(), callTemplate("email/tweet.html", templateProps));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
 
 	public void send(String title, String content) throws AddressException, MessagingException, KeyManagementException,
 			NoSuchAlgorithmException {
@@ -291,9 +199,9 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 			
 		}
 		
-		String msg = "Enviando e-mail para "+ email + " (Canal: [canal]): " + title;
+		String msg = "Sending email to: "+ email + " (Channel: [channel]): " + title;
 		if (getChannel() != null) {
-			msg = msg.replace("[canal]", getChannel().getId());
+			msg = msg.replace("[channel]", getChannel().getId());
 		}
 		logInfo(log, "Sending email: " + msg);
 		

@@ -20,7 +20,7 @@ import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
  */
 @Log4j
 public class CorreiosToasterAction extends
-		DefaultTaskerboxAction<RegistroRastreamento> {
+		DefaultTaskerboxAction<CorreiosTrackingWrapper> {
 
 	@Getter @Setter
 	private ActionListener actionListener;
@@ -29,10 +29,10 @@ public class CorreiosToasterAction extends
 	private String title = TaskerboxConstants.TITLE;
 
 	@Override
-	public void action(final RegistroRastreamento entry) {
+	public void action(final CorreiosTrackingWrapper entry) {
 		log.debug("Action on CorreiosToasterAction: " + entry);
 		TaskerboxTrayUtils.displayMessage(title, CorreiosChannel
-				.formatTracking(entry, getChannel().getProperty("tracking"),
+				.formatTracking(entry.getValue(), getChannel().getProperty("tracking"),
 						getChannel().getProperty("descricao")),
 				MessageType.INFO, actionListener);
 	}

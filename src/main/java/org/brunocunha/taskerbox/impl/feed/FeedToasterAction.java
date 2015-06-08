@@ -23,20 +23,20 @@ import com.sun.syndication.feed.synd.SyndEntry;
  * 
  */
 @Log4j
-public class FeedToasterAction extends DefaultTaskerboxAction<SyndEntry> {
+public class FeedToasterAction extends DefaultTaskerboxAction<SyndEntryWrapper> {
 
 	@Override
-	public void action(final SyndEntry entry) {
-		TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, entry.getTitle(), MessageType.INFO,
+	public void action(final SyndEntryWrapper entry) {
+		TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, entry.getValue().getTitle(), MessageType.INFO,
 				new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						logInfo(log, "Action -> Open: " + entry.getUri());
+						logInfo(log, "Action -> Open: " + entry.getValue().getUri());
 
 						if (Desktop.isDesktopSupported()) {
 							try {
-								Desktop.getDesktop().browse(new URI(entry.getUri()));
+								Desktop.getDesktop().browse(new URI(entry.getValue().getUri()));
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							} catch (URISyntaxException e1) {

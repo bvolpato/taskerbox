@@ -29,7 +29,7 @@ import com.sun.syndication.io.XmlReader;
  * 
  */
 @Log4j
-public class FeedChannel extends TaskerboxChannel<SyndEntry> {
+public class FeedChannel extends TaskerboxChannel<SyndEntryWrapper> {
 
 	@TaskerboxField("Feed URL")
 	@Getter @Setter
@@ -57,13 +57,13 @@ public class FeedChannel extends TaskerboxChannel<SyndEntry> {
 				continue;
 			}
 
-			performUnique(entry);
+			performUnique(new SyndEntryWrapper(entry));
 
 		}
 	}
 
-	public String getItemFingerprint(SyndEntry entry) {
-		return entry.getUri();
+	public String getItemFingerprint(SyndEntryWrapper entry) {
+		return entry.getValue().getUri();
 	}
 
 
