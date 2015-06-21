@@ -74,10 +74,12 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 			boolean needSerialize = false;
 			List<String> newLines = new ArrayList<String>();
 
-			String[] logLines = fullLog.split("\r?\n");
+			String[] logLines = fullLog.split("(\r?\n)+");
 
 			line:
 			for (String logLine : logLines) {
+				logLine = logLine.trim();
+				
 				boolean validLine = false;
 				
 				if (ignored != null

@@ -47,7 +47,7 @@ public class LogWatchChannel extends TaskerboxChannel<String> {
 
 	@Override
 	protected String getItemFingerprint(String entry) {
-		return entry;
+		return entry.replaceAll("\\s+", " ").trim();
 	}
 
 
