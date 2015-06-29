@@ -1,7 +1,5 @@
 package org.brunocunha.taskerbox.core.http;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +31,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.auth.params.AuthPNames;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.params.AuthPolicy;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
@@ -333,6 +332,21 @@ public class TaskerboxHttpBox {
 	}
 
 	/**
+	 * Gets the {@link HttpResponse} object for a given url with the Default
+	 * Http Client
+	 * 
+	 * @param url
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public long getResponseSizeForURL(String url)
+			throws ClientProtocolException, IOException, URISyntaxException {
+		return getResponseSizeForURL(new URI(url));
+	}
+	
+	/**
 	 * Gets the {@link HttpResponse} object for a given url with a brand-new
 	 * Http Client
 	 * 
@@ -361,6 +375,20 @@ public class TaskerboxHttpBox {
 		return getResponseForURL(httpClient, uri);
 	}
 
+	/**
+	 * Gets the {@link HttpResponse} object for a given URI with the Default
+	 * Http Client
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public long getResponseSizeForURL(URI uri)
+			throws ClientProtocolException, IOException {
+		return getResponseSizeForURL(httpClient, uri);
+	}
+	
 	/**
 	 * Gets the {@link HttpResponse} object for a given URI with a brand-new
 	 * Http Client
@@ -394,6 +422,26 @@ public class TaskerboxHttpBox {
 		return response1;
 	}
 
+	/**
+	 * Gets the {@link HttpResponse} object for a given url using the given Http
+	 * Client
+	 * 
+	 * @param client
+	 * @param uri
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public long getResponseSizeForURL(DefaultHttpClient client, URI uri)
+			throws ClientProtocolException, IOException {
+
+		HttpHead httpHead = new HttpHead(uri);
+		HttpResponse response1 = client.execute(httpHead);
+
+		return Long.valueOf(response1.getFirstHeader("Content-Length").getValue());
+	}
+
+	
 	/**
 	 * Returns the {@link HttpEntity} for a URI
 	 * 
