@@ -287,8 +287,8 @@
 
 
 
-		<!--  ECM -->
-				<dependency>
+		<!-- ECM -->
+		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2</artifactId>
 			<version>1.6.2</version>
@@ -330,7 +330,13 @@
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.2</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.plivo</groupId>
+			<artifactId>plivo-java</artifactId>
+			<version>3.0.6</version>
+		</dependency>
+
 	</dependencies>
 
 
