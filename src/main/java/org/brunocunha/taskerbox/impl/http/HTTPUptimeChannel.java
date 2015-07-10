@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
+import org.brunocunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.hibernate.validator.constraints.URL;
 
@@ -25,43 +26,79 @@ public class HTTPUptimeChannel extends TaskerboxChannel<String> {
 
 	@URL
 	@Getter @Setter
+	@TaskerboxField("URL")
 	private String url;
 
 	@Getter @Setter
+	@TaskerboxField("Filter Contains")
 	private boolean contains;
 
 	@Getter @Setter
+	@TaskerboxField("Filter")
 	private String filter;
 
 	@Getter @Setter
+	@TaskerboxField("Unique Action")
 	private boolean unique;
+	
+	@Getter @Setter
+	@TaskerboxField("Number of Tries")
+	private int numTries = 1;
+	
+	@Getter @Setter
+	@TaskerboxField("Error Interval")
+	private long errorInterval = 10000L;
 	
 	@Override
 	protected void execute() throws IOException, IllegalArgumentException, FeedException {
-		log.debug("Checking #"+checkCount+"... [" + url + " / '" + filter + "']");
+		logDebug(log, "Checking #"+checkCount+"... [" + url + " / '" + filter + "']");
 
-		try {
-			HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+		Throwable lastError = null;
+		
+		int tryNumber = 0;
+		
+		while(tryNumber++ < numTries) {
 			
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				perform("Error fetching " + url + " - " + response.getStatusLine().toString());
-				logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
-				return;
+			try {
+				HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+				
+				int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode != HttpStatus.SC_OK) {
+					perform("Error fetching " + url + " - " + response.getStatusLine().toString());
+					logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
+					return;
+				}
+				
+				String responseBody = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
+				logDebug(log, "Got Response: " + responseBody);
+				
+				if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
+						||  (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
+					perform(responseBody);
+				}
+				
+				lastError = null;
+				break;
+				
+			} catch(Exception e) {
+				logWarn(log, "Exception \"" + e.getMessage() + "\" getting " + url + ". Try " + tryNumber + "/" + numTries);
+				lastError = e;
+				
+				try {
+					Thread.sleep(errorInterval);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 			
-			String responseBody = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
-			log.debug("Got Response: " + responseBody);
-			
-			if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
-					||  (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
-				perform(responseBody);
-			}
-		} catch(Exception e) {
-			perform("Error fetching " + url + " - " + e.getMessage());
-			e.printStackTrace();
 		}
-
+		
+		if (lastError != null) {
+			logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
+			perform("Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries + " tries");
+		}
+			
 	}
 
 
