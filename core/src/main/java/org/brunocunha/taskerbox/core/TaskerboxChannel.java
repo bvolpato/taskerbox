@@ -27,6 +27,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -45,6 +47,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @param <T>
  */
 @Log4j
+@XmlRootElement
 public abstract class TaskerboxChannel<T> {
 
 	@NotEmpty
@@ -333,8 +336,11 @@ public abstract class TaskerboxChannel<T> {
 			try {
 				this.checkCount++;
 				this.running = true;
-				TaskerboxControlFrame.getInstance().updateChannels();
-
+				
+				if (TaskerboxControlFrame.hasFrame()) {
+				  TaskerboxControlFrame.getInstance().updateChannels();
+				}
+				
 				this.forced = force;
 
 				this.runningThread = new TaskerboxChannelExecuteThread(this);
@@ -366,7 +372,9 @@ public abstract class TaskerboxChannel<T> {
 				throw e;
 			} finally {
 				this.running = false;
-				TaskerboxControlFrame.getInstance().updateChannels();
+				if (TaskerboxControlFrame.hasFrame()) {
+				  TaskerboxControlFrame.getInstance().updateChannels();
+				}
 			}
 		}
 	}

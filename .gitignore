@@ -20,6 +20,8 @@ velocity.log
 # usage 
 local-*.xml
 local-*.properties
+web-*.xml
+web-*.properties
 personaltasks/
 
 # personal preferences

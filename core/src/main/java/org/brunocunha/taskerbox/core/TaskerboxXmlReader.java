@@ -55,7 +55,7 @@ public class TaskerboxXmlReader {
 
 		for (Element xmlChannel : (List<Element>) dom.getRootElement()
 				.elements()) {
-
+		    try {
 			if (xmlChannel.getName().equalsIgnoreCase("defaultProperties")) {
 				handleDefaultPropertiesNode(xmlChannel);
 			} else if (xmlChannel.getName()
@@ -68,6 +68,9 @@ public class TaskerboxXmlReader {
 			} else {
 				handleConcreteChannelNode(xmlChannel);
 			}
+		    } catch(Exception e) {
+		      log.error("Exception Handling node", e);
+		    }
 		}
 
 	}

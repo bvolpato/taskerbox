@@ -43,11 +43,11 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
 
 	private String loggedUser;
 	
-	@TaskerboxField("Usuario")
+	@TaskerboxField("Username")
 	@Getter @Setter
 	private String username;
 
-	@TaskerboxField("Filtro")
+	@TaskerboxField("Filter")
 	@Getter @Setter
 	private String filter;
 	
@@ -62,12 +62,12 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
 	private String consumerSecret;
 	
 	@NotEmpty
-	@TaskerboxField("accessToken")
+	@TaskerboxField("Access Token")
 	@Getter @Setter
 	private String accessToken;
 	
 	@NotEmpty
-	@TaskerboxField("accessTokenSecret")
+	@TaskerboxField("Access Token Secret")
 	@Getter @Setter
 	private String accessTokenSecret;
 

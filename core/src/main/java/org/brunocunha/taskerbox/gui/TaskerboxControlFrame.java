@@ -76,13 +76,17 @@ public class TaskerboxControlFrame extends JFrame {
 		return getInstance();
 	}
 	
-	public static TaskerboxControlFrame getInstance() {
-		if (controlFrame == null) {
-			throw new RuntimeException("Control Frame not created");
-		}
-		
-		return controlFrame;
-	}
+    public static boolean hasFrame() {
+      return controlFrame != null;
+  }
+    
+    public static TaskerboxControlFrame getInstance() {
+      if (controlFrame == null) {
+          throw new RuntimeException("Control Frame not created");
+      }
+      
+      return controlFrame;
+  }
 	
 	/**
 	 * Create the frame.
