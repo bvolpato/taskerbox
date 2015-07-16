@@ -168,13 +168,24 @@ public class TaskerboxXmlReader {
     for (Object attrObj : xmlChannel.elements()) {
       DefaultElement e = (DefaultElement) attrObj;
       System.setProperty(e.attributeValue("name"), e.attributeValue("value"));
+      handleDefaultPropertiesNode(xmlChannel);
     }
   }
 
   private void handleDefaultPropertiesNode(Element xmlChannel) {
     for (Object attrObj : xmlChannel.elements()) {
       DefaultElement e = (DefaultElement) attrObj;
-      tasker.getDefaultProperties().put(e.attributeValue("name"), e.attributeValue("value"));
+      
+      String propertyValue = e.attributeValue("value");
+      
+      for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
+        propertyValue =
+            propertyValue.replace("{" + defaultAttr + "}",
+                tasker.getDefaultProperties().get(defaultAttr));
+      }
+      
+      tasker.getDefaultProperties().put(e.attributeValue("name"), propertyValue);
+
     }
   }
 

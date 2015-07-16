@@ -1,0 +1,13 @@
+<taskerbox>
+	
+	<systemProperties>
+		<systemProperty name="taskerbox.performed.dir"
+			value="/tmp" />
+	</systemProperties>
+
+	<defaultProperties>
+		<defaultProperty name="workingDir"
+			value="{taskerbox.performed.dir}/Taskerbox" />
+	</defaultProperties>
+	
+</taskerbox>

@@ -46,7 +46,7 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
   @TaskerboxField("Username")
   @Getter
   @Setter
-  private String username;
+  private String username = "";
 
   @TaskerboxField("Filter")
   @Getter
