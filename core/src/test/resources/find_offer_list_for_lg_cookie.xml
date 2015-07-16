@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Result xmlns="urn:buscape" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" match="all" page="1" totalPages="1" totalResultsSellers="1" totalResultsReturned="2" totalResultsAvailable="2" xsi:schemaLocation="http://developer.buscape.com/admin/buscape.xsd">
+    <details>
+        <applicationID>564771466d477a4458664d3d</applicationID>
+        <applicationVersion>1.0.0.0</applicationVersion>
+        <applicationPath>http://bws-apps.buscape.com/mobile/update</applicationPath>
+        <date>2012-01-02T18:56:56.460-02:00</date>
+        <elapsedTime>3</elapsedTime>
+        <status>success</status>
+        <code>0</code>
+        <message>success</message>
+    </details>
+    <category hasOffer="false" isFinal="true" parentCategoryId="6420" id="77">
+        <thumbnail url="http://imagem.buscape.com.br/bp5/categorias/77.jpg"/>
+        <links>
+            <link type="category" url="http://compare.buscape.com.br/celular-e-smartphone.html?mdapp=100&amp;mddtn=69672797"/>
+            <link type="xml" url="http://sandbox.buscape.com/service/findProductList/564771466d477a4458664d3d/br/?categoryId=77"/>
+        </links>
+        <name>Celular e Smartphone</name>
+    </category>
+    <product quantity="0" id="235052" eco="false" hasMetaSearch="false" categoryId="77" totalSellers="1" fullDescription="true">
+        <productName>LG GT350 Cookie Messenger GSM Desbloqueado</productName>
+        <productShortName>LG GT350 Cookie Messenger Desbloqueado</productShortName>
+        <currency abbreviation="BRL"/>
+        <priceMin>329.00</priceMin>
+        <priceMax>329.00</priceMax>
+        <links>
+            <link type="product" url="http://compare.buscape.com.br/lg-gt350-cookie-messenger-gsm-desbloqueado.html?mdapp=100&amp;mddtn=69672797"/>
+            <link type="specification" url="http://compare.buscape.com.br/prod_ficha?idu=235052"/>
+            <link type="xml" url="http://sandbox.buscape.com/service/findOfferList/564771466d477a4458664d3d/br/?productId=235052"/>
+        </links>
+        <thumbnail url="http://imagem.buscape.com.br/thumbs/ensopado/77/200x200_235052_1.jpg"/>
+        <rating>
+            <userAverageRating>
+                <numComments>136</numComments>
+                <rating>7.6</rating>
+                <links>
+                    <link type="xml" url="http://sandbox.buscape.com/service/viewUserRatings/564771466d477a4458664d3d/br/?productId=235052"/>
+                </links>
+                <specification>
+                    <item label="Duração da Bateria">
+                        <value>5.6</value>
+                    </item>
+                    <item label="Design">
+                        <value>9.0</value>
+                    </item>
+                    <item label="Custo-Benefício">
+                        <value>7.4</value>
+                    </item>
+                    <item label="Facilidade de Uso">
+                        <value>8.8</value>
+                    </item>
+                    <item label="Funções e Características">
+                        <value>7.4</value>
+                    </item>
+                    <item label="Durabilidade">
+                        <value>8.2</value>
+                    </item>
+                    <item label="Display">
+                        <value>7.8</value>
+                    </item>
+                    <item label="Operadora">
+                        <value>6.8</value>
+                    </item>
+                    <item label="Câmera">
+                        <value>8.2</value>
+                    </item>
+                </specification>
+            </userAverageRating>
+        </rating>
+        <specification>
+            <links>
+                <link type="xml" url="http://sandbox.buscape.com/service/viewProductDetails/564771466d477a4458664d3d/br/?productId=235052"/>
+            </links>
+            <item label="Câmera">
+                <value>2.0 MP</value>
+            </item>
+            <item label="Funções Extras">
+                <value>Gravador de Vídeo</value>
+                <value>Gravador de Voz</value>
+                <value>Java</value>
+                <value>MP3 Player</value>
+                <value>Rádio</value>
+                <value>Reproduz Música</value>
+                <value>Reproduz Vídeo</value>
+                <value>Visualizador de Documentos</value>
+                <value>Viva Voz</value>
+            </item>
+            <item label="3G">
+                <value>Não</value>
+            </item>
+            <item label="Slots de Expansão">
+                <value>MicroSD</value>
+            </item>
+            <item label="Tipos de Conexão">
+                <value>Bluetooth</value>
+                <value>EDGE</value>
+                <value>GPRS</value>
+                <value>Micro-USB</value>
+                <value>WAP</value>
+            </item>
+        </specification>
+    </product>
+    <offer productId="235052" id="98098740" categoryId="77">
+        <offerName>CEL GSM LG GT350 DESBLOQUEADO - BCO / AZUL</offerName>
+        <links>
+            <link type="offer" url="http://tracker.lomadee.com/tr/rd?b=aSA8MmUQATgBZwlnbm0RICQ3HQsGKyQBPW05c3NlZ2xobGtqamVvbm5laGdoaWxpZ2llNioqLmRxcT0xMy4_LDtwPCstPT8uO3A9MTNwPCxxLiwxOgErMDc9MWE3OitjbG1rbmtseDM6OiowY2hnaGlsaWdpeDM6Py4uY29ubmUwMSw7OGVvZRwMZWVlbmVuZW5lMCsyMmVuZW5lbmVuZWdmbmdmaWpuZW5wbmVucG5lb2VlbmU-"/>
+        </links>
+        <thumbnail url="http://www.shoptech.com.br/imagens/00001101.png"/>
+        <price>
+            <currency abbreviation="BRL"/>
+            <value>329.00</value>
+            <parcel>
+                <value>54.83</value>
+                <number>6</number>
+                <interest>0.0</interest>
+            </parcel>
+        </price>
+        <seller advertiserId="0" pagamentoDigital="false" isTrustedStore="false" id="1098303">
+            <sellerName>Shoptech</sellerName>
+            <thumbnail url="http://imagem.buscape.com.br/vitrine/logo1098303.gif"/>
+            <links>
+                <link type="seller" url="http://www.shoptech.com.br"/>
+            </links>
+            <contacts>
+                <contact label="Televendas" value="11-34697490"/>
+            </contacts>
+            <rating>
+                <userAverageRating>
+                    <numComments>75</numComments>
+                    <rating>6.0</rating>
+                </userAverageRating>
+                <eBitRating>
+                    <numComments>75</numComments>
+                    <rating>Ouro</rating>
+                </eBitRating>
+            </rating>
+        </seller>
+    </offer>
+    <offer productId="235052" id="100404593" categoryId="77">
+        <offerName>CEL GSM LG GT350 DESBLOQUEADO - PTO / PTA</offerName>
+        <links>
+            <link type="offer" url="http://tracker.lomadee.com/tr/rd?b=HzAoP2VvGBIZGDwnP24xHzc4MjwJNQQ_AQYfc3NlZ2xobGtqamVvbm5laGdoaWxpZ2llNioqLmRxcT0xMy4_LDtwPCstPT8uO3A9MTNwPCxxLiwxOgErMDc9MWE3OitjbG1rbmtseDM6OiowY2hnaGlsaWdpeDM6Py4uY29ubmUwMSw7OGVvZRwMZWVlbmVuZW5lMCsyMmVuZW5lbmVuZW9ubmpuamtnbWVucG5lbnBuZW9lZW5l"/>
+        </links>
+        <thumbnail url="http://www.shoptech.com.br/imagens/00001599.jpg"/>
+        <price>
+            <currency abbreviation="BRL"/>
+            <value>329.00</value>
+            <parcel>
+                <value>54.83</value>
+                <number>6</number>
+                <interest>0.0</interest>
+            </parcel>
+        </price>
+        <seller advertiserId="0" pagamentoDigital="false" isTrustedStore="false" id="1098303">
+            <sellerName>Shoptech</sellerName>
+            <thumbnail url="http://imagem.buscape.com.br/vitrine/logo1098303.gif"/>
+            <links>
+                <link type="seller" url="http://www.shoptech.com.br"/>
+            </links>
+            <contacts>
+                <contact label="Televendas" value="11-34697490"/>
+            </contacts>
+            <rating>
+                <userAverageRating>
+                    <numComments>75</numComments>
+                    <rating>6.0</rating>
+                </userAverageRating>
+                <eBitRating>
+                    <numComments>75</numComments>
+                    <rating>Ouro</rating>
+                </eBitRating>
+            </rating>
+        </seller>
+    </offer>
+</Result>

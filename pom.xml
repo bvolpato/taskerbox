@@ -146,6 +146,7 @@
 					<excludes>
 						<exclude>src/test/resources/**</exclude>
 						<exclude>src/main/resources/**</exclude>
+						<exclude>**/com/buscape/**</exclude>
 						<exclude>LICENSE</exclude>
 					</excludes>
 				</configuration>

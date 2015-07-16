@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:buscape" targetNamespace="urn:buscape" elementFormDefault="qualified">
+
+	<xs:element name="Result">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="details" type="ResultDetails" />
+				<xs:element name="category" type="CategoryType" minOccurs="1" maxOccurs="1" />
+				<xs:element name="subCategory" type="CategoryType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="top5Category" type="CategoryType" minOccurs="0" maxOccurs="5" />
+				<xs:element name="product" type="ProductType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="offer" type="OfferType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="user" type="UserType" minOccurs="0" maxOccurs="1" />
+				<xs:element name="opinions" type="UserOpinionType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="seller" type="SellerType" minOccurs="0" maxOccurs="1" />
+				<xs:element name="sellers" type="SellersType" minOccurs="0" maxOccurs="1" />
+				<xs:element name="fullProduct" type="FullProductType" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="totalResultsAvailable" type="xs:int" use="required" />
+			<xs:attribute name="totalResultsReturned" type="xs:int" use="required" />
+			<xs:attribute name="totalResultsSellers" type="xs:int" />
+			<xs:attribute name="totalPages" type="xs:int" />
+			<xs:attribute name="totalRecommended" type="xs:int" />
+			<xs:attribute name="totalNotRecommended" type="xs:int" />
+			<xs:attribute name="page" type="xs:int" />
+			<xs:attribute name="match" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="ResultDetails">
+		<xs:sequence>
+			<xs:element name="applicationID" type="xs:string" />
+			<xs:element name="applicationVersion" type="xs:string" />
+			<xs:element name="applicationPath" type="xs:string" />
+			<xs:element name="date" type="xs:dateTime" />
+			<xs:element name="elapsedTime" type="xs:long" />
+			<xs:element name="status" type="xs:string" />
+			<xs:element name="code" type="xs:int" />
+			<xs:element name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CategoryType">
+		<xs:sequence>
+			<xs:element name="thumbnail" type="ThumbnailType" ></xs:element>
+			<xs:element name="subCategory" type="CategoryType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="filters" type="FiltersType" />
+		</xs:sequence>
+
+		<xs:attribute name="id" type="xs:int" />
+		<xs:attribute name="parentCategoryId" type="xs:int" />
+		<xs:attribute name="isFinal" type="xs:boolean" />
+		<xs:attribute name="hasOffer" type="xs:boolean" />
+	</xs:complexType>
+
+	<xs:complexType name="ProductType">
+		<xs:sequence>
+			<xs:element name="productName" type="xs:string" />
+			<xs:element name="productShortName" type="xs:string" />
+			<xs:element name="currency" type="CurrencyType" />
+			<xs:element name="priceMin" type="xs:string" />
+			<xs:element name="priceMax" type="xs:string" />
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="thumbnail" type="ThumbnailType" />
+			<xs:element name="rating" type="RatingType" />
+			<xs:element name="specification" type="SpecificationType" />
+			<xs:element name="productDetails" type="ProductDetailsType" />
+		</xs:sequence>
+		<xs:attribute name="fullDescription" type="xs:boolean" use="required" />
+		<xs:attribute name="totalSellers" type="xs:int" use="required" />
+		<xs:attribute name="categoryId" type="xs:int" use="required" />
+		<xs:attribute name="hasMetaSearch" type="xs:boolean" use="required" />
+		<xs:attribute name="eco" type="xs:boolean" use="required" />
+		<xs:attribute name="id" type="xs:long" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="RatingType">
+		<xs:sequence>
+			<xs:element name="userAverageRating" type="UserRatingType" />
+			<xs:element name="eBitRating" type="EBitRatingType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UserRatingType">
+		<xs:sequence>
+			<xs:element name="numComments" type="xs:int" />
+			<xs:element name="rating" type="xs:string" />
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="specification" type="SpecificationType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EBitRatingType">
+		<xs:sequence>
+			<xs:element name="numComments" type="xs:int" />
+			<xs:element name="rating" type="xs:string" />
+			<xs:element name="links" type="LinksType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SpecificationType">
+		<xs:sequence>
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="item" type="ItemListType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="label" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="ItemListType">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="label" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="ProductDetailsType">
+		<xs:sequence>
+			<xs:element name="specification" type="SpecificationType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ThumbnailType">
+		<xs:attribute name="url" type="xs:string" />
+		<xs:attribute name="height" type="xs:int" />
+		<xs:attribute name="width" type="xs:int" />
+	</xs:complexType>
+
+	<xs:complexType name="OfferType">
+		<xs:sequence>
+			<xs:element name="offerName" type="xs:string" />
+			<xs:element name="shortDescription" type="xs:string" />
+			<xs:element name="rating" type="RatingType" />
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="thumbnail" type="ThumbnailType" />
+			<xs:element name="price" type="PriceOfferType" />
+			<xs:element name="seller" type="SellerType" />
+		</xs:sequence>
+		<xs:attribute name="categoryId" type="xs:int" />
+		<xs:attribute name="id" type="xs:int" />		<xs:attribute name="productId" type="xs:long" />
+	</xs:complexType>
+
+	<xs:complexType name="LinksType">
+		<xs:sequence>
+			<xs:element name="link" type="LinkType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LinkType">
+		<xs:attribute name="url" type="xs:string" />
+		<xs:attribute name="type" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="PriceOfferType">
+		<xs:sequence>
+			<xs:element name="currency" type="CurrencyType" />
+			<xs:element name="value" type="xs:string" />
+			<xs:element name="parcel" type="ParcelType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ParcelType">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" />
+			<xs:element name="number" type="xs:int" />
+			<xs:element name="interest" type="xs:double" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SellersType">
+		<xs:sequence>
+			<xs:element name="seller" type="SellerType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SellerType">
+		<xs:sequence>
+			<xs:element name="sellerName" type="xs:string" />
+			<xs:element name="thumbnail" type="ThumbnailType" />
+			<xs:element name="links" type="LinksType" />
+			<xs:element name="extra" type="xs:string" />
+			<xs:element name="contacts" type="ContactsType" />
+			<xs:element name="rating" type="RatingType" />
+			<xs:element name="coupon" type="CouponType" />
+			<xs:element name="addresses" type="AddressesType" />
+		</xs:sequence>
+
+		<xs:attribute name="id" type="xs:int" use="required" />
+		<xs:attribute name="isTrustedStore" type="xs:boolean" use="required" />
+		<xs:attribute name="pagamentoDigital" type="xs:boolean" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="AddressesType">
+		<xs:sequence>
+			<xs:element name="address" type="AddressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="postalArea" type="xs:string" />
+			<xs:element name="complement" type="xs:string" />
+			<xs:element name="district" type="xs:string" />
+			<xs:element name="city" type="xs:string" />
+			<xs:element name="state" type="xs:string" />
+			<xs:element name="postalCode" type="xs:string" />
+			<xs:element name="fone" type="xs:string" />
+			<xs:element name="map">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="latitude" type="xs:string" />
+						<xs:element name="longitude" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CouponType">
+		<xs:sequence>
+			<xs:element name="link" type="LinkType" minOccurs="0" maxOccurs="1" />
+			<xs:element name="description" type="xs:string" />
+			<xs:element name="type" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="ContactsType">
+		<xs:sequence>
+			<xs:element name="contact" type="ContactType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ContactType">
+		<xs:attribute name="value" type="xs:string" />
+		<xs:attribute name="label" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="UserOpinionType">
+		<xs:sequence>
+			<xs:element name="title" type="xs:string" />
+			<xs:element name="author" type="xs:string" />
+			<xs:element name="productName" type="xs:string" />
+			<xs:element name="thumbnail" type="xs:string" />
+			<xs:element name="comment" type="CommentType" />
+			<xs:element name="rating" type="RatingType" />
+		</xs:sequence>
+		<xs:attribute name="hasProduct" type="xs:boolean" use="required" />
+		<xs:attribute name="RecommendProduct" type="xs:boolean" use="required" />
+		<xs:attribute name="date" type="xs:dateTime" use="required" />
+		<xs:attribute name="id" type="xs:int" />
+	</xs:complexType>
+
+	<xs:complexType name="CommentType">
+		<xs:sequence>
+			<xs:element name="comment" type="xs:string" />
+			<xs:element name="positive" type="xs:string" />
+			<xs:element name="negative" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="totalUsefulInformation" type="xs:int" use="required" />
+		<xs:attribute name="totalUselessInformation" type="xs:int" use="required" />
+		<xs:attribute name="totalOutOfContext" type="xs:int" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="UserType">
+		<xs:sequence>
+			<xs:element name="userName" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int" />
+		<xs:attribute name="registerDate" type="xs:dateTime" />
+ 	</xs:complexType>
+ 	
+	<xs:complexType name="FullProductType">
+		<xs:sequence>
+			<xs:element name="product" type="ProductType"/>
+			<xs:element name="offers" type="OfferType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+ 	</xs:complexType>
+ 	
+ 	<!-- Tipo de moeda -->
+ 	<xs:complexType name="CurrencyType">
+ 		<xs:attribute name="abbreviation" type="xs:string" />
+ 		<!-- <xs:attribute name="symbol" type="xs:string" /> -->
+ 	</xs:complexType>	
+ 	
+ 	<xs:complexType name="FiltersType">
+		<xs:sequence>
+			<xs:element name="filter" type="FilterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>		 	
+
+	<xs:complexType name="FilterType">
+		<xs:sequence>
+			<xs:element name="value" type="FilterValueType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int" />
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>	
+	
+	<xs:complexType name="FilterValueType">
+		<xs:attribute name="id" type="xs:int" />
+		<xs:attribute name="value" type="xs:string" />
+ 	</xs:complexType>
+ 			
+</xs:schema>

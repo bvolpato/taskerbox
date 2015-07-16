@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jaxb:bindings jaxb:version="2.0"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	jaxb:extensionBindingPrefixes="xjc">
+
+	<jaxb:globalBindings>
+		<xjc:simple />
+		<xjc:serializable uid="1" />
+
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="buscape.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.buscape.developer.result.type"></jaxb:package>
+		</jaxb:schemaBindings>
+		<jaxb:bindings node="//xs:complexType[@name='AddressesType']">
+			<jaxb:class name="Addresses" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='AddressType']">
+			<jaxb:class name="Address" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CategoryType']">
+			<jaxb:class name="Category" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CommentType']">
+			<jaxb:class name="Comment" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ContactsType']">
+			<jaxb:class name="Contacts" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ContactType']">
+			<jaxb:class name="Contact" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CouponType']">
+			<jaxb:class name="Coupon" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='CurrencyType']">
+			<jaxb:class name="Currency" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='EBitRatingType']">
+			<jaxb:class name="EBitRating" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='FiltersType']">
+			<jaxb:class name="Filters" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='FilterType']">
+			<jaxb:class name="Filter" />
+		</jaxb:bindings>	
+		<jaxb:bindings node="//xs:complexType[@name='FilterValueType']">
+			<jaxb:class name="FilterValue" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='FullProductType']">
+			<jaxb:class name="FullProduct" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ItemListType']">
+			<jaxb:class name="ItemList" />
+		</jaxb:bindings>	
+		<jaxb:bindings node="//xs:complexType[@name='LinksType']">
+			<jaxb:class name="Links" />
+		</jaxb:bindings>	
+		<jaxb:bindings node="//xs:complexType[@name='LinkType']">
+			<jaxb:class name="Link" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='OfferType']">
+			<jaxb:class name="Offer" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ParcelType']">
+			<jaxb:class name="Parcel" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='PriceOfferType']">
+			<jaxb:class name="PriceOffer" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ProductDetailsType']">
+			<jaxb:class name="ProductDetails" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ProductType']">
+			<jaxb:class name="Product" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='RatingType']">
+			<jaxb:class name="Rating" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='SellersType']">
+			<jaxb:class name="Sellers" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='SellerType']">
+			<jaxb:class name="Seller" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='SpecificationType']">
+			<jaxb:class name="Specification" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='ThumbnailType']">
+			<jaxb:class name="Thumbnail" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='UserOpinionType']">
+			<jaxb:class name="UserOpinion" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='UserRatingType']">
+			<jaxb:class name="UserRating" />
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='UserType']">
+			<jaxb:class name="User" />
+		</jaxb:bindings>
+		
+
+
+
+	</jaxb:bindings>
+</jaxb:bindings>

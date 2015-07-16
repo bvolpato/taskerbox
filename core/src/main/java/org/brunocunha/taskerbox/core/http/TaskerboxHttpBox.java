@@ -63,7 +63,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.brunocunha.taskerbox.Taskerbox;
 import org.brunocunha.taskerbox.core.http.auth.NTLMSchemeFactory;
+import org.brunocunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -148,24 +150,14 @@ public class TaskerboxHttpBox {
 
 			Properties prop = new Properties();
 
-			String hostName = InetAddress.getLocalHost().getHostName();
-			if (hostName.equals("BR-PC")) {
-				hostName = "BRUNOCUNHA-PC";
-			}
+		    File configDir = TaskerboxConfigurationUtils.getConfigurationDir();
+		    
+		    String hostName = InetAddress.getLocalHost().getHostName();
+		    File hostFile = new File(configDir, "taskerbox-" + hostName + ".properties");
+		    if (hostFile.exists()) {
+		      prop.load(new FileInputStream(hostFile));
+		    }
 
-			String propertiesFileName = "local-taskerbox-" + hostName
-					+ ".properties";
-			File propertiesFile = new File(propertiesFileName);
-			if (propertiesFile.exists()) {
-				prop.load(new FileInputStream(propertiesFile));
-			} else {
-				InputStream is = TaskerboxHttpBox.class.getResourceAsStream("/"
-						+ propertiesFileName);
-
-				if (is != null) {
-					prop.load(is);
-				}
-			}
 			log.info("HTTP Using Proxy? " + prop.getProperty("proxy"));
 
 			instance = new TaskerboxHttpBox();

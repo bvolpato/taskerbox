@@ -32,6 +32,7 @@ import lombok.extern.log4j.Log4j;
 
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
 import org.brunocunha.taskerbox.core.TaskerboxXmlReader;
+import org.brunocunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.brunocunha.taskerbox.gui.TaskerboxControlFrame;
 
 /**
@@ -83,18 +84,32 @@ public class Taskerbox {
 
     if (args.length == 0) {
 
-      String hostName = InetAddress.getLocalHost().getHostName();
-      log.info("Host name: " + hostName);
+      tasker.handleDefaultFiles();
 
-      tasker.handleTaskerbox("local-taskerbox-" + hostName + ".xml");
-      tasker.handleTaskerbox("local-taskerbox.xml");
-
-      // tasker.handleTaskerbox("taskerbox-tst.xml");
     } else {
       for (String arg : args) {
         tasker.handleTaskerbox(arg);
       }
     }
+  }
+
+  public void handleDefaultFiles() throws Exception {
+    String hostName = InetAddress.getLocalHost().getHostName();
+    log.info("Host name: " + hostName);
+
+    
+    File configDir = TaskerboxConfigurationUtils.getConfigurationDir();
+    
+    File hostFile = new File(configDir, "taskerbox-" + hostName + ".xml");
+    if (hostFile.exists()) {
+      handleTaskerbox(hostFile);
+    }
+
+    File genericFile = new File(configDir, "taskerbox.xml");
+    if (genericFile.exists()) {
+      handleTaskerbox(genericFile);
+    }
+
   }
 
   public void handleTaskerbox(String file) throws Exception {

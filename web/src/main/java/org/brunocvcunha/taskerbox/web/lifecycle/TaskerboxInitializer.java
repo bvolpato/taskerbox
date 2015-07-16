@@ -15,6 +15,7 @@
  */
 package org.brunocvcunha.taskerbox.web.lifecycle;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.logging.Logger;
@@ -53,9 +54,10 @@ public class TaskerboxInitializer implements ServletContextListener {
       log.info("Handling macros...");
       tasker.handleTaskerbox("macros.xml");
 
-      URL hostNameURL =
-          sce.getServletContext()
-              .getResource("/WEB-INF/classes/web-taskerbox-" + hostName + ".xml");
+      String taskerboxDir = System.getProperty("taskerbox.dir", System.getProperty("user.home") + "/Dropbox/Taskerbox");
+      File taskerboxDirFile = new File(taskerboxDir);
+      
+      File hostNameFile = new File(taskerbox, "taskerbox-" + hostName + ".xml");
       log.info("Handling hostName file: " + hostNameURL);
       if (hostNameURL != null) {
         tasker.handleTaskerbox(hostNameURL);
