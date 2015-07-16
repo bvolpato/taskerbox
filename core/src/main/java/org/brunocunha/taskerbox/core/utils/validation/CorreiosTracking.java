@@ -27,6 +27,7 @@ import javax.validation.Payload;
 
 /**
  * Correios Tracking Validator Interface
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -35,9 +36,11 @@ import javax.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CorreiosTracking {
-   
+
   String message() default "Invalid Tracking";
-  Class<?>[] groups() default { };
-  Class<? extends Payload>[] payload() default { };
- 
+
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
+
 }

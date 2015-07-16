@@ -44,172 +44,177 @@ import org.brunocunha.taskerbox.core.TaskerboxChannel;
 @Log4j
 public class TaskerboxFileUtils {
 
-	/**
-	 * @return Directory for saving working data
-	 */
-	private static File getPerformedDirectory() {
-		String dir = System.getProperty("taskerbox.performed.dir");
-		if (dir == null) {
-			return FileUtils.getTempDirectory();
-		}
+  /**
+   * @return Directory for saving working data
+   */
+  private static File getPerformedDirectory() {
+    String dir = System.getProperty("taskerbox.performed.dir");
+    if (dir == null) {
+      return FileUtils.getTempDirectory();
+    }
 
-		return new File(dir);
-	}
+    return new File(dir);
+  }
 
-	/**
-	 * Get File that stores information for channels in performed dir
-	 * 
-	 * @param channel
-	 * @return
-	 */
-	private static File getPerformedFileForChannel(TaskerboxChannel<?> channel) {
-		File performedFile = new File(getPerformedDirectory(), "channel_" + channel.getId() + ".performed");
-		log.debug("Using performed file: " + performedFile.getAbsolutePath());
-		return performedFile;
-	}
+  /**
+   * Get File that stores information for channels in performed dir
+   * 
+   * @param channel
+   * @return
+   */
+  private static File getPerformedFileForChannel(TaskerboxChannel<?> channel) {
+    File performedFile =
+        new File(getPerformedDirectory(), "channel_" + channel.getId() + ".performed");
+    log.debug("Using performed file: " + performedFile.getAbsolutePath());
+    return performedFile;
+  }
 
-	/**
-	 * Get File that stores persistent storage information
-	 * 
-	 * @param channel
-	 * @return
-	 */
-	private static File getPersistentStorageFileForChannel(TaskerboxChannel<?> channel) {
-		File stateFile = new File(getPerformedDirectory(), "state_" + channel.getId() + ".bin");
-		log.debug("Using performed file: " + stateFile.getAbsolutePath());
-		return stateFile;
-	}
+  /**
+   * Get File that stores persistent storage information
+   * 
+   * @param channel
+   * @return
+   */
+  private static File getPersistentStorageFileForChannel(TaskerboxChannel<?> channel) {
+    File stateFile = new File(getPerformedDirectory(), "state_" + channel.getId() + ".bin");
+    log.debug("Using performed file: " + stateFile.getAbsolutePath());
+    return stateFile;
+  }
 
-	/**
-	 * Get File that stores information for actions in performed dir
-	 * 
-	 * @param action
-	 * @return
-	 */
-	private static File getPerformedFileForAction(ITaskerboxAction<?> action) {
-		File performedFile = new File(getPerformedDirectory(), "action_" + action.getId() + ".performed");
-		log.debug("Using performed file: " + performedFile.getAbsolutePath());
-		return performedFile;
-	}
+  /**
+   * Get File that stores information for actions in performed dir
+   * 
+   * @param action
+   * @return
+   */
+  private static File getPerformedFileForAction(ITaskerboxAction<?> action) {
+    File performedFile =
+        new File(getPerformedDirectory(), "action_" + action.getId() + ".performed");
+    log.debug("Using performed file: " + performedFile.getAbsolutePath());
+    return performedFile;
+  }
 
-	/**
-	 * Save lines to file
-	 * 
-	 * @param channel
-	 * @throws IOException
-	 */
-	public static void serializeMemory(TaskerboxChannel<?> channel) throws IOException {
-		log.debug("Serializing history for channel " + channel.getId());
+  /**
+   * Save lines to file
+   * 
+   * @param channel
+   * @throws IOException
+   */
+  public static void serializeMemory(TaskerboxChannel<?> channel) throws IOException {
+    log.debug("Serializing history for channel " + channel.getId());
 
-		synchronized(channel.getAlreadyPerformed()) {
-			FileWriter out = new FileWriter(getPerformedFileForChannel(channel));
-			for (String str : channel.getAlreadyPerformed()) {
-				out.write(str.replaceAll("\r?\n", "") + "\r\n");
-			}
-			out.close();
-		}
-		
-		if (channel.getStoredPropertyBag() != null 
-				&& !channel.getStoredPropertyBag().isEmpty()) {
-			synchronized(channel.getStoredPropertyBag()) {
-				ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(
-						getPersistentStorageFileForChannel(channel)));
-				objOut.writeObject(channel.getStoredPropertyBag());
-				objOut.close();
-			}
-				
-		}
-	}
+    synchronized (channel.getAlreadyPerformed()) {
+      FileWriter out = new FileWriter(getPerformedFileForChannel(channel));
+      for (String str : channel.getAlreadyPerformed()) {
+        out.write(str.replaceAll("\r?\n", "") + "\r\n");
+      }
+      out.close();
+    }
 
-	/**
-	 * Save lines to file
-	 * 
-	 * @param action
-	 * @throws IOException
-	 */
-	public static void serializeMemory(ITaskerboxAction<?> action, Collection<String> values) throws IOException {
-		log.debug("Serializing history for action " + action.getId());
+    if (channel.getStoredPropertyBag() != null && !channel.getStoredPropertyBag().isEmpty()) {
+      synchronized (channel.getStoredPropertyBag()) {
+        ObjectOutputStream objOut =
+            new ObjectOutputStream(
+                new FileOutputStream(getPersistentStorageFileForChannel(channel)));
+        objOut.writeObject(channel.getStoredPropertyBag());
+        objOut.close();
+      }
 
-		FileWriter out = new FileWriter(getPerformedFileForAction(action));
-		for (String str : values) {
-			out.write(str.replaceAll("\r?\n", "") + "\r\n");
-		}
-		out.close();
-	}
+    }
+  }
 
-	/**
-	 * Imports lines to set
-	 * 
-	 * @param action
-	 * @throws IOException
-	 */
-	public static Collection<String> deserializeMemory(ITaskerboxAction<?> action) throws IOException {
-		if (getPerformedFileForAction(action).exists()) {
-			log.debug("Deserializing history for channel " + action.getId());
+  /**
+   * Save lines to file
+   * 
+   * @param action
+   * @throws IOException
+   */
+  public static void serializeMemory(ITaskerboxAction<?> action, Collection<String> values)
+      throws IOException {
+    log.debug("Serializing history for action " + action.getId());
 
-			FileReader fr = new FileReader(getPerformedFileForAction(action));
-			BufferedReader br = new BufferedReader(fr);
+    FileWriter out = new FileWriter(getPerformedFileForAction(action));
+    for (String str : values) {
+      out.write(str.replaceAll("\r?\n", "") + "\r\n");
+    }
+    out.close();
+  }
 
-			Set<String> alreadyPerformed = new TreeSet<String>();
-			while (br.ready()) {
-				alreadyPerformed.add(br.readLine());
-			}
-			br.close();
+  /**
+   * Imports lines to set
+   * 
+   * @param action
+   * @throws IOException
+   */
+  public static Collection<String> deserializeMemory(ITaskerboxAction<?> action) throws IOException {
+    if (getPerformedFileForAction(action).exists()) {
+      log.debug("Deserializing history for channel " + action.getId());
 
-			return alreadyPerformed;
-		} else {
-			throw new IllegalArgumentException("There's nothing to deserialize for action " + action.getId());
-		}
-	}
+      FileReader fr = new FileReader(getPerformedFileForAction(action));
+      BufferedReader br = new BufferedReader(fr);
 
-	/**
-	 * Imports lines to set
-	 * 
-	 * @param channel
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	public static void deserializeMemory(TaskerboxChannel<?> channel) throws IOException, ClassNotFoundException {
-		if (getPerformedFileForChannel(channel).exists()) {
-			log.debug("Deserializing history for channel " + channel.getId());
+      Set<String> alreadyPerformed = new TreeSet<String>();
+      while (br.ready()) {
+        alreadyPerformed.add(br.readLine());
+      }
+      br.close();
 
-			FileReader fr = new FileReader(getPerformedFileForChannel(channel));
-			BufferedReader br = new BufferedReader(fr);
+      return alreadyPerformed;
+    } else {
+      throw new IllegalArgumentException("There's nothing to deserialize for action "
+          + action.getId());
+    }
+  }
 
-			synchronized(channel.getAlreadyPerformed()) {
-				Set<String> alreadyPerformed = channel.getAlreadyPerformed();
-				while (br.ready()) {
-					alreadyPerformed.add(br.readLine());
-				}
-				br.close();
-			}
-		}
+  /**
+   * Imports lines to set
+   * 
+   * @param channel
+   * @throws IOException
+   * @throws ClassNotFoundException
+   */
+  public static void deserializeMemory(TaskerboxChannel<?> channel) throws IOException,
+      ClassNotFoundException {
+    if (getPerformedFileForChannel(channel).exists()) {
+      log.debug("Deserializing history for channel " + channel.getId());
 
-		if (getPersistentStorageFileForChannel(channel).exists()) {
-			log.debug("Deserializing persistent storage for channel " + channel.getId());
+      FileReader fr = new FileReader(getPerformedFileForChannel(channel));
+      BufferedReader br = new BufferedReader(fr);
 
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-					getPersistentStorageFileForChannel(channel)));
-			channel.setStoredPropertyBag((Map<String, String>) in.readObject());
-			in.close();
-		} 
+      synchronized (channel.getAlreadyPerformed()) {
+        Set<String> alreadyPerformed = channel.getAlreadyPerformed();
+        while (br.ready()) {
+          alreadyPerformed.add(br.readLine());
+        }
+        br.close();
+      }
+    }
 
-	}
+    if (getPersistentStorageFileForChannel(channel).exists()) {
+      log.debug("Deserializing persistent storage for channel " + channel.getId());
 
-	/**
-	 * Save temp file in performed dir
-	 * 
-	 * @param name
-	 * @param content
-	 */
-	public static void saveTempFile(String name, String content) {
-		try {
-			FileWriter out = new FileWriter(new File(getPerformedDirectory(), name));
-			out.write(content);
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+      ObjectInputStream in =
+          new ObjectInputStream(new FileInputStream(getPersistentStorageFileForChannel(channel)));
+      channel.setStoredPropertyBag((Map<String, String>) in.readObject());
+      in.close();
+    }
+
+  }
+
+  /**
+   * Save temp file in performed dir
+   * 
+   * @param name
+   * @param content
+   */
+  public static void saveTempFile(String name, String content) {
+    try {
+      FileWriter out = new FileWriter(new File(getPerformedDirectory(), name));
+      out.write(content);
+      out.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
 }

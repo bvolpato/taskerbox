@@ -19,11 +19,12 @@ import java.io.File;
 
 /**
  * Configuration utility
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
 public class TaskerboxConfigurationUtils {
-  
+
   public static File getConfigurationDir() {
     String taskerboxDir =
         System.getProperty("taskerbox.dir", System.getProperty("user.home") + "/Dropbox/Taskerbox");

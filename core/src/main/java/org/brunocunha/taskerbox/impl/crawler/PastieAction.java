@@ -29,67 +29,68 @@ import org.jsoup.nodes.Element;
 @Log4j
 public class PastieAction extends CrawlerAction {
 
-	private static final String DOWNLOAD_URL = "http://pastie.org/pastes/{id}/download";
+  private static final String DOWNLOAD_URL = "http://pastie.org/pastes/{id}/download";
 
-	private static long FETCH_INTERVAL = 2000L;
-	
-	@Override
-	public void action(final Document entry) {
+  private static long FETCH_INTERVAL = 2000L;
 
-		log.debug("Validating " + entry.title());
-		
-		for (Element el : entry.select(".pastePreview")) {
-			final String id = el.select("a").attr("href").replace("http://pastie.org/pastes/", "");
-			String code = el.select("pre").text().replaceAll("\r?\n", " ");
-			if (code.length() > 32) {
-				code = code.substring(0, 32);
-			}
-			
-			final String title = id + " - " + code;
+  @Override
+  public void action(final Document entry) {
 
-			if (canAct(id)) {
-				addAct(id);
-				
-				spreadAction(id, title);
-				serializeAlreadyAct();
-				sleep(FETCH_INTERVAL);
-			}
+    log.debug("Validating " + entry.title());
 
-		}
+    for (Element el : entry.select(".pastePreview")) {
+      final String id = el.select("a").attr("href").replace("http://pastie.org/pastes/", "");
+      String code = el.select("pre").text().replaceAll("\r?\n", " ");
+      if (code.length() > 32) {
+        code = code.substring(0, 32);
+      }
 
-	}
+      final String title = id + " - " + code;
 
-	
-	
-	public void spreadAction(final String id, String postTitle) {
-		
-		try {
-			log.debug("Getting " + DOWNLOAD_URL.replace("{id}", id));
-			
-			HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURL(DOWNLOAD_URL.replace("{id}", id));
-			
-			String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
-			
-			if (isConsiderable(id, content)) {
-				if (isValid(id, content)) {
-					logInfo(log, "[+] Bound: [" + postTitle + "]");
-					doValid("pastie_"+id, content);
-				} else {
-					log.debug("[-] Not Bound: [" + postTitle + "]");
-					doInvalid("pastie_"+id, content);
-				}
-			}
-			
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
+      if (canAct(id)) {
+        addAct(id);
+
+        spreadAction(id, title);
+        serializeAlreadyAct();
+        sleep(FETCH_INTERVAL);
+      }
+
+    }
+
+  }
+
+
+
+  public void spreadAction(final String id, String postTitle) {
+
+    try {
+      log.debug("Getting " + DOWNLOAD_URL.replace("{id}", id));
+
+      HttpResponse response =
+          TaskerboxHttpBox.getInstance().getResponseForURL(DOWNLOAD_URL.replace("{id}", id));
+
+      String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
+
+      if (isConsiderable(id, content)) {
+        if (isValid(id, content)) {
+          logInfo(log, "[+] Bound: [" + postTitle + "]");
+          doValid("pastie_" + id, content);
+        } else {
+          log.debug("[-] Not Bound: [" + postTitle + "]");
+          doInvalid("pastie_" + id, content);
+        }
+      }
+
+    } catch (ClientProtocolException e) {
+      e.printStackTrace();
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+
+  }
+
 }

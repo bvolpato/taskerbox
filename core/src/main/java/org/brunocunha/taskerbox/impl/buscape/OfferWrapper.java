@@ -32,26 +32,29 @@ import com.sun.syndication.feed.synd.SyndEntry;
 
 /**
  * Buscape Offer Wrapper - Emailable
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
 @RequiredArgsConstructor
 public class OfferWrapper implements ITaskerboxEmailable {
 
-	@Getter @Setter
-	private Offer value;
-	
-	public OfferWrapper(Offer value) {
-		this.value = value;
-	}
+  @Getter
+  @Setter
+  private Offer value;
 
-	@Override
-	public String getEmailTitle(TaskerboxChannel<?> channel) {
-		return value.getSeller().getSellerName() + ": " + value.getOfferName() + " - " + value.getPrice().getValue();
-	}
+  public OfferWrapper(Offer value) {
+    this.value = value;
+  }
 
-	@Override
-	public String getEmailBody(TaskerboxChannel<?> channel) {
-		return value.getLinks().getLinks().get(0).getUrl();
-	}
+  @Override
+  public String getEmailTitle(TaskerboxChannel<?> channel) {
+    return value.getSeller().getSellerName() + ": " + value.getOfferName() + " - "
+        + value.getPrice().getValue();
+  }
+
+  @Override
+  public String getEmailBody(TaskerboxChannel<?> channel) {
+    return value.getLinks().getLinks().get(0).getUrl();
+  }
 }

@@ -46,7 +46,7 @@
 		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='FilterType']">
 			<jaxb:class name="Filter" />
-		</jaxb:bindings>	
+		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='FilterValueType']">
 			<jaxb:class name="FilterValue" />
 		</jaxb:bindings>
@@ -55,10 +55,10 @@
 		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='ItemListType']">
 			<jaxb:class name="ItemList" />
-		</jaxb:bindings>	
+		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='LinksType']">
 			<jaxb:class name="Links" />
-		</jaxb:bindings>	
+		</jaxb:bindings>
 		<jaxb:bindings node="//xs:complexType[@name='LinkType']">
 			<jaxb:class name="Link" />
 		</jaxb:bindings>
@@ -101,7 +101,7 @@
 		<jaxb:bindings node="//xs:complexType[@name='UserType']">
 			<jaxb:class name="User" />
 		</jaxb:bindings>
-		
+
 
 
 

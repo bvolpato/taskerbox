@@ -32,102 +32,102 @@ import org.brunocunha.taskerbox.core.TaskerboxChannel;
 
 public class ActiveMQChannel extends TaskerboxChannel<Message> {
 
-	@Getter @Setter
-	private String connectionString;
-	
-	@Getter @Setter
-	private String queueName;
-	
-	@Getter @Setter
-	private boolean topicSchema;
-	
-	@Getter
-	private boolean isAlive;
-	
-	public static void main(String[] args) throws Exception {
-		ActiveMQChannel channel = new ActiveMQChannel();
-		channel.setConnectionString("tcp://localhost:61616");
-		channel.setQueueName("teste");
-		channel.execute();
-	}
+  @Getter
+  @Setter
+  private String connectionString;
 
-	@Override
-	protected void execute() throws Exception {
-		try {
-			isAlive = true;
-			
-			// Create a ConnectionFactory
-			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-					connectionString);
+  @Getter
+  @Setter
+  private String queueName;
 
-			// Create a Connection
-			Connection connection = connectionFactory.createConnection();
-			connection.start();
+  @Getter
+  @Setter
+  private boolean topicSchema;
 
-			connection.setExceptionListener(new ExceptionListener() {
-				@Override
-				public synchronized void onException(JMSException ex) {
-					System.err.println("JMS Exception occured: "
-							+ ex.getMessage());
-					ex.printStackTrace();
-					
-					isAlive = false;
-				}
-			});
+  @Getter
+  private boolean isAlive;
 
-			// Create a Session
-			Session session = connection.createSession(false,
-					Session.AUTO_ACKNOWLEDGE);
+  public static void main(String[] args) throws Exception {
+    ActiveMQChannel channel = new ActiveMQChannel();
+    channel.setConnectionString("tcp://localhost:61616");
+    channel.setQueueName("teste");
+    channel.execute();
+  }
 
-			// Create the destination (Topic or Queue)
-			Destination destination;
-			if (topicSchema) {
-				destination = session.createTopic(queueName);
-			} else {
-				destination = session.createQueue(queueName);
-			}
+  @Override
+  protected void execute() throws Exception {
+    try {
+      isAlive = true;
 
-			// Create a MessageConsumer from the Session to the Topic or Queue
-			MessageConsumer consumer = session.createConsumer(destination);
+      // Create a ConnectionFactory
+      ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionString);
 
-			MessageListener messageListener = new MessageListener() {
-				public void onMessage(Message message) {
-					try {
-						perform(message);
-					} catch (Exception e) {
-						System.out.println("Caught:" + e);
-						e.printStackTrace();
-					}
-				}
-			};
+      // Create a Connection
+      Connection connection = connectionFactory.createConnection();
+      connection.start();
 
-			consumer.setMessageListener(messageListener);
+      connection.setExceptionListener(new ExceptionListener() {
+        @Override
+        public synchronized void onException(JMSException ex) {
+          System.err.println("JMS Exception occured: " + ex.getMessage());
+          ex.printStackTrace();
 
-			// consumer.receive()
-			/*
-			 * consumer.close(); session.close(); connection.close();
-			 */
+          isAlive = false;
+        }
+      });
 
-			
-			//Checks every 5s if the thread is still alive
-			while (!isPaused() && isAlive) {
-				Thread.sleep(5000L);
-			}
-			
-		} catch (Exception e) {
-			System.out.println("Caught: " + e);
-			e.printStackTrace();
-		}
-	}
+      // Create a Session
+      Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-	@Override
-	protected String getItemFingerprint(Message entry) {
-		try {
-			return queueName + "-" + entry.getJMSMessageID();
-		} catch (JMSException e) {
-			e.printStackTrace();
-		}
-		
-		return queueName + "-" + entry.toString();
-	}
+      // Create the destination (Topic or Queue)
+      Destination destination;
+      if (topicSchema) {
+        destination = session.createTopic(queueName);
+      } else {
+        destination = session.createQueue(queueName);
+      }
+
+      // Create a MessageConsumer from the Session to the Topic or Queue
+      MessageConsumer consumer = session.createConsumer(destination);
+
+      MessageListener messageListener = new MessageListener() {
+        public void onMessage(Message message) {
+          try {
+            perform(message);
+          } catch (Exception e) {
+            System.out.println("Caught:" + e);
+            e.printStackTrace();
+          }
+        }
+      };
+
+      consumer.setMessageListener(messageListener);
+
+      // consumer.receive()
+      /*
+       * consumer.close(); session.close(); connection.close();
+       */
+
+
+      // Checks every 5s if the thread is still alive
+      while (!isPaused() && isAlive) {
+        Thread.sleep(5000L);
+      }
+
+    } catch (Exception e) {
+      System.out.println("Caught: " + e);
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  protected String getItemFingerprint(Message entry) {
+    try {
+      return queueName + "-" + entry.getJMSMessageID();
+    } catch (JMSException e) {
+      e.printStackTrace();
+    }
+
+    return queueName + "-" + entry.toString();
+  }
 }

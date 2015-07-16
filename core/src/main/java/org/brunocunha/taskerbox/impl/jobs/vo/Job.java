@@ -16,41 +16,41 @@
 package org.brunocunha.taskerbox.impl.jobs.vo;
 
 public class Job {
-	private Long id;
-	private String title;
-	private String location;
-	private String url;
+  private Long id;
+  private String title;
+  private String location;
+  private String url;
 
-	public Long getId() {
-		return id;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getTitle() {
-		return title;
-	}
+  public String getTitle() {
+    return title;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-	public String getLocation() {
-		return location;
-	}
+  public String getLocation() {
+    return location;
+  }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+  public void setLocation(String location) {
+    this.location = location;
+  }
 
-	public String getUrl() {
-		return url;
-	}
+  public String getUrl() {
+    return url;
+  }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
 }

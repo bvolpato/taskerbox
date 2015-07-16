@@ -94,13 +94,13 @@ public class Taskerbox {
 
   public void handleDefaultFiles() throws Exception {
     handleTaskerbox("macros.xml");
-    
+
     String hostName = InetAddress.getLocalHost().getHostName();
     log.info("Host name: " + hostName);
 
-    
+
     File configDir = TaskerboxConfigurationUtils.getConfigurationDir();
-    
+
     File hostFile = new File(configDir, "taskerbox-" + hostName + ".xml");
     if (hostFile.exists()) {
       handleTaskerbox(hostFile);

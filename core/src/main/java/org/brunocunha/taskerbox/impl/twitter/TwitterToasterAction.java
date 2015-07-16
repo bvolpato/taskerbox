@@ -40,29 +40,33 @@ import twitter4j.Status;
 @Log4j
 public class TwitterToasterAction extends DefaultTaskerboxAction<StatusWrapper> {
 
-	private static long toasterTime = 3000L;
-	
-	@Override
-	public void action(final StatusWrapper entry) {
-		TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, "@" + entry.getValue().getUser().getScreenName() + ": " + entry.getValue().getText(), MessageType.INFO, new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI("http://twitter.com/" + entry.getValue().getUser().getScreenName() + "/status/" + entry.getValue().getId()));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		try {
-			Thread.sleep(toasterTime);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-	}
+  private static long toasterTime = 3000L;
+
+  @Override
+  public void action(final StatusWrapper entry) {
+    TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, "@"
+        + entry.getValue().getUser().getScreenName() + ": " + entry.getValue().getText(),
+        MessageType.INFO, new ActionListener() {
+
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            try {
+              Desktop.getDesktop().browse(
+                  new URI("http://twitter.com/" + entry.getValue().getUser().getScreenName()
+                      + "/status/" + entry.getValue().getId()));
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+              e1.printStackTrace();
+            }
+          }
+        });
+
+    try {
+      Thread.sleep(toasterTime);
+    } catch (InterruptedException e1) {
+      e1.printStackTrace();
+    }
+  }
 
 }

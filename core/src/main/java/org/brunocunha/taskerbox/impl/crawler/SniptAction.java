@@ -29,61 +29,62 @@ import org.jsoup.nodes.Element;
 @Log4j
 public class SniptAction extends CrawlerAction {
 
-	private static final String URL_DOWNLOAD = "http://snipt.org/{id}/download";
+  private static final String URL_DOWNLOAD = "http://snipt.org/{id}/download";
 
-	private static long FETCH_INTERVAL = 1000L;
-	
-	@Override
-	public void action(final Document entry) {
+  private static long FETCH_INTERVAL = 1000L;
 
-		log.debug("Validating " + entry.title());
-		
-		for (Element el : entry.select(".grid-block").select("a")) {
-			final String id = el.attr("href").replace("http://snipt.org/", "");
-			
-			final String title = id + " - " + el.text();
+  @Override
+  public void action(final Document entry) {
 
-			if (canAct(id)) {
-				addAct(id);
-				
-				spreadAction(id, title);
-				serializeAlreadyAct();
-				sleep(FETCH_INTERVAL);
-			}
+    log.debug("Validating " + entry.title());
 
-		}
+    for (Element el : entry.select(".grid-block").select("a")) {
+      final String id = el.attr("href").replace("http://snipt.org/", "");
 
-	}
-	
-	public void spreadAction(final String id, String postTitle) {
-		
-		try {
-			log.debug("Getting " + URL_DOWNLOAD.replace("{id}", id));
-			
-			HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURL(URL_DOWNLOAD.replace("{id}", id));
-			
-			String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
-			
-			if (isConsiderable(id, content)) {
-				if (isValid(id, content)) {
-					logInfo(log, "[+] Bound: [" + postTitle + "]");
-					doValid("snipt_"+id, content);
-				} else {
-					log.debug("[-] Not Bound: [" + postTitle + "]");
-					doInvalid("snipt_"+id, content);
-				}
-			}
-			
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
+      final String title = id + " - " + el.text();
+
+      if (canAct(id)) {
+        addAct(id);
+
+        spreadAction(id, title);
+        serializeAlreadyAct();
+        sleep(FETCH_INTERVAL);
+      }
+
+    }
+
+  }
+
+  public void spreadAction(final String id, String postTitle) {
+
+    try {
+      log.debug("Getting " + URL_DOWNLOAD.replace("{id}", id));
+
+      HttpResponse response =
+          TaskerboxHttpBox.getInstance().getResponseForURL(URL_DOWNLOAD.replace("{id}", id));
+
+      String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
+
+      if (isConsiderable(id, content)) {
+        if (isValid(id, content)) {
+          logInfo(log, "[+] Bound: [" + postTitle + "]");
+          doValid("snipt_" + id, content);
+        } else {
+          log.debug("[-] Not Bound: [" + postTitle + "]");
+          doInvalid("snipt_" + id, content);
+        }
+      }
+
+    } catch (ClientProtocolException e) {
+      e.printStackTrace();
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+
+  }
+
 }

@@ -28,9 +28,8 @@ import org.apache.http.params.HttpParams;
  */
 public class NTLMSchemeFactory implements AuthSchemeFactory {
 
-    public AuthScheme newInstance(final HttpParams params) {
-        return new NTLMScheme(new JCIFSEngine());
-    }
+  public AuthScheme newInstance(final HttpParams params) {
+    return new NTLMScheme(new JCIFSEngine());
+  }
 
 }
-

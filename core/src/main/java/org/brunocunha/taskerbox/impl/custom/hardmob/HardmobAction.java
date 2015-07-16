@@ -35,77 +35,76 @@ import org.jsoup.nodes.Element;
 @Log4j
 public class HardmobAction extends EmailDelegateAction<Document> {
 
-	private String id;
+  private String id;
 
-	private Set<String> alreadyAct = new TreeSet<String>();
+  private Set<String> alreadyAct = new TreeSet<String>();
 
-	@Override
-	public void setup() {
-		try {
-			alreadyAct = (Set<String>) TaskerboxFileUtils
-					.deserializeMemory(this);
-		} catch (Exception e) {
-			logWarn(log, "Error occurred while deserializing data for "
-					+ this.getId() + ": " + e.getMessage());
-		}
-	}
+  @Override
+  public void setup() {
+    try {
+      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+    } catch (Exception e) {
+      logWarn(log,
+          "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
+    }
+  }
 
-	@Override
-	public void action(final Document entry) {
+  @Override
+  public void action(final Document entry) {
 
-		for (Element el : entry.select(".threadinfo")) {
-			final String url = el.select(".title").attr("href");
-			final String postTitle = el.select(".title").text();
+    for (Element el : entry.select(".threadinfo")) {
+      final String url = el.select(".title").attr("href");
+      final String postTitle = el.select(".title").text();
 
-			if (!alreadyAct.contains(postTitle)) {
-				alreadyAct.add(postTitle);
-				
-				spreadAction(url, postTitle);
-				
-				try {
-					TaskerboxFileUtils.serializeMemory(this, alreadyAct);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-				}
-			}
+      if (!alreadyAct.contains(postTitle)) {
+        alreadyAct.add(postTitle);
+
+        spreadAction(url, postTitle);
+
+        try {
+          TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e1) {
+        }
+      }
 
 
-		}
+    }
 
-	}
+  }
 
-	public void spreadAction(final String url, String postTitle) {
-		StringToasterAction toasterAction = new StringToasterAction();
-		toasterAction.setActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI(url));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+  public void spreadAction(final String url, String postTitle) {
+    StringToasterAction toasterAction = new StringToasterAction();
+    toasterAction.setActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        } catch (URISyntaxException e1) {
+          e1.printStackTrace();
+        }
 
-			}
-		});
+      }
+    });
 
-		toasterAction.setTitle("Hardmob Alert");
-		toasterAction.action(postTitle);
-		
-	}
+    toasterAction.setTitle("Hardmob Alert");
+    toasterAction.action(postTitle);
 
-	public String getId() {
-		return id;
-	}
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
 }

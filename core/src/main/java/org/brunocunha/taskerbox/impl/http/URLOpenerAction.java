@@ -29,16 +29,16 @@ import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
  *
  */
 @Log4j
-public class URLOpenerAction extends DefaultTaskerboxAction<String>{
+public class URLOpenerAction extends DefaultTaskerboxAction<String> {
 
-	@Override
-	public void action(String input) {
-		try {
-			Desktop.getDesktop().browse(new URI(input));
-		} catch (Exception e) {
-			logError(log, "Error running URLOpenerAction for " + input, e);
-			e.printStackTrace();
-		} 
-	}
+  @Override
+  public void action(String input) {
+    try {
+      Desktop.getDesktop().browse(new URI(input));
+    } catch (Exception e) {
+      logError(log, "Error running URLOpenerAction for " + input, e);
+      e.printStackTrace();
+    }
+  }
 
 }

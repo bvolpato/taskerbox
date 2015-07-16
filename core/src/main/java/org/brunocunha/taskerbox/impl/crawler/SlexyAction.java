@@ -29,62 +29,62 @@ import org.jsoup.nodes.Element;
 @Log4j
 public class SlexyAction extends CrawlerAction {
 
-	private static final String URL_DOWNLOAD = "http://slexy.org/raw/{id}";
+  private static final String URL_DOWNLOAD = "http://slexy.org/raw/{id}";
 
-	private static long FETCH_INTERVAL = 1000L;
-	
-	@Override
-	public void action(final Document entry) {
+  private static long FETCH_INTERVAL = 1000L;
 
-		log.debug("Validating " + entry.title());
-		
-		for (Element el : entry.select(".main").select("a")) {
-			final String id = el.attr("href").replace("/view/", "");
-			
-			final String title = id;
+  @Override
+  public void action(final Document entry) {
 
-			if (canAct(id)) {
-				addAct(id);
-				
-				spreadAction(id, title);
-				serializeAlreadyAct();
-				sleep(FETCH_INTERVAL);
-			}
+    log.debug("Validating " + entry.title());
 
-		}
+    for (Element el : entry.select(".main").select("a")) {
+      final String id = el.attr("href").replace("/view/", "");
 
-	}
-	
-	public void spreadAction(final String id, String postTitle) {
-		
-		try {
-			log.debug("Getting " + URL_DOWNLOAD.replace("{id}", id));
-			
-			HttpGet get = new HttpGet(URL_DOWNLOAD.replace("{id}", id));
-			get.addHeader("Referer", "http://slexy.org/recent");
-			
-			HttpResponse response = TaskerboxHttpBox.getInstance().getHttpClient().execute(get);
-			
-			String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
-			
-			if (isConsiderable(id, content)) {
-				if (isValid(id, content)) {
-					logInfo(log, "[+] Bound: [" + postTitle + "]");
-					doValid("slexy_"+id, content);
-				} else {
-					logInfo(log, "[-] Not Bound: [" + postTitle + "]");
-					doInvalid("slexy_"+id, content);
-				}
-			}
-			
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-		
-	}
-	
+      final String title = id;
+
+      if (canAct(id)) {
+        addAct(id);
+
+        spreadAction(id, title);
+        serializeAlreadyAct();
+        sleep(FETCH_INTERVAL);
+      }
+
+    }
+
+  }
+
+  public void spreadAction(final String id, String postTitle) {
+
+    try {
+      log.debug("Getting " + URL_DOWNLOAD.replace("{id}", id));
+
+      HttpGet get = new HttpGet(URL_DOWNLOAD.replace("{id}", id));
+      get.addHeader("Referer", "http://slexy.org/recent");
+
+      HttpResponse response = TaskerboxHttpBox.getInstance().getHttpClient().execute(get);
+
+      String content = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
+
+      if (isConsiderable(id, content)) {
+        if (isValid(id, content)) {
+          logInfo(log, "[+] Bound: [" + postTitle + "]");
+          doValid("slexy_" + id, content);
+        } else {
+          logInfo(log, "[-] Not Bound: [" + postTitle + "]");
+          doInvalid("slexy_" + id, content);
+        }
+      }
+
+    } catch (ClientProtocolException e) {
+      e.printStackTrace();
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
 }

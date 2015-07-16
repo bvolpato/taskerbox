@@ -41,121 +41,127 @@ import twitter4j.conf.ConfigurationBuilder;
 @Log4j
 public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
 
-	private String loggedUser;
-	
-	@TaskerboxField("Username")
-	@Getter @Setter
-	private String username;
+  private String loggedUser;
 
-	@TaskerboxField("Filter")
-	@Getter @Setter
-	private String filter;
-	
-	@NotEmpty
-	@TaskerboxField("Key")
-	@Getter @Setter
-	private String consumerKey;
-	
-	@NotEmpty
-	@TaskerboxField("Secret")
-	@Getter @Setter
-	private String consumerSecret;
-	
-	@NotEmpty
-	@TaskerboxField("Access Token")
-	@Getter @Setter
-	private String accessToken;
-	
-	@NotEmpty
-	@TaskerboxField("Access Token Secret")
-	@Getter @Setter
-	private String accessTokenSecret;
+  @TaskerboxField("Username")
+  @Getter
+  @Setter
+  private String username;
 
-	private Twitter twitter;
-	
-	
-	@TaskerboxField("ignoreUsers")
-	@Getter @Setter
-	private List<String> ignoreUsers;
-	
-	@TaskerboxField("ignoreStarts")
-	@Getter @Setter
-	private List<String> ignoreStarts;
-	
-	@Override
-	public void setup() throws IllegalStateException, TwitterException {
-		logInfo(log, "Twitter setup...");
-		
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true)
-		.setOAuthConsumerKey(consumerKey)
-		.setOAuthConsumerSecret(consumerSecret)
-		.setOAuthAccessToken(accessToken)
-		.setOAuthAccessTokenSecret(accessTokenSecret);
-		TwitterFactory tf = new TwitterFactory(cb.build());
-		
-		this.twitter = tf.getInstance();
-	
-		this.loggedUser = this.twitter.getScreenName();
-		
-		logInfo(log, "Twitter setup finished! Logged user is " + this.loggedUser);
-	}
-	
-	@Override
-	protected void execute() throws TwitterException {
-		if (this.loggedUser == null) {
-			setup();
-		}
-		
-		if (username != null) {
-			logInfo(log, "Checking tweets of @" + username + " with @" + loggedUser);
-		} else {
-			logInfo(log, "Checking tweets with @" + loggedUser);
-		}
-		
-		ResponseList<Status> statusList;
-		
-		
-		if (username == null || username.equals("")) {
-			statusList = twitter.getHomeTimeline();
-		} else {
-			statusList = twitter.getUserTimeline(username);
-		}
+  @TaskerboxField("Filter")
+  @Getter
+  @Setter
+  private String filter;
 
-		status:
-		for (Status status : statusList) {
+  @NotEmpty
+  @TaskerboxField("Key")
+  @Getter
+  @Setter
+  private String consumerKey;
 
-			if (filter != null && !status.getText().contains(filter)) {
-				continue;
-			}
+  @NotEmpty
+  @TaskerboxField("Secret")
+  @Getter
+  @Setter
+  private String consumerSecret;
 
-			
-			StatusWrapper statusWrapper = new StatusWrapper(status);
-			
-			if (!alreadyPerformedAction(statusWrapper)) {
-				if (ignoreUsers != null && ignoreUsers.contains(status.getUser().getScreenName())) {
-					continue;
-				}
-				if (ignoreStarts != null) {
-					for (String start : ignoreStarts) {
-						if (status.getText().startsWith(start)) {
-							continue status;
-						}
-					}
-				}
-				
-				log.debug("Performing actions to entry: @" + status.getUser().getScreenName() + ": " + status.getText());
+  @NotEmpty
+  @TaskerboxField("Access Token")
+  @Getter
+  @Setter
+  private String accessToken;
 
-				perform(statusWrapper);
-				addAlreadyPerformedAction(statusWrapper);
-			}
+  @NotEmpty
+  @TaskerboxField("Access Token Secret")
+  @Getter
+  @Setter
+  private String accessTokenSecret;
 
-		}
-	}
+  private Twitter twitter;
 
-	public String getItemFingerprint(StatusWrapper status) {
-		return String.valueOf(status.getValue().getId());
-	}
-	
-	
+
+  @TaskerboxField("ignoreUsers")
+  @Getter
+  @Setter
+  private List<String> ignoreUsers;
+
+  @TaskerboxField("ignoreStarts")
+  @Getter
+  @Setter
+  private List<String> ignoreStarts;
+
+  @Override
+  public void setup() throws IllegalStateException, TwitterException {
+    logInfo(log, "Twitter setup...");
+
+    ConfigurationBuilder cb = new ConfigurationBuilder();
+    cb.setDebugEnabled(true).setOAuthConsumerKey(consumerKey)
+        .setOAuthConsumerSecret(consumerSecret).setOAuthAccessToken(accessToken)
+        .setOAuthAccessTokenSecret(accessTokenSecret);
+    TwitterFactory tf = new TwitterFactory(cb.build());
+
+    this.twitter = tf.getInstance();
+
+    this.loggedUser = this.twitter.getScreenName();
+
+    logInfo(log, "Twitter setup finished! Logged user is " + this.loggedUser);
+  }
+
+  @Override
+  protected void execute() throws TwitterException {
+    if (this.loggedUser == null) {
+      setup();
+    }
+
+    if (username != null) {
+      logInfo(log, "Checking tweets of @" + username + " with @" + loggedUser);
+    } else {
+      logInfo(log, "Checking tweets with @" + loggedUser);
+    }
+
+    ResponseList<Status> statusList;
+
+
+    if (username == null || username.equals("")) {
+      statusList = twitter.getHomeTimeline();
+    } else {
+      statusList = twitter.getUserTimeline(username);
+    }
+
+    status: for (Status status : statusList) {
+
+      if (filter != null && !status.getText().contains(filter)) {
+        continue;
+      }
+
+
+      StatusWrapper statusWrapper = new StatusWrapper(status);
+
+      if (!alreadyPerformedAction(statusWrapper)) {
+        if (ignoreUsers != null && ignoreUsers.contains(status.getUser().getScreenName())) {
+          continue;
+        }
+        if (ignoreStarts != null) {
+          for (String start : ignoreStarts) {
+            if (status.getText().startsWith(start)) {
+              continue status;
+            }
+          }
+        }
+
+        log.debug("Performing actions to entry: @" + status.getUser().getScreenName() + ": "
+            + status.getText());
+
+        perform(statusWrapper);
+        addAlreadyPerformedAction(statusWrapper);
+      }
+
+    }
+  }
+
+  public String getItemFingerprint(StatusWrapper status) {
+    return String.valueOf(status.getValue().getId());
+  }
+
+
 }

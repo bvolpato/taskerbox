@@ -37,197 +37,200 @@ import org.jsoup.select.Elements;
 @Log4j
 public class DiceJobSeeker extends DefaultJobSearchChannel {
 
-	@Getter @Setter
-	private String search;
+  @Getter
+  @Setter
+  private String search;
 
-	@Getter @Setter
-	private boolean externalApply;
-	
-	public static void main(String[] args) throws Exception {
-		
-		DiceJobSeeker seeker = new DiceJobSeeker();
-		seeker.setSearch("java");
-		seeker.setup();
-		seeker.setAction(new URLOpenerAction());
-		seeker.execute();
-		
-	}
-	
-	public void bootstrapHttpClient(boolean fetchCookie) throws IOException {
-		this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
-	}
+  @Getter
+  @Setter
+  private boolean externalApply;
 
-	public void setup() {
-		super.setup();
-		
-		try {
-			bootstrapHttpClient(true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	
-	private boolean handleJob(String jobTitle, String jobEmployer, String location, String jobUrl) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
+  public static void main(String[] args) throws Exception {
 
-		if (alreadyPerformedAction(jobUrl)) {
-			return true;
-		}
+    DiceJobSeeker seeker = new DiceJobSeeker();
+    seeker.setSearch("java");
+    seeker.setup();
+    seeker.setAction(new URLOpenerAction());
+    seeker.execute();
 
-		String headline = jobUrl + " - " + location + " - " + jobTitle + " - " + jobEmployer;
+  }
 
-		System.out.println(headline);
-		
-		if (!considerTitle(jobTitle)) {
-			logInfo(log, "-- Ignored [title] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+  public void bootstrapHttpClient(boolean fetchCookie) throws IOException {
+    this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
+  }
+
+  public void setup() {
+    super.setup();
+
+    try {
+      bootstrapHttpClient(true);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
 
-		if (!considerEmployer(jobEmployer)) {
-			logInfo(log, "-- Ignored [employer] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+  private boolean handleJob(String jobTitle, String jobEmployer, String location, String jobUrl)
+      throws JSONException, ClientProtocolException, IOException, URISyntaxException {
 
-		if (!considerLocation(location)) {
-			logInfo(log, "-- Ignored [location] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
-		
-		HttpEntity jobEntity = TaskerboxHttpBox.getInstance().getEntityForURL(jobUrl);
-		String jobResult = TaskerboxHttpBox.getInstance().readResponseFromEntity(jobEntity);
-		Document jobDocument = Jsoup.parse(jobResult);
-		
-		Elements elDescription = jobDocument.select("div.job_description");
-		if (elDescription.size() == 0) {
-			elDescription = jobDocument.select("div#detailDescription");
-		}
-		
-		/*
-		if (!jobDocument.html().contains("ApplyOnlineUrl: ''")
-				&& !jobDocument.html().contains("ApplyOnlineUrl: 'http://my.monster.com")
-				&& !externalApply) {
-			logInfo(log, "-- Ignored [externalApply] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
-		*/
-		
-		if (!considerVisaDescription(elDescription.html())) {
-			logInfo(log, "-- Ignored [visa] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
-		if (!considerExperienceDescription(elDescription.html())) {
-			log.info("-- Ignored [exp] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+    if (alreadyPerformedAction(jobUrl)) {
+      return true;
+    }
 
-		ScorerResult result = LinkedInJobDBComparer.getScore(elDescription.html());
+    String headline = jobUrl + " - " + location + " - " + jobTitle + " - " + jobEmployer;
 
-		if (result.getScore() < requiredScore) {
-			logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+    System.out.println(headline);
 
-		headline = headline + " - " + result.getMatches();
+    if (!considerTitle(jobTitle)) {
+      logInfo(log, "-- Ignored [title] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
 
-		logInfo(log, "Open --> " + headline);
-		//logInfo(log, elDescription.html());
 
-		performUnique(jobUrl);
+    if (!considerEmployer(jobEmployer)) {
+      logInfo(log, "-- Ignored [employer] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
 
-		try {
-			Thread.sleep(5000L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    if (!considerLocation(location)) {
+      logInfo(log, "-- Ignored [location] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
 
-		return true;
+    HttpEntity jobEntity = TaskerboxHttpBox.getInstance().getEntityForURL(jobUrl);
+    String jobResult = TaskerboxHttpBox.getInstance().readResponseFromEntity(jobEntity);
+    Document jobDocument = Jsoup.parse(jobResult);
 
-	}
+    Elements elDescription = jobDocument.select("div.job_description");
+    if (elDescription.size() == 0) {
+      elDescription = jobDocument.select("div#detailDescription");
+    }
 
-	@Override
-	protected void execute() throws Exception {
-		try {
-			for (int x = 1; x < maxPages; x++) {
-				int uniqueCount = 0;
+    /*
+     * if (!jobDocument.html().contains("ApplyOnlineUrl: ''") &&
+     * !jobDocument.html().contains("ApplyOnlineUrl: 'http://my.monster.com") && !externalApply) {
+     * logInfo(log, "-- Ignored [externalApply] " + headline); addAlreadyPerformedAction(jobUrl);
+     * return true; }
+     */
 
-				// DefaultHttpClient client =
-				// TaskerboxHttpBox.getInstance().buildNewHttpClient();
-				String seekUrl = "http://www.dice.com/job/results?n=50&q=" + URLEncoder.encode(search) + "&o=" + (x * 50);
-				logInfo(log, "... Seeking " + seekUrl);
-				HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
-				String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);
-				
-				if (result.contains("Sorry, no jobs were found that match your criteria")) {
-					System.err.println("Busca encerrada.");
-					this.bootstrapHttpClient(true);
-					break;
-					//return;
-				}
-	
-				try {
-					Document doc = Jsoup.parse(result);
-					
-					Elements el = doc.select("div#SRcolContainer").select("tr");
-	
-					for (val item : el) {
-						Elements jobEls = item.select("a");
-						if (jobEls.size() < 3) {
-							continue;
-						}
-						
-						String url = jobEls.get(0).attr("href");
-						if (url.equals("")) {
-							continue;
-						}
-						url = "http://www.dice.com" + url;
-						
-						if (url.contains("?src=")) {
-							url = url.substring(0, url.indexOf("?src="));
-						}
-						
-						String jobTitle = jobEls.get(0).text();
-						String company = jobEls.get(1).text();
-						String location = jobEls.get(2).text();
-						
-						//System.out.println("===============");
-						//System.out.println(item.html());
-						//System.out.println("===============");
-						
-						
-						if (!jobTitle.equalsIgnoreCase("Job Title")) {
-							handleJob(jobTitle, company, location, url);
-							uniqueCount++;
-						}
-						
-					}
-	
-					if (uniqueCount == 0) {
-						logInfo(log, "DICE BREAK -- NO UNIQUE COUNT");
-						break;
-					}
-	
-					try {
-						Thread.sleep(10000L);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}		
+    if (!considerVisaDescription(elDescription.html())) {
+      logInfo(log, "-- Ignored [visa] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+    if (!considerExperienceDescription(elDescription.html())) {
+      log.info("-- Ignored [exp] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
 
-	
-		
+    ScorerResult result = LinkedInJobDBComparer.getScore(elDescription.html());
+
+    if (result.getScore() < requiredScore) {
+      logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - "
+          + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    headline = headline + " - " + result.getMatches();
+
+    logInfo(log, "Open --> " + headline);
+    // logInfo(log, elDescription.html());
+
+    performUnique(jobUrl);
+
+    try {
+      Thread.sleep(5000L);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    return true;
+
+  }
+
+  @Override
+  protected void execute() throws Exception {
+    try {
+      for (int x = 1; x < maxPages; x++) {
+        int uniqueCount = 0;
+
+        // DefaultHttpClient client =
+        // TaskerboxHttpBox.getInstance().buildNewHttpClient();
+        String seekUrl =
+            "http://www.dice.com/job/results?n=50&q=" + URLEncoder.encode(search) + "&o="
+                + (x * 50);
+        logInfo(log, "... Seeking " + seekUrl);
+        HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
+        String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);
+
+        if (result.contains("Sorry, no jobs were found that match your criteria")) {
+          System.err.println("Busca encerrada.");
+          this.bootstrapHttpClient(true);
+          break;
+          // return;
+        }
+
+        try {
+          Document doc = Jsoup.parse(result);
+
+          Elements el = doc.select("div#SRcolContainer").select("tr");
+
+          for (val item : el) {
+            Elements jobEls = item.select("a");
+            if (jobEls.size() < 3) {
+              continue;
+            }
+
+            String url = jobEls.get(0).attr("href");
+            if (url.equals("")) {
+              continue;
+            }
+            url = "http://www.dice.com" + url;
+
+            if (url.contains("?src=")) {
+              url = url.substring(0, url.indexOf("?src="));
+            }
+
+            String jobTitle = jobEls.get(0).text();
+            String company = jobEls.get(1).text();
+            String location = jobEls.get(2).text();
+
+            // System.out.println("===============");
+            // System.out.println(item.html());
+            // System.out.println("===============");
+
+
+            if (!jobTitle.equalsIgnoreCase("Job Title")) {
+              handleJob(jobTitle, company, location, url);
+              uniqueCount++;
+            }
+
+          }
+
+          if (uniqueCount == 0) {
+            logInfo(log, "DICE BREAK -- NO UNIQUE COUNT");
+            break;
+          }
+
+          try {
+            Thread.sleep(10000L);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+
+
 }

@@ -25,16 +25,19 @@ import java.util.List;
 import org.brunocunha.inutils4j.MyStringUtils;
 
 public class LinkedInJobApplyFileReader {
-	public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
-		List<String> toApply = MyStringUtils.getContentLines(new File("C:\\Users\\bruno.cunha\\Dropbox\\Bruno\\Taskerbox\\TOAPPLY.txt"));
+  public static void main(String[] args) throws IOException, URISyntaxException,
+      InterruptedException {
+    List<String> toApply =
+        MyStringUtils.getContentLines(new File(
+            "C:\\Users\\bruno.cunha\\Dropbox\\Bruno\\Taskerbox\\TOAPPLY.txt"));
 
-		for (String string : toApply) {
-			String url = string.split(";")[0];
-			System.out.println(url);
-			Desktop.getDesktop().browse(new URI(url));
-			
-			Thread.sleep(500L);
-			
-		}
-	}
+    for (String string : toApply) {
+      String url = string.split(";")[0];
+      System.out.println(url);
+      Desktop.getDesktop().browse(new URI(url));
+
+      Thread.sleep(500L);
+
+    }
+  }
 }

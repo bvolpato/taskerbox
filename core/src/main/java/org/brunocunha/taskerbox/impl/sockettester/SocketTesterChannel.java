@@ -27,71 +27,76 @@ import org.brunocvcunha.sockettester.vo.SocketTesterVO;
 @Log4j
 public class SocketTesterChannel extends TaskerboxChannel<SocketTesterVO> {
 
-	@TaskerboxField("Type")
-	@Getter @Setter
-	private String type;
-	
-	@TaskerboxField("Name")
-	@Getter @Setter
-	private String name;
-	
-	@TaskerboxField("Host")
-	@Getter @Setter
-	private String host;
-	
-	@TaskerboxField("Port")
-	@Getter @Setter
-	private int port;
-	
-	@TaskerboxField("Service")
-	@Getter @Setter
-	private String service;
-	
-	@Getter @Setter
-	private String status;
+  @TaskerboxField("Type")
+  @Getter
+  @Setter
+  private String type;
 
-	@Override
-	public void setup() {
-	}
+  @TaskerboxField("Name")
+  @Getter
+  @Setter
+  private String name;
 
-	@Override
-	protected void execute() throws Exception {
+  @TaskerboxField("Host")
+  @Getter
+  @Setter
+  private String host;
 
-		SocketTesterVO vo = new SocketTesterVO();
-		vo.setName(name);
-		vo.setHost(host);
-		vo.setPort(port);
-		vo.setService(service);
-		vo.setStatus(status);
-		vo.setType(type);
+  @TaskerboxField("Port")
+  @Getter
+  @Setter
+  private int port;
 
-		log.debug("Validating service " + id + " - " + vo);
-		SocketTesterController.validate(vo);
+  @TaskerboxField("Service")
+  @Getter
+  @Setter
+  private String service;
 
-		if (!vo.isValid()) {
-			perform(vo);
-		}
-	}
+  @Getter
+  @Setter
+  private String status;
 
-	@Override
-	protected String getItemFingerprint(SocketTesterVO entry) {
-		return entry.toString();
-	}
+  @Override
+  public void setup() {}
 
-	@Override
-	public String getDisplayName() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(this.getId());
-		if (this.getName() != null && !this.getName().equals("")) {
-			sb.append(" (").append(this.getName()).append(")");
-		}
-		return sb.toString();
-	}
+  @Override
+  protected void execute() throws Exception {
 
-	@Override
-	public String toString() {
-		return "SocketTesterChannel [type=" + type + ", name=" + name + ", host=" + host + ", port=" + port
-				+ ", status=" + status + ", service=" + service + "]";
-	}
+    SocketTesterVO vo = new SocketTesterVO();
+    vo.setName(name);
+    vo.setHost(host);
+    vo.setPort(port);
+    vo.setService(service);
+    vo.setStatus(status);
+    vo.setType(type);
+
+    log.debug("Validating service " + id + " - " + vo);
+    SocketTesterController.validate(vo);
+
+    if (!vo.isValid()) {
+      perform(vo);
+    }
+  }
+
+  @Override
+  protected String getItemFingerprint(SocketTesterVO entry) {
+    return entry.toString();
+  }
+
+  @Override
+  public String getDisplayName() {
+    StringBuffer sb = new StringBuffer();
+    sb.append(this.getId());
+    if (this.getName() != null && !this.getName().equals("")) {
+      sb.append(" (").append(this.getName()).append(")");
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public String toString() {
+    return "SocketTesterChannel [type=" + type + ", name=" + name + ", host=" + host + ", port="
+        + port + ", status=" + status + ", service=" + service + "]";
+  }
 
 }

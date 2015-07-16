@@ -30,30 +30,32 @@ import com.sun.syndication.feed.synd.SyndEntry;
 
 /**
  * SyndEntry Wrapper - Emailable
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
 @RequiredArgsConstructor
 public class SyndEntryWrapper implements ITaskerboxEmailable {
 
-	@Getter @Setter
-	private SyndEntry value;
-	
-	public SyndEntryWrapper(SyndEntry value) {
-		this.value = value;
-	}
+  @Getter
+  @Setter
+  private SyndEntry value;
 
-	@Override
-	public String getEmailTitle(TaskerboxChannel<?> channel) {
-		return "[" + channel.getId() + "] " + value.getTitle();
-	}
+  public SyndEntryWrapper(SyndEntry value) {
+    this.value = value;
+  }
 
-	@Override
-	public String getEmailBody(TaskerboxChannel<?> channel) {
-		
-		Properties templateProps = new Properties();
-		templateProps.put("entry", value);
+  @Override
+  public String getEmailTitle(TaskerboxChannel<?> channel) {
+    return "[" + channel.getId() + "] " + value.getTitle();
+  }
 
-		return TaskerboxVelocityUtils.processTemplate("email/synd.html", templateProps);
-	}
+  @Override
+  public String getEmailBody(TaskerboxChannel<?> channel) {
+
+    Properties templateProps = new Properties();
+    templateProps.put("entry", value);
+
+    return TaskerboxVelocityUtils.processTemplate("email/synd.html", templateProps);
+  }
 }

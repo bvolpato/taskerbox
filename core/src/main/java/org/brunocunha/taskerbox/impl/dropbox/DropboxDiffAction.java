@@ -23,11 +23,11 @@ import com.dropbox.core.DbxDelta;
 import com.dropbox.core.DbxEntry;
 
 @Log4j
-public class DropboxDiffAction extends DefaultTaskerboxAction<DbxDelta.Entry<DbxEntry>>{
+public class DropboxDiffAction extends DefaultTaskerboxAction<DbxDelta.Entry<DbxEntry>> {
 
-	@Override
-	public void action(DbxDelta.Entry<DbxEntry> entry) {
-		logInfo(log, "Detected change: " + entry);
-	}
+  @Override
+  public void action(DbxDelta.Entry<DbxEntry> entry) {
+    logInfo(log, "Detected change: " + entry);
+  }
 
 }

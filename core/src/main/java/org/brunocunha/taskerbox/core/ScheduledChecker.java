@@ -29,6 +29,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Thread that is created by a scheduler
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -36,45 +37,48 @@ import lombok.extern.log4j.Log4j;
 @RequiredArgsConstructor
 public class ScheduledChecker extends Thread {
 
-	@NonNull
-	@Getter @Setter
-	private TaskerboxChannel<?> channel;
+  @NonNull
+  @Getter
+  @Setter
+  private TaskerboxChannel<?> channel;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Thread#run()
-	 */
-	public void run() {
-		try {
-			if (!channel.isPaused()) {
-				
-				if (channel.getTimeout() <= 0) {
-					channel.check();
-				} else {
-					
-					ExecutorService executor = Executors.newCachedThreadPool();
-					Callable<Object> task = new Callable<Object>() {
-					   public Object call() throws Exception {
-						  channel.check();
-					      return channel.getCheckCount();
-					   }
-					};
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Thread#run()
+   */
+  public void run() {
+    try {
+      if (!channel.isPaused()) {
 
-					Future<Object> future = executor.submit(task);
-					try {
-					   future.get(channel.getTimeout(), TimeUnit.MILLISECONDS); 
-					} catch (Exception e) {
-					   log.warn("Timeout reached on scheduler for " + channel.getId());
-					} finally {
-					   future.cancel(true); 
-					}
+        if (channel.getTimeout() <= 0) {
+          channel.check();
+        } else {
 
-					
-				}
-				
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+          ExecutorService executor = Executors.newCachedThreadPool();
+          Callable<Object> task = new Callable<Object>() {
+            public Object call() throws Exception {
+              channel.check();
+              return channel.getCheckCount();
+            }
+          };
+
+          Future<Object> future = executor.submit(task);
+          try {
+            future.get(channel.getTimeout(), TimeUnit.MILLISECONDS);
+          } catch (Exception e) {
+            log.warn("Timeout reached on scheduler for " + channel.getId());
+          } finally {
+            future.cancel(true);
+          }
+
+
+        }
+
+
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

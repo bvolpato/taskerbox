@@ -41,147 +41,146 @@ import org.brunocunha.taskerbox.impl.toaster.StringToasterAction;
 @Log4j
 public class LogWatchAction extends EmailDelegateAction<String> {
 
-	@Getter
-	private Set<String> alreadyAct = new TreeSet<String>();
+  @Getter
+  private Set<String> alreadyAct = new TreeSet<String>();
 
-	@Getter @Setter
-	private List<String> seekFor;
-	
-	@Getter @Setter
-	private List<String> ignored;
-	
-	@Override
-	public void setup() {
-		try {
-			alreadyAct = (Set<String>) TaskerboxFileUtils
-					.deserializeMemory(this);
-		} catch (Exception e) {
-			logWarn(log, "Error occurred while deserializing data for "
-					+ this.getId() + ": " + e.getMessage());
-		}
-	}
+  @Getter
+  @Setter
+  private List<String> seekFor;
 
-	
-	@Override
-	public void action(final String entry) {
+  @Getter
+  @Setter
+  private List<String> ignored;
+
+  @Override
+  public void setup() {
+    try {
+      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+    } catch (Exception e) {
+      logWarn(log,
+          "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
+    }
+  }
 
 
-			final String fullLog = entry;
-
-			File saveResultFile = ((LogWatchChannel)getChannel()).getSaveResultFile();
-			
-			if (saveResultFile != null
-					&& !fullLog.contains("404 - File or directory not found")) {
-				try {
-					
-					if (saveResultFile.length() != fullLog.length()) {
-						logInfo(log, "Saving content to file " + saveResultFile.getAbsolutePath() + " [updated- was " + saveResultFile.length() + " now " + fullLog.length() + "]...");
-						FileWriter out = new FileWriter(saveResultFile);
-						out.write(fullLog);
-						out.close();
-					} else {
-						log.debug("Same size from content var and log (" + fullLog.length() + "). Ignoring...");
-					}
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-			boolean needSerialize = false;
-			List<String> newLines = new ArrayList<String>();
-
-			String[] logLines = fullLog.split("(\r?\n)+");
-
-			line:
-			for (String logLine : logLines) {
-				logLine = logLine.trim();
-				
-				boolean validLine = false;
-				
-				if (ignored != null
-						&& ignored.size() > 0) {
-					for (String ignoredStr : ignored) {
-						if (logLine.toLowerCase().contains(ignoredStr.toLowerCase())) {
-							continue line;
-						}
-					}
-				}
-				
-				for (String seek : seekFor) {
-					if (logLine.toLowerCase().contains(seek.toLowerCase())) {
-						
-						validLine = true;
-						break;
-					}
-				}
-				
-				if (!validLine) {
-					continue;
-				}
-				
-				if (!alreadyAct.contains(logLine)) {
-					alreadyAct.add(logLine);
-					needSerialize = true;
-
-					newLines.add(logLine);
-					
-					spreadToaster(getChannel().getProperty("url"), logLine);
-					logInfo(log, "Found new line --> " + logLine);
-				} else {
-					log.debug("Found valid line, but already alerted --> " + logLine);
-				}
+  @Override
+  public void action(final String entry) {
 
 
-			}
+    final String fullLog = entry;
 
-			if (newLines.size() > 0) {
+    File saveResultFile = ((LogWatchChannel) getChannel()).getSaveResultFile();
 
-				
-				EmailAction email = getEmailAction();
-				EmailValueVO emailVO = new EmailValueVO();
-				emailVO.setTitle("Log Watcher [" + getChannel().getId() + "]");
+    if (saveResultFile != null && !fullLog.contains("404 - File or directory not found")) {
+      try {
 
-				StringBuffer sb = new StringBuffer();
+        if (saveResultFile.length() != fullLog.length()) {
+          logInfo(log, "Saving content to file " + saveResultFile.getAbsolutePath()
+              + " [updated- was " + saveResultFile.length() + " now " + fullLog.length() + "]...");
+          FileWriter out = new FileWriter(saveResultFile);
+          out.write(fullLog);
+          out.close();
+        } else {
+          log.debug("Same size from content var and log (" + fullLog.length() + "). Ignoring...");
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    boolean needSerialize = false;
+    List<String> newLines = new ArrayList<String>();
 
-				sb.append(getChannel().getProperty("url")).append("<br>");
-				for (String line : newLines) {
-					sb.append(line).append("<br>");
-				}
-				emailVO.setBody(sb.toString());
+    String[] logLines = fullLog.split("(\r?\n)+");
 
-				email.action(emailVO);
+    line: for (String logLine : logLines) {
+      logLine = logLine.trim();
 
-			}
+      boolean validLine = false;
 
-			if (needSerialize) {
-				try {
-					TaskerboxFileUtils.serializeMemory(this, alreadyAct);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
+      if (ignored != null && ignored.size() > 0) {
+        for (String ignoredStr : ignored) {
+          if (logLine.toLowerCase().contains(ignoredStr.toLowerCase())) {
+            continue line;
+          }
+        }
+      }
 
-	}
+      for (String seek : seekFor) {
+        if (logLine.toLowerCase().contains(seek.toLowerCase())) {
 
-	public void spreadToaster(final String url, String postTitle) {
-		StringToasterAction toasterAction = new StringToasterAction();
-		toasterAction.setActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI(url));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+          validLine = true;
+          break;
+        }
+      }
 
-			}
-		});
+      if (!validLine) {
+        continue;
+      }
 
-		toasterAction.setTitle("Log Watcher Alert");
-		toasterAction.action(postTitle);
+      if (!alreadyAct.contains(logLine)) {
+        alreadyAct.add(logLine);
+        needSerialize = true;
 
-	}
+        newLines.add(logLine);
 
-	
+        spreadToaster(getChannel().getProperty("url"), logLine);
+        logInfo(log, "Found new line --> " + logLine);
+      } else {
+        log.debug("Found valid line, but already alerted --> " + logLine);
+      }
+
+
+    }
+
+    if (newLines.size() > 0) {
+
+
+      EmailAction email = getEmailAction();
+      EmailValueVO emailVO = new EmailValueVO();
+      emailVO.setTitle("Log Watcher [" + getChannel().getId() + "]");
+
+      StringBuffer sb = new StringBuffer();
+
+      sb.append(getChannel().getProperty("url")).append("<br>");
+      for (String line : newLines) {
+        sb.append(line).append("<br>");
+      }
+      emailVO.setBody(sb.toString());
+
+      email.action(emailVO);
+
+    }
+
+    if (needSerialize) {
+      try {
+        TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+
+  }
+
+  public void spreadToaster(final String url, String postTitle) {
+    StringToasterAction toasterAction = new StringToasterAction();
+    toasterAction.setActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        } catch (URISyntaxException e1) {
+          e1.printStackTrace();
+        }
+
+      }
+    });
+
+    toasterAction.setTitle("Log Watcher Alert");
+    toasterAction.action(postTitle);
+
+  }
+
+
 }

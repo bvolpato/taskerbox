@@ -32,10 +32,10 @@ import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
 @Log4j
 public class ToasterAction<T> extends DefaultTaskerboxAction<T> {
 
-	@Override
-	public void action(T object) {
-		TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE,
-				object.toString(), MessageType.INFO, null);
-	}
+  @Override
+  public void action(T object) {
+    TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, object.toString(),
+        MessageType.INFO, null);
+  }
 
 }

@@ -34,22 +34,22 @@ import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
  * 
  */
 @Log4j
-public class CorreiosToasterAction extends
-		DefaultTaskerboxAction<CorreiosTrackingWrapper> {
+public class CorreiosToasterAction extends DefaultTaskerboxAction<CorreiosTrackingWrapper> {
 
-	@Getter @Setter
-	private ActionListener actionListener;
+  @Getter
+  @Setter
+  private ActionListener actionListener;
 
-	@Getter @Setter
-	private String title = TaskerboxConstants.TITLE;
+  @Getter
+  @Setter
+  private String title = TaskerboxConstants.TITLE;
 
-	@Override
-	public void action(final CorreiosTrackingWrapper entry) {
-		log.debug("Action on CorreiosToasterAction: " + entry);
-		TaskerboxTrayUtils.displayMessage(title, CorreiosChannel
-				.formatTracking(entry.getValue(), getChannel().getProperty("tracking"),
-						getChannel().getProperty("descricao")),
-				MessageType.INFO, actionListener);
-	}
+  @Override
+  public void action(final CorreiosTrackingWrapper entry) {
+    log.debug("Action on CorreiosToasterAction: " + entry);
+    TaskerboxTrayUtils.displayMessage(title, CorreiosChannel.formatTracking(entry.getValue(),
+        getChannel().getProperty("tracking"), getChannel().getProperty("descricao")),
+        MessageType.INFO, actionListener);
+  }
 
 }

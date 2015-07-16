@@ -31,51 +31,54 @@ import org.jsoup.nodes.Document;
 @Log4j
 public class MeuIPAction extends DefaultTaskerboxAction<Document> {
 
-	private String id;
+  private String id;
 
-	private File outputFile;
-	
-	@Override
-	public void action(final Document entry) {
-		
-		String body = entry.html();
-		//System.out.println(body);
-		String ip = MyStringUtils.regexFindFirst("getElementById\\(\"div_reverso\"\\).innerHTML = \"(.*?)\"", body);
-		logInfo(log, "IP Address Found: " + ip);
-		
-		if (outputFile != null) {
-		FileWriter out;
-			try {
-				out = new FileWriter(outputFile, true);
-				out.write(getTimestamp() + " " + InetAddress.getLocalHost().getHostName() + " - " + ip + "\r\n");
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+  private File outputFile;
 
-	public String getId() {
-		return id;
-	}
+  @Override
+  public void action(final Document entry) {
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    String body = entry.html();
+    // System.out.println(body);
+    String ip =
+        MyStringUtils.regexFindFirst("getElementById\\(\"div_reverso\"\\).innerHTML = \"(.*?)\"",
+            body);
+    logInfo(log, "IP Address Found: " + ip);
 
-    public static String getTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return "[".concat(sdf.format(new Date())).concat("]");
+    if (outputFile != null) {
+      FileWriter out;
+      try {
+        out = new FileWriter(outputFile, true);
+        out.write(getTimestamp() + " " + InetAddress.getLocalHost().getHostName() + " - " + ip
+            + "\r\n");
+        out.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
+  }
 
-	public File getOutputFile() {
-		return outputFile;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setOutputFile(File outputFile) {
-		this.outputFile = outputFile;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    
-	
+  public static String getTimestamp() {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    return "[".concat(sdf.format(new Date())).concat("]");
+  }
+
+  public File getOutputFile() {
+    return outputFile;
+  }
+
+  public void setOutputFile(File outputFile) {
+    this.outputFile = outputFile;
+  }
+
+
+
 }

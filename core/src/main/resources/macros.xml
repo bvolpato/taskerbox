@@ -59,29 +59,31 @@
 			</org.brunocunha.taskerbox.impl.sockettester.SocketTesterChannel>
 		</macro>
 
-		<macro name="linkedin-jobs" delay="900000" requiredScore="2000" externalApply="false" paused="true">
+		<macro name="linkedin-jobs" delay="900000" requiredScore="2000"
+			externalApply="false" paused="true">
 			<org.brunocunha.taskerbox.impl.jobs.LinkedInJobSeeker
 				id="{id}" userEmail="{email}" userPassword="{password}" search="{search}"
-				countries="{countries}" every="{delay}" externalApply="{externalApply}" requiredScore="{requiredScore}"
-				paused="{paused}">
+				countries="{countries}" every="{delay}" externalApply="{externalApply}"
+				requiredScore="{requiredScore}" paused="{paused}">
 				<org.brunocunha.taskerbox.impl.http.URLOpenerAction />
 			</org.brunocunha.taskerbox.impl.jobs.LinkedInJobSeeker>
 		</macro>
 
-		<macro name="monster-jobs" delay="900000" requiredScore="2000" externalApply="false" site="com">
+		<macro name="monster-jobs" delay="900000" requiredScore="2000"
+			externalApply="false" site="com">
 			<org.brunocunha.taskerbox.impl.jobs.MonsterJobSeeker
-				id="{id}" search="{search}" site="{site}"
-				every="{delay}" requiredScore="{requiredScore}" externalApply="{externalApply}"
+				id="{id}" search="{search}" site="{site}" every="{delay}"
+				requiredScore="{requiredScore}" externalApply="{externalApply}"
 				paused="true">
 				<org.brunocunha.taskerbox.impl.http.URLOpenerAction />
 			</org.brunocunha.taskerbox.impl.jobs.MonsterJobSeeker>
 		</macro>
 
-		<macro name="dice-jobs" delay="900000" requiredScore="2000" externalApply="false">
+		<macro name="dice-jobs" delay="900000" requiredScore="2000"
+			externalApply="false">
 			<org.brunocunha.taskerbox.impl.jobs.DiceJobSeeker
-				id="{id}" search="{search}"
-				every="{delay}" requiredScore="{requiredScore}" externalApply="{externalApply}"
-				paused="true">
+				id="{id}" search="{search}" every="{delay}" requiredScore="{requiredScore}"
+				externalApply="{externalApply}" paused="true">
 				<org.brunocunha.taskerbox.impl.http.URLOpenerAction />
 			</org.brunocunha.taskerbox.impl.jobs.DiceJobSeeker>
 		</macro>

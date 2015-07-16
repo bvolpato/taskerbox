@@ -35,16 +35,18 @@ import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
 @Log4j
 public class StringToasterAction extends DefaultTaskerboxAction<String> {
 
-	@Getter @Setter
-	private ActionListener actionListener;
-	
-	@Getter @Setter
-	private String title = TaskerboxConstants.TITLE;
-	
-	@Override
-	public void action(final String entry) {
-		log.debug("Action on StringToasterAction: " + title + " / " + entry);
-		TaskerboxTrayUtils.displayMessage(title, entry, MessageType.INFO, actionListener);
-	}
+  @Getter
+  @Setter
+  private ActionListener actionListener;
+
+  @Getter
+  @Setter
+  private String title = TaskerboxConstants.TITLE;
+
+  @Override
+  public void action(final String entry) {
+    log.debug("Action on StringToasterAction: " + title + " / " + entry);
+    TaskerboxTrayUtils.displayMessage(title, entry, MessageType.INFO, actionListener);
+  }
 
 }

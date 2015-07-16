@@ -72,7 +72,7 @@ public class WhatsappAction extends DefaultTaskerboxAction<Object> {
   @Getter
   @Setter
   private Long messageInterval = 2000L;
-  
+
   @Override
   public void action(Object text) {
 
@@ -94,7 +94,7 @@ public class WhatsappAction extends DefaultTaskerboxAction<Object> {
     WhatsApi api = WhatsappConnection.getOrCreateInstance(from, appName, alias, password);
     try {
       api.sendMessage(to, sendMessage);
-      Thread.sleep(messageInterval); //Some delay
+      Thread.sleep(messageInterval); // Some delay
     } catch (WhatsAppException e) {
       log.error("Error sending WhatsApp Message", e);
     } catch (InterruptedException e) {

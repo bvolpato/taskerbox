@@ -18,28 +18,32 @@ package org.brunocunha.taskerbox.impl.jobs.vo;
 import java.util.List;
 
 public class ScorerResult {
-	private int score;
-	private List<String> matches;
-	
-	
-	
-	public ScorerResult(int score, List<String> matches) {
-		super();
-		this.score = score;
-		this.matches = matches;
-	}
-	public int getScore() {
-		return score;
-	}
-	public void setScore(int score) {
-		this.score = score;
-	}
-	public List<String> getMatches() {
-		return matches;
-	}
-	public void setMatches(List<String> matches) {
-		this.matches = matches;
-	}
+  private int score;
+  private List<String> matches;
 
-	
+
+
+  public ScorerResult(int score, List<String> matches) {
+    super();
+    this.score = score;
+    this.matches = matches;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public List<String> getMatches() {
+    return matches;
+  }
+
+  public void setMatches(List<String> matches) {
+    this.matches = matches;
+  }
+
+
 }

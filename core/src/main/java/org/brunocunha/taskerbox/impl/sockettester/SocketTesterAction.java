@@ -36,29 +36,32 @@ import org.brunocvcunha.sockettester.vo.SocketTesterVO;
 @Log4j
 public class SocketTesterAction extends DefaultTaskerboxAction<SocketTesterVO> {
 
-	@Getter @Setter
-	private ActionListener actionListener;
-	
-	@Getter @Setter
-	private String title = TaskerboxConstants.TITLE;
-	
-	@Override
-	public void action(final SocketTesterVO entry) {
-		log.debug("Action on SocketTesterAction: " + entry);
-		
-		StringBuffer sb = new StringBuffer();
-		sb.append("Environment Problems");
-		
-		if (entry.getName() != null) {
-			sb.append(" - ").append(entry.getName());
-		}
-		if (entry.getHost() != null) {
-			sb.append(" - ").append(entry.getHost()).append(":").append(entry.getPort());
-		}
-		if (entry.getService() != null) {
-			sb.append(" - Service: ").append(entry.getService());
-		}
-		
-		TaskerboxTrayUtils.displayMessage("Taskerbox - Socket Tester", sb.toString(), MessageType.ERROR, actionListener);
-	}
+  @Getter
+  @Setter
+  private ActionListener actionListener;
+
+  @Getter
+  @Setter
+  private String title = TaskerboxConstants.TITLE;
+
+  @Override
+  public void action(final SocketTesterVO entry) {
+    log.debug("Action on SocketTesterAction: " + entry);
+
+    StringBuffer sb = new StringBuffer();
+    sb.append("Environment Problems");
+
+    if (entry.getName() != null) {
+      sb.append(" - ").append(entry.getName());
+    }
+    if (entry.getHost() != null) {
+      sb.append(" - ").append(entry.getHost()).append(":").append(entry.getPort());
+    }
+    if (entry.getService() != null) {
+      sb.append(" - Service: ").append(entry.getService());
+    }
+
+    TaskerboxTrayUtils.displayMessage("Taskerbox - Socket Tester", sb.toString(),
+        MessageType.ERROR, actionListener);
+  }
 }

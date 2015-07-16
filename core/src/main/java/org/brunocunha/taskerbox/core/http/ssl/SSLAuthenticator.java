@@ -27,30 +27,28 @@ import javax.net.ssl.X509TrustManager;
  */
 public class SSLAuthenticator extends javax.mail.Authenticator {
 
-	private PasswordAuthentication authentication;
+  private PasswordAuthentication authentication;
 
-	public SSLAuthenticator(String userName, String password) {
-		authentication = new PasswordAuthentication(userName, password);
-	}
+  public SSLAuthenticator(String userName, String password) {
+    authentication = new PasswordAuthentication(userName, password);
+  }
 
-	public PasswordAuthentication getPasswordAuthentication() {
-		return authentication;
-	}
+  public PasswordAuthentication getPasswordAuthentication() {
+    return authentication;
+  }
 
-	public static class DefaultTrustManager implements X509TrustManager {
+  public static class DefaultTrustManager implements X509TrustManager {
 
-		@Override
-		public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		}
+    @Override
+    public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
 
-		@Override
-		public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		}
+    @Override
+    public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
 
-		@Override
-		public X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
-	}
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+      return null;
+    }
+  }
 
 }

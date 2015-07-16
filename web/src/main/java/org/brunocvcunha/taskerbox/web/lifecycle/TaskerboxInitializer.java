@@ -45,12 +45,12 @@ public class TaskerboxInitializer implements ServletContextListener {
   @Override
   public void contextInitialized(ServletContextEvent sce) {
     log.info("Initializating Taskerbox...");
-    
+
     try {
 
       taskerboxInstance = new Taskerbox();
       taskerboxInstance.handleDefaultFiles();
-      
+
     } catch (Exception e) {
       throw new RuntimeException("Exception initializing taskerbox", e);
     }
@@ -59,15 +59,15 @@ public class TaskerboxInitializer implements ServletContextListener {
   @Override
   public void contextDestroyed(ServletContextEvent sce) {
     log.info("Destroying Taskerbox...");
-    
+
     if (taskerboxInstance != null) {
-      
+
       for (TaskerboxChannel<?> channel : taskerboxInstance.getChannels()) {
         channel.getScheduler().shutdown();
       }
-      
+
     }
-    
+
   }
 
 

@@ -1,231 +1,261 @@
-<definitions name='DatasetServiceService' targetNamespace='http://ws.dataservice.webdesk.technology.datasul.com/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://jaxb.dev.java.net/array' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.dataservice.webdesk.technology.datasul.com/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
- <types>
-  <xs:schema targetNamespace='http://ws.dataservice.webdesk.technology.datasul.com/' version='1.0' xmlns:tns='http://ws.dataservice.webdesk.technology.datasul.com/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
-   <xs:element name='Exception' type='tns:Exception'/>
-   <xs:complexType name='Exception'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='message' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='searchConstraintDto'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='contraintType' type='xs:string'/>
-     <xs:element minOccurs='0' name='fieldName' type='xs:string'/>
-     <xs:element minOccurs='0' name='finalValue' type='xs:string'/>
-     <xs:element minOccurs='0' name='initialValue' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='datasetDto'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='columns' nillable='true' type='xs:string'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='values' nillable='true' type='tns:valuesDto'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='valuesDto'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='value' nillable='true' type='xs:anyType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='dataset'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='datasetBuilder' type='xs:string'/>
-     <xs:element minOccurs='0' name='datasetDescription' type='xs:string'/>
-     <xs:element minOccurs='0' name='datasetImpl' type='xs:string'/>
-     <xs:element minOccurs='0' name='datasetPK' type='tns:datasetPK'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='datasetPK'>
-    <xs:sequence>
-     <xs:element name='companyId' type='xs:int'/>
-     <xs:element minOccurs='0' name='datasetId' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType final='#all' name='searchConstraintDtoArray'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='item' nillable='true' type='tns:searchConstraintDto'/>
-    </xs:sequence>
-   </xs:complexType>
-  </xs:schema>
-  <xs:schema targetNamespace='http://jaxb.dev.java.net/array' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
-   <xs:complexType final='#all' name='anyTypeArray'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='item' nillable='true' type='xs:anyType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType final='#all' name='stringArray'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='item' nillable='true' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-  </xs:schema>
- </types>
- <message name='DatasetService_addDataset'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
-  <part name='name' type='xsd:string'></part>
-  <part name='description' type='xsd:string'></part>
-  <part name='impl' type='xsd:string'></part>
- </message>
- <message name='Exception'>
-  <part element='tns:Exception' name='Exception'></part>
- </message>
- <message name='DatasetService_deleteDataset'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
-  <part name='name' type='xsd:string'></part>
- </message>
- <message name='DatasetService_getAvailableDatasetsResponse'>
-  <part name='datasets' type='ns1:anyTypeArray'></part>
- </message>
- <message name='DatasetService_loadDataset'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
-  <part name='name' type='xsd:string'></part>
- </message>
- <message name='DatasetService_deleteDatasetResponse'></message>
- <message name='DatasetService_updateDataset'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
-  <part name='name' type='xsd:string'></part>
-  <part name='description' type='xsd:string'></part>
-  <part name='impl' type='xsd:string'></part>
- </message>
- <message name='DatasetService_addDatasetResponse'></message>
- <message name='DatasetService_updateDatasetResponse'></message>
- <message name='DatasetService_getDataset'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
-  <part name='name' type='xsd:string'></part>
-  <part name='fields' type='ns1:stringArray'></part>
-  <part name='constraints' type='tns:searchConstraintDtoArray'></part>
-  <part name='order' type='ns1:stringArray'></part>
- </message>
- <message name='DatasetService_loadDatasetResponse'>
-  <part name='dataset' type='tns:dataset'></part>
- </message>
- <message name='DatasetService_getDatasetResponse'>
-  <part name='dataset' type='tns:datasetDto'></part>
- </message>
- <message name='DatasetService_getAvailableDatasets'>
-  <part name='companyId' type='xsd:int'></part>
-  <part name='username' type='xsd:string'></part>
-  <part name='password' type='xsd:string'></part>
- </message>
- <portType name='DatasetService'>
-  <operation name='addDataset' parameterOrder='companyId username password name description impl'>
-   <input message='tns:DatasetService_addDataset'></input>
-   <output message='tns:DatasetService_addDatasetResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
-  <operation name='deleteDataset' parameterOrder='companyId username password name'>
-   <input message='tns:DatasetService_deleteDataset'></input>
-   <output message='tns:DatasetService_deleteDatasetResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
-  <operation name='getAvailableDatasets' parameterOrder='companyId username password'>
-   <input message='tns:DatasetService_getAvailableDatasets'></input>
-   <output message='tns:DatasetService_getAvailableDatasetsResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
-  <operation name='getDataset' parameterOrder='companyId username password name fields constraints order'>
-   <input message='tns:DatasetService_getDataset'></input>
-   <output message='tns:DatasetService_getDatasetResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
-  <operation name='loadDataset' parameterOrder='companyId username password name'>
-   <input message='tns:DatasetService_loadDataset'></input>
-   <output message='tns:DatasetService_loadDatasetResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
-  <operation name='updateDataset' parameterOrder='companyId username password name description impl'>
-   <input message='tns:DatasetService_updateDataset'></input>
-   <output message='tns:DatasetService_updateDatasetResponse'></output>
-   <fault message='tns:Exception' name='Exception'></fault>
-  </operation>
- </portType>
- <binding name='DatasetServiceBinding' type='tns:DatasetService'>
-  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
-  <operation name='addDataset'>
-   <soap:operation soapAction='addDataset'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='deleteDataset'>
-   <soap:operation soapAction='deleteDataset'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='getAvailableDatasets'>
-   <soap:operation soapAction='getAvailableDatasets'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='getDataset'>
-   <soap:operation soapAction='getDataset'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='loadDataset'>
-   <soap:operation soapAction='loadDataset'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='updateDataset'>
-   <soap:operation soapAction='updateDataset'/>
-   <input>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/' use='literal'/>
-   </output>
-   <fault name='Exception'>
-    <soap:fault name='Exception' use='literal'/>
-   </fault>
-  </operation>
- </binding>
- <service name='DatasetServiceService'>
-  <port binding='tns:DatasetServiceBinding' name='DatasetServicePort'>
-   <soap:address location='http://JCVIBMA558:9383/webdesk/DatasetService'/>
-  </port>
- </service>
+<definitions name='DatasetServiceService'
+	targetNamespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+	xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://jaxb.dev.java.net/array'
+	xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.dataservice.webdesk.technology.datasul.com/'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+	<types>
+		<xs:schema targetNamespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+			version='1.0' xmlns:tns='http://ws.dataservice.webdesk.technology.datasul.com/'
+			xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+			<xs:element name='Exception' type='tns:Exception' />
+			<xs:complexType name='Exception'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='message' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='searchConstraintDto'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='contraintType' type='xs:string' />
+					<xs:element minOccurs='0' name='fieldName' type='xs:string' />
+					<xs:element minOccurs='0' name='finalValue' type='xs:string' />
+					<xs:element minOccurs='0' name='initialValue' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='datasetDto'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='columns'
+						nillable='true' type='xs:string' />
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='values'
+						nillable='true' type='tns:valuesDto' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='valuesDto'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='value'
+						nillable='true' type='xs:anyType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='dataset'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='datasetBuilder' type='xs:string' />
+					<xs:element minOccurs='0' name='datasetDescription'
+						type='xs:string' />
+					<xs:element minOccurs='0' name='datasetImpl' type='xs:string' />
+					<xs:element minOccurs='0' name='datasetPK' type='tns:datasetPK' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='datasetPK'>
+				<xs:sequence>
+					<xs:element name='companyId' type='xs:int' />
+					<xs:element minOccurs='0' name='datasetId' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType final='#all' name='searchConstraintDtoArray'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='item'
+						nillable='true' type='tns:searchConstraintDto' />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+		<xs:schema targetNamespace='http://jaxb.dev.java.net/array'
+			version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+			<xs:complexType final='#all' name='anyTypeArray'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='item'
+						nillable='true' type='xs:anyType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType final='#all' name='stringArray'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='item'
+						nillable='true' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	<message name='DatasetService_addDataset'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+		<part name='name' type='xsd:string'></part>
+		<part name='description' type='xsd:string'></part>
+		<part name='impl' type='xsd:string'></part>
+	</message>
+	<message name='Exception'>
+		<part element='tns:Exception' name='Exception'></part>
+	</message>
+	<message name='DatasetService_deleteDataset'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+		<part name='name' type='xsd:string'></part>
+	</message>
+	<message name='DatasetService_getAvailableDatasetsResponse'>
+		<part name='datasets' type='ns1:anyTypeArray'></part>
+	</message>
+	<message name='DatasetService_loadDataset'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+		<part name='name' type='xsd:string'></part>
+	</message>
+	<message name='DatasetService_deleteDatasetResponse'></message>
+	<message name='DatasetService_updateDataset'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+		<part name='name' type='xsd:string'></part>
+		<part name='description' type='xsd:string'></part>
+		<part name='impl' type='xsd:string'></part>
+	</message>
+	<message name='DatasetService_addDatasetResponse'></message>
+	<message name='DatasetService_updateDatasetResponse'></message>
+	<message name='DatasetService_getDataset'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+		<part name='name' type='xsd:string'></part>
+		<part name='fields' type='ns1:stringArray'></part>
+		<part name='constraints' type='tns:searchConstraintDtoArray'></part>
+		<part name='order' type='ns1:stringArray'></part>
+	</message>
+	<message name='DatasetService_loadDatasetResponse'>
+		<part name='dataset' type='tns:dataset'></part>
+	</message>
+	<message name='DatasetService_getDatasetResponse'>
+		<part name='dataset' type='tns:datasetDto'></part>
+	</message>
+	<message name='DatasetService_getAvailableDatasets'>
+		<part name='companyId' type='xsd:int'></part>
+		<part name='username' type='xsd:string'></part>
+		<part name='password' type='xsd:string'></part>
+	</message>
+	<portType name='DatasetService'>
+		<operation name='addDataset'
+			parameterOrder='companyId username password name description impl'>
+			<input message='tns:DatasetService_addDataset'></input>
+			<output message='tns:DatasetService_addDatasetResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+		<operation name='deleteDataset' parameterOrder='companyId username password name'>
+			<input message='tns:DatasetService_deleteDataset'></input>
+			<output message='tns:DatasetService_deleteDatasetResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+		<operation name='getAvailableDatasets' parameterOrder='companyId username password'>
+			<input message='tns:DatasetService_getAvailableDatasets'></input>
+			<output message='tns:DatasetService_getAvailableDatasetsResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+		<operation name='getDataset'
+			parameterOrder='companyId username password name fields constraints order'>
+			<input message='tns:DatasetService_getDataset'></input>
+			<output message='tns:DatasetService_getDatasetResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+		<operation name='loadDataset' parameterOrder='companyId username password name'>
+			<input message='tns:DatasetService_loadDataset'></input>
+			<output message='tns:DatasetService_loadDatasetResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+		<operation name='updateDataset'
+			parameterOrder='companyId username password name description impl'>
+			<input message='tns:DatasetService_updateDataset'></input>
+			<output message='tns:DatasetService_updateDatasetResponse'></output>
+			<fault message='tns:Exception' name='Exception'></fault>
+		</operation>
+	</portType>
+	<binding name='DatasetServiceBinding' type='tns:DatasetService'>
+		<soap:binding style='rpc'
+			transport='http://schemas.xmlsoap.org/soap/http' />
+		<operation name='addDataset'>
+			<soap:operation soapAction='addDataset' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+		<operation name='deleteDataset'>
+			<soap:operation soapAction='deleteDataset' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+		<operation name='getAvailableDatasets'>
+			<soap:operation soapAction='getAvailableDatasets' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+		<operation name='getDataset'>
+			<soap:operation soapAction='getDataset' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+		<operation name='loadDataset'>
+			<soap:operation soapAction='loadDataset' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+		<operation name='updateDataset'>
+			<soap:operation soapAction='updateDataset' />
+			<input>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://ws.dataservice.webdesk.technology.datasul.com/'
+					use='literal' />
+			</output>
+			<fault name='Exception'>
+				<soap:fault name='Exception' use='literal' />
+			</fault>
+		</operation>
+	</binding>
+	<service name='DatasetServiceService'>
+		<port binding='tns:DatasetServiceBinding' name='DatasetServicePort'>
+			<soap:address location='http://JCVIBMA558:9383/webdesk/DatasetService' />
+		</port>
+	</service>
 </definitions>

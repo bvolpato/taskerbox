@@ -55,300 +55,294 @@ import com.sun.syndication.io.FeedException;
  * 
  */
 @Log4j
-@ToString(includeFieldNames=true)
+@ToString(includeFieldNames = true)
 public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
 
-	@TaskerboxField("Cookie")
-	@Getter @Setter
-	private String cookie;
+  @TaskerboxField("Cookie")
+  @Getter
+  @Setter
+  private String cookie;
 
-	@TaskerboxField("From")
-	@Getter @Setter
-	private String from;
-	
-	@TaskerboxField("To")
-	@Getter @Setter
-	private String to;
+  @TaskerboxField("From")
+  @Getter
+  @Setter
+  private String from;
 
-	@TaskerboxField("Start Date")
-	@Getter @Setter
-	private String startDate;
+  @TaskerboxField("To")
+  @Getter
+  @Setter
+  private String to;
 
-	@TaskerboxField("End Date")
-	@Getter @Setter
-	private String endDate;
+  @TaskerboxField("Start Date")
+  @Getter
+  @Setter
+  private String startDate;
 
-	@TaskerboxField("Desired Value")
-	@Getter @Setter
-	private double desiredValue;
+  @TaskerboxField("End Date")
+  @Getter
+  @Setter
+  private String endDate;
 
-	@TaskerboxField("Days Min")
-	@Getter @Setter
-	@Min(1)
-	private int daysMin = 13;
+  @TaskerboxField("Desired Value")
+  @Getter
+  @Setter
+  private double desiredValue;
 
-	@TaskerboxField("Days Max")
-	@Getter @Setter
-	@Min(1)
-	private int daysMax = 17;
+  @TaskerboxField("Days Min")
+  @Getter
+  @Setter
+  @Min(1)
+  private int daysMin = 13;
 
-	@TaskerboxField(value = "Min Price Found", readOnly = true)
-	@Getter @Setter
-	private double priceFound;
-	
-	@TaskerboxField(value = "Min Price Date", readOnly = true)
-	@Getter @Setter
-	private String minPriceDate;
-	
-	@Getter @Setter
-	private DefaultHttpClient client; 
-	
-	@Override
-	public void setup() throws IOException, URISyntaxException {
-		log.debug("Setup at MatrixITAChannel...");
-		
-		client = TaskerboxHttpBox.getInstance().buildNewHttpClient();
-		
-		CookieStore store = client.getCookieStore();
-		store.addCookie(TaskerboxHttpBox.buildCookie("PREF", cookie,
-				"matrix.itasoftware.com", "/"));
+  @TaskerboxField("Days Max")
+  @Getter
+  @Setter
+  @Min(1)
+  private int daysMax = 17;
 
-		TaskerboxHttpBox.getInstance().getResponseForURL(client, 
-				"http://matrix.itasoftware.com/");
-	}
+  @TaskerboxField(value = "Min Price Found", readOnly = true)
+  @Getter
+  @Setter
+  private double priceFound;
 
-	@Override
-	protected void execute() throws IOException, IllegalArgumentException,
-			FeedException {
+  @TaskerboxField(value = "Min Price Date", readOnly = true)
+  @Getter
+  @Setter
+  private String minPriceDate;
 
-		try {
-			HttpPost post = new HttpPost(
-					"http://matrix.itasoftware.com/xhr/shop/search");
-			post.addHeader("Accept", "*/*");
-			post.addHeader("X-Requested-With", "XMLHttpRequest");
+  @Getter
+  @Setter
+  private DefaultHttpClient client;
 
-			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-			pairs.add(new BasicNameValuePair("name", "calendar"));
-			pairs.add(new BasicNameValuePair("summarizers",
-					"calendar,overnightFlightsCalendar,itineraryStopCountList,itineraryCarrierList"));
-			pairs.add(new BasicNameValuePair("format", "JSON"));
+  @Override
+  public void setup() throws IOException, URISyntaxException {
+    log.debug("Setup at MatrixITAChannel...");
 
-			JSONObject inputs = new JSONObject();
-			inputs.put(
-					"slices",
-					new JSONArray(
-							"[{\"origins\":[\""
-									+ from
-									+ "\"],\"originPreferCity\":false,\"destinations\":[\""
-									+ to
-									+ "\"],\"destinationPreferCity\":false},{\"destinations\":[\""
-									+ from
-									+ "\"],\"destinationPreferCity\":false,\"origins\":[\""
-									+ to + "\"],\"originPreferCity\":false}]"));
-			inputs.put("startDate", startDate);
-			inputs.put("layover", new JSONObject("{\"max\":" + daysMax
-					+ ",\"min\":" + daysMin + "}"));
-			inputs.put("pax", new JSONObject("{\"adults\":1}"));
-			inputs.put("cabin", "COACH");
-			inputs.put("changeOfAirport", true);
-			inputs.put("checkAvailability", true);
-			inputs.put("firstDayOfWeek", "SUNDAY");
-			inputs.put("endDate", endDate);
+    client = TaskerboxHttpBox.getInstance().buildNewHttpClient();
 
-			// System.out.println(inputs.toString());
-			pairs.add(new BasicNameValuePair("inputs", inputs.toString()));
+    CookieStore store = client.getCookieStore();
+    store.addCookie(TaskerboxHttpBox.buildCookie("PREF", cookie, "matrix.itasoftware.com", "/"));
 
-			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairs);
-			post.setEntity(entity);
+    TaskerboxHttpBox.getInstance().getResponseForURL(client, "http://matrix.itasoftware.com/");
+  }
 
-			log.debug("Executing request on " + post.getURI() + "...");
-			HttpResponse response = client.execute(post);
+  @Override
+  protected void execute() throws IOException, IllegalArgumentException, FeedException {
 
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				logWarn(log, "Error while fetching " + response.getStatusLine());
-				return;
-			}
+    try {
+      HttpPost post = new HttpPost("http://matrix.itasoftware.com/xhr/shop/search");
+      post.addHeader("Accept", "*/*");
+      post.addHeader("X-Requested-With", "XMLHttpRequest");
 
-			String responseBody = TaskerboxHttpBox.getInstance()
-					.readResponseFromEntity(response.getEntity());
+      List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+      pairs.add(new BasicNameValuePair("name", "calendar"));
+      pairs.add(new BasicNameValuePair("summarizers",
+          "calendar,overnightFlightsCalendar,itineraryStopCountList,itineraryCarrierList"));
+      pairs.add(new BasicNameValuePair("format", "JSON"));
 
-			log.debug("Got Response: " + responseBody);
-			if (!responseBody.startsWith("{}&&")) {
-				throw new IllegalArgumentException("Invalid response");
-			}
+      JSONObject inputs = new JSONObject();
+      inputs.put("slices", new JSONArray("[{\"origins\":[\"" + from
+          + "\"],\"originPreferCity\":false,\"destinations\":[\"" + to
+          + "\"],\"destinationPreferCity\":false},{\"destinations\":[\"" + from
+          + "\"],\"destinationPreferCity\":false,\"origins\":[\"" + to
+          + "\"],\"originPreferCity\":false}]"));
+      inputs.put("startDate", startDate);
+      inputs.put("layover", new JSONObject("{\"max\":" + daysMax + ",\"min\":" + daysMin + "}"));
+      inputs.put("pax", new JSONObject("{\"adults\":1}"));
+      inputs.put("cabin", "COACH");
+      inputs.put("changeOfAirport", true);
+      inputs.put("checkAvailability", true);
+      inputs.put("firstDayOfWeek", "SUNDAY");
+      inputs.put("endDate", endDate);
 
-			if (responseBody.contains("QPX capacity exceeded")
-					|| responseBody.contains("Internal server error")
-					|| responseBody.contains("Query timeout")) {
-				Thread.sleep(10000L);
-				
-				setup();
-				execute();
-				return;
-			}
-			
-			String validJson = responseBody.substring(4);
+      // System.out.println(inputs.toString());
+      pairs.add(new BasicNameValuePair("inputs", inputs.toString()));
 
-			JSONObject obj = new JSONObject(validJson);
-			
-			try {
-				
-				boolean hasExpectedPrice = false;
-				double cheapest = 0;
-				String cheapestStr = "";
-				String cheapestDate = "";
-				
-				Map<String,String> valueMap = new LinkedHashMap<String, String>();
-				
-				JSONObject result = obj.getJSONObject("result");
-				JSONObject calendar = result.getJSONObject("calendar");
-				JSONObject itineraryCarrierList = result.getJSONObject("itineraryCarrierList");
-				
-				JSONArray months = calendar.getJSONArray("months");
+      UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairs);
+      post.setEntity(entity);
 
-				for (int month = 0; month < months.length(); month++) {
-					JSONObject monthObject = months.getJSONObject(month);
-					// System.out.println(monthObject.getInt("month") + "/" +
-					// monthObject.getInt("year"));
+      log.debug("Executing request on " + post.getURI() + "...");
+      HttpResponse response = client.execute(post);
 
-					JSONArray weeks = monthObject.getJSONArray("weeks");
-					for (int week = 0; week < weeks.length(); week++) {
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (statusCode != HttpStatus.SC_OK) {
+        logWarn(log, "Error while fetching " + response.getStatusLine());
+        return;
+      }
 
-						JSONObject weekObject = weeks.getJSONObject(week);
-						JSONArray days = weekObject.getJSONArray("days");
-						for (int day = 0; day < days.length(); day++) {
-							JSONObject dayObject = days.getJSONObject(day);
+      String responseBody =
+          TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
 
-							if (dayObject.getInt("solutionCount") > 0) {
+      log.debug("Got Response: " + responseBody);
+      if (!responseBody.startsWith("{}&&")) {
+        throw new IllegalArgumentException("Invalid response");
+      }
 
-								// System.out.println(dayObject);
-								if (dayObject.has("minPriceInCalendar")
-										&& dayObject
-												.getBoolean("minPriceInCalendar")) {
-									
-									String date = dayObject.getInt("date")
-											+ "/" + monthObject.getInt("month")
-											+ "/" + monthObject.getInt("year");
+      if (responseBody.contains("QPX capacity exceeded")
+          || responseBody.contains("Internal server error")
+          || responseBody.contains("Query timeout")) {
+        Thread.sleep(10000L);
 
-									
-									String price = dayObject
-											.getString("minPrice");
-									double value = 0;
+        setup();
+        execute();
+        return;
+      }
 
-									if (price.contains("BRL")) {
-										value = Double.valueOf(price.replace(
-												"BRL", ""));
-									}
+      String validJson = responseBody.substring(4);
 
-									if (cheapest == 0 || value < cheapest) {
-										cheapest = value;
-										cheapestStr = price;
-										cheapestDate = date;
-									}
-									
-									if (value <= desiredValue) {
-										
-										hasExpectedPrice = true;
-										
-										valueMap.put(date, price);
-										
-										logInfo(log, "Found expected price! "
-												+ price + " (" + value
-												+ ") - Desired value: "
-												+ desiredValue);
+      JSONObject obj = new JSONObject(validJson);
 
-										
-									} 
-								}
-							}
+      try {
 
-						}
+        boolean hasExpectedPrice = false;
+        double cheapest = 0;
+        String cheapestStr = "";
+        String cheapestDate = "";
 
-					}
+        Map<String, String> valueMap = new LinkedHashMap<String, String>();
 
-				}
+        JSONObject result = obj.getJSONObject("result");
+        JSONObject calendar = result.getJSONObject("calendar");
+        JSONObject itineraryCarrierList = result.getJSONObject("itineraryCarrierList");
+
+        JSONArray months = calendar.getJSONArray("months");
+
+        for (int month = 0; month < months.length(); month++) {
+          JSONObject monthObject = months.getJSONObject(month);
+          // System.out.println(monthObject.getInt("month") + "/" +
+          // monthObject.getInt("year"));
+
+          JSONArray weeks = monthObject.getJSONArray("weeks");
+          for (int week = 0; week < weeks.length(); week++) {
+
+            JSONObject weekObject = weeks.getJSONObject(week);
+            JSONArray days = weekObject.getJSONArray("days");
+            for (int day = 0; day < days.length(); day++) {
+              JSONObject dayObject = days.getJSONObject(day);
+
+              if (dayObject.getInt("solutionCount") > 0) {
+
+                // System.out.println(dayObject);
+                if (dayObject.has("minPriceInCalendar")
+                    && dayObject.getBoolean("minPriceInCalendar")) {
+
+                  String date =
+                      dayObject.getInt("date") + "/" + monthObject.getInt("month") + "/"
+                          + monthObject.getInt("year");
 
 
-				this.priceFound = cheapest;
-				this.minPriceDate = cheapestDate;
-				
-				if (hasExpectedPrice) {
+                  String price = dayObject.getString("minPrice");
+                  double value = 0;
 
-					EmailValueVO email = new EmailValueVO();
-					email.setTitle("Taskerbox - " + from
-							+ " x " + to + " - Found: " + cheapestStr);
-					
-					StringBuffer sb = new StringBuffer();
-					
-					sb.append(email.getTitle());
-					sb.append("<br><br>");
-					
-					for (String date : valueMap.keySet()) {
-						sb.append(date).append(": ").append(valueMap.get(date)).append("<br>");
-					}
-					
-					sb.append("<br>");
-					
-					JSONArray carriers = itineraryCarrierList.getJSONArray("groups");
-					for (int carrier = 0; carrier < carriers.length(); carrier++) {
-						JSONObject carrierObject = carriers.getJSONObject(carrier);
-						JSONObject valueObject = carrierObject.getJSONObject("label");
-						sb.append("Companhia: "); 
-						if (carrierObject.has("minPriceInSummary")) {
-							sb.append("*"); 
-						}
-						sb.append(valueObject.getString("shortName"));
-						sb.append(" - ");
-						
-						sb.append(carrierObject.getString("minPrice"));
-						sb.append("<br>");
-					}
-					sb.append("<br>");
-					sb.append("At http://matrix.itasoftware.com/");
-					
-					email.setBody(sb.toString());
-					
-					//perform(email);
-					performUnique(email);
-					
-				} else {
-					logInfo(log, "Value " + cheapestStr + " is not desired value ("
-							+ desiredValue + ") - Cheapest Date: " + cheapestDate);
-				}
-				
-			} catch (Exception e) {
-				File save = File.createTempFile("matrixita", ".txt");
-				
-				logError(log, "Error occurred with " + this.toString() + " - "
-						+ e.getMessage() + " - Saving to: " + save.getAbsolutePath());
-			
-				FileWriter out = new FileWriter(save);
-				out.write(responseBody);
-				out.close();
-				//log.debug("responseBody: " + responseBody);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+                  if (price.contains("BRL")) {
+                    value = Double.valueOf(price.replace("BRL", ""));
+                  }
 
-	}
+                  if (cheapest == 0 || value < cheapest) {
+                    cheapest = value;
+                    cheapestStr = price;
+                    cheapestDate = date;
+                  }
 
-	@Override
-	protected String getItemFingerprint(EmailValueVO entry) {
-		String considerateBody = entry.getBody();
-		if (considerateBody.contains("Companhia")) {
-			considerateBody = considerateBody.substring(0, considerateBody.indexOf("Companhia"));
-		}
-		return entry.getTitle() + " - " + considerateBody;
-	}
+                  if (value <= desiredValue) {
 
-	@Override
-	public String getDisplayName() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(this.getId()).append(" (R$").append((int) this.getDesiredValue()).append(")");
-		return sb.toString();
-	}	
+                    hasExpectedPrice = true;
+
+                    valueMap.put(date, price);
+
+                    logInfo(log, "Found expected price! " + price + " (" + value
+                        + ") - Desired value: " + desiredValue);
+
+
+                  }
+                }
+              }
+
+            }
+
+          }
+
+        }
+
+
+        this.priceFound = cheapest;
+        this.minPriceDate = cheapestDate;
+
+        if (hasExpectedPrice) {
+
+          EmailValueVO email = new EmailValueVO();
+          email.setTitle("Taskerbox - " + from + " x " + to + " - Found: " + cheapestStr);
+
+          StringBuffer sb = new StringBuffer();
+
+          sb.append(email.getTitle());
+          sb.append("<br><br>");
+
+          for (String date : valueMap.keySet()) {
+            sb.append(date).append(": ").append(valueMap.get(date)).append("<br>");
+          }
+
+          sb.append("<br>");
+
+          JSONArray carriers = itineraryCarrierList.getJSONArray("groups");
+          for (int carrier = 0; carrier < carriers.length(); carrier++) {
+            JSONObject carrierObject = carriers.getJSONObject(carrier);
+            JSONObject valueObject = carrierObject.getJSONObject("label");
+            sb.append("Companhia: ");
+            if (carrierObject.has("minPriceInSummary")) {
+              sb.append("*");
+            }
+            sb.append(valueObject.getString("shortName"));
+            sb.append(" - ");
+
+            sb.append(carrierObject.getString("minPrice"));
+            sb.append("<br>");
+          }
+          sb.append("<br>");
+          sb.append("At http://matrix.itasoftware.com/");
+
+          email.setBody(sb.toString());
+
+          // perform(email);
+          performUnique(email);
+
+        } else {
+          logInfo(log, "Value " + cheapestStr + " is not desired value (" + desiredValue
+              + ") - Cheapest Date: " + cheapestDate);
+        }
+
+      } catch (Exception e) {
+        File save = File.createTempFile("matrixita", ".txt");
+
+        logError(log, "Error occurred with " + this.toString() + " - " + e.getMessage()
+            + " - Saving to: " + save.getAbsolutePath());
+
+        FileWriter out = new FileWriter(save);
+        out.write(responseBody);
+        out.close();
+        // log.debug("responseBody: " + responseBody);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  @Override
+  protected String getItemFingerprint(EmailValueVO entry) {
+    String considerateBody = entry.getBody();
+    if (considerateBody.contains("Companhia")) {
+      considerateBody = considerateBody.substring(0, considerateBody.indexOf("Companhia"));
+    }
+    return entry.getTitle() + " - " + considerateBody;
+  }
+
+  @Override
+  public String getDisplayName() {
+    StringBuffer sb = new StringBuffer();
+    sb.append(this.getId()).append(" (R$").append((int) this.getDesiredValue()).append(")");
+    return sb.toString();
+  }
 
 
 }

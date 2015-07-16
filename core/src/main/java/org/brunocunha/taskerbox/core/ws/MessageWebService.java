@@ -33,13 +33,13 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MessageWebService extends TaskerboxWebService<String> {
 
-	@WebMethod(operationName = "sendMessage")
-	public String sendMessage(@WebParam(name = "msg") String msg) {
-		log.info("Performing actions for message '" + msg + "'");
+  @WebMethod(operationName = "sendMessage")
+  public String sendMessage(@WebParam(name = "msg") String msg) {
+    log.info("Performing actions for message '" + msg + "'");
 
-		getChannel().perform(msg);
+    getChannel().perform(msg);
 
-		return "Mesage Processed";
-	}
+    return "Mesage Processed";
+  }
 
 }

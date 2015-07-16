@@ -21,10 +21,10 @@ import org.junit.Test;
 
 public class TaskerboxValidationTest {
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testFeed() {
-		FeedChannel feed = new FeedChannel();
-		TaskerboxValidationUtils.validate(feed);
-	}
+  @Test(expected = IllegalArgumentException.class)
+  public void testFeed() {
+    FeedChannel feed = new FeedChannel();
+    TaskerboxValidationUtils.validate(feed);
+  }
 
 }

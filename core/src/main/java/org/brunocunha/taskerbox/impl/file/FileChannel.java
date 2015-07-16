@@ -40,81 +40,86 @@ import org.brunocunha.taskerbox.core.TaskerboxChannel;
 @Log4j
 public class FileChannel extends TaskerboxChannel<File> {
 
-	@Getter @Setter
-	private Set<String> alreadyChecked = new TreeSet<String>();
+  @Getter
+  @Setter
+  private Set<String> alreadyChecked = new TreeSet<String>();
 
-	@NotNull
-	@Getter @Setter
-	private File file;
+  @NotNull
+  @Getter
+  @Setter
+  private File file;
 
-	@Getter @Setter
-	private boolean lookChildren;
+  @Getter
+  @Setter
+  private boolean lookChildren;
 
-	@Getter @Setter
-	private boolean recursive;
+  @Getter
+  @Setter
+  private boolean recursive;
 
-	@Getter @Setter
-	private boolean deleteAfterAction;
+  @Getter
+  @Setter
+  private boolean deleteAfterAction;
 
-	@Override
-	protected void execute() {
-		logInfo(log, "Checking... [" + file + " / " + lookChildren + "]");
+  @Override
+  protected void execute() {
+    logInfo(log, "Checking... [" + file + " / " + lookChildren + "]");
 
-		if (file == null) {
-			return;
-		}
+    if (file == null) {
+      return;
+    }
 
-		if (lookChildren) {
-			for (File child : file.listFiles()) {
-				doAction(child);
-			}
-		} else {
-			doAction(file);
-		}
+    if (lookChildren) {
+      for (File child : file.listFiles()) {
+        doAction(child);
+      }
+    } else {
+      doAction(file);
+    }
 
-	}
+  }
 
-	private void doAction(File file) {
+  private void doAction(File file) {
 
-		if (!singleItemAction || (singleItemAction && !alreadyPerformedAction(file))) {
-			log.debug("doAction for " + file + ", singleItemAction? " + singleItemAction);
-			for (ITaskerboxAction<File> action : this.getActions()) {
-				action.action(file);
-			}
+    if (!singleItemAction || (singleItemAction && !alreadyPerformedAction(file))) {
+      log.debug("doAction for " + file + ", singleItemAction? " + singleItemAction);
+      for (ITaskerboxAction<File> action : this.getActions()) {
+        action.action(file);
+      }
 
-			addAlreadyPerformedAction(file);
+      addAlreadyPerformedAction(file);
 
-			if (deleteAfterAction) {
-				log.debug("Deleting " + file);
-				removeAlreadyPerformedAction(file);
+      if (deleteAfterAction) {
+        log.debug("Deleting " + file);
+        removeAlreadyPerformedAction(file);
 
-				if (!file.delete() && file.exists()) {
-					logWarn(log, "Failure deleting " + file + "... Marking to delete on exit.");
-					file.deleteOnExit();
-				}
-			}
-		}
-	};
+        if (!file.delete() && file.exists()) {
+          logWarn(log, "Failure deleting " + file + "... Marking to delete on exit.");
+          file.deleteOnExit();
+        }
+      }
+    }
+  };
 
-	@Override
-	public String getItemFingerprint(File file) {
-		if (file.isFile()) {
-			try {
-				FileInputStream fis = new FileInputStream(file);
-				String md5Hex = new String(DigestUtils.md5Hex(fis));
+  @Override
+  public String getItemFingerprint(File file) {
+    if (file.isFile()) {
+      try {
+        FileInputStream fis = new FileInputStream(file);
+        String md5Hex = new String(DigestUtils.md5Hex(fis));
 
-				log.debug("Calculated MD5 Hash for File '" + file + "': " + md5Hex);
+        log.debug("Calculated MD5 Hash for File '" + file + "': " + md5Hex);
 
-				fis.close();
+        fis.close();
 
-				// System.out.println(file.getAbsolutePath() + "::" + md5Hex);
-				return file.getAbsolutePath() + "::" + md5Hex;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+        // System.out.println(file.getAbsolutePath() + "::" + md5Hex);
+        return file.getAbsolutePath() + "::" + md5Hex;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 
-		return file.getAbsolutePath();
-	}
+    return file.getAbsolutePath();
+  }
 
 }

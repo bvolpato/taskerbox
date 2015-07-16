@@ -46,40 +46,44 @@ import com.sun.syndication.io.XmlReader;
 @Log4j
 public class FeedChannel extends TaskerboxChannel<SyndEntryWrapper> {
 
-	@TaskerboxField("Feed URL")
-	@Getter @Setter
-	@URL
-	private String feedUrl;
+  @TaskerboxField("Feed URL")
+  @Getter
+  @Setter
+  @URL
+  private String feedUrl;
 
-	@TaskerboxField("Filter")
-	@Getter @Setter
-	private String filter;
+  @TaskerboxField("Filter")
+  @Getter
+  @Setter
+  private String filter;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void execute() throws IOException, IllegalArgumentException, FeedException, IllegalStateException, URISyntaxException {
-		logInfo(log, "Checking #"+checkCount+"... [" + feedUrl + " / '" + filter + "']");
+  @SuppressWarnings("unchecked")
+  @Override
+  protected void execute() throws IOException, IllegalArgumentException, FeedException,
+      IllegalStateException, URISyntaxException {
+    logInfo(log, "Checking #" + checkCount + "... [" + feedUrl + " / '" + filter + "']");
 
-		@Cleanup XmlReader reader = null;
-		HttpEntity responseBody = TaskerboxHttpBox.getInstance().getEntityForURL(feedUrl);
-		reader = new XmlReader(responseBody.getContent());
-		SyndFeed feed = new SyndFeedInput().build(reader);
+    @Cleanup
+    XmlReader reader = null;
+    HttpEntity responseBody = TaskerboxHttpBox.getInstance().getEntityForURL(feedUrl);
+    reader = new XmlReader(responseBody.getContent());
+    SyndFeed feed = new SyndFeedInput().build(reader);
 
-		List<SyndEntry> list = feed.getEntries();
-		for (val entry : list) {
+    List<SyndEntry> list = feed.getEntries();
+    for (val entry : list) {
 
-			if (filter != null && !entry.getTitle().contains(filter)) {
-				continue;
-			}
+      if (filter != null && !entry.getTitle().contains(filter)) {
+        continue;
+      }
 
-			performUnique(new SyndEntryWrapper(entry));
+      performUnique(new SyndEntryWrapper(entry));
 
-		}
-	}
+    }
+  }
 
-	public String getItemFingerprint(SyndEntryWrapper entry) {
-		return entry.getValue().getUri();
-	}
+  public String getItemFingerprint(SyndEntryWrapper entry) {
+    return entry.getValue().getUri();
+  }
 
 
 }

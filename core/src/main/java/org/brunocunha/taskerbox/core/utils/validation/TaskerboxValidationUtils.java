@@ -30,24 +30,25 @@ import javax.validation.ValidatorFactory;
  */
 public class TaskerboxValidationUtils {
 
-	/**
-	 * Execute validations in object
-	 * @param object
-	 * @throws IllegalArgumentException
-	 */
-	public static <T extends Object> void validate(T object) throws IllegalArgumentException {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<T>> valRes = validator.validate(object);
-		if (!valRes.isEmpty()) {
-			StringBuilder sb = new StringBuilder("Validation failed for: ");
-			sb.append(object);
+  /**
+   * Execute validations in object
+   * 
+   * @param object
+   * @throws IllegalArgumentException
+   */
+  public static <T extends Object> void validate(T object) throws IllegalArgumentException {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<T>> valRes = validator.validate(object);
+    if (!valRes.isEmpty()) {
+      StringBuilder sb = new StringBuilder("Validation failed for: ");
+      sb.append(object);
 
-			for (ConstraintViolation<T> fail : valRes) {
-				sb.append("\n  ").append(fail.getPropertyPath() + " - " + fail.getMessage());
-			}
-			throw new IllegalArgumentException(sb.toString());
-		}
-	}
+      for (ConstraintViolation<T> fail : valRes) {
+        sb.append("\n  ").append(fail.getPropertyPath() + " - " + fail.getMessage());
+      }
+      throw new IllegalArgumentException(sb.toString());
+    }
+  }
 
 }

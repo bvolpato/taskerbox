@@ -24,7 +24,8 @@ import org.brunocunha.taskerbox.core.TaskerboxChannel;
 
 public class JCheckboxChannelControl extends JCheckBox {
 
-	@Getter @Setter
-	private TaskerboxChannel<?> channel;
+  @Getter
+  @Setter
+  private TaskerboxChannel<?> channel;
 
 }

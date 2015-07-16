@@ -34,27 +34,27 @@ public class WhatsappConnection {
         log.info("Creating WhatsApp Instance...");
         instance = new WhatsApi(from, appName, alias);
         EventManager eventManager = new ExampleEventManager();
-        instance.setEventManager(eventManager );
+        instance.setEventManager(eventManager);
         MessageProcessor mp = new ExampleMessageProcessor();
         instance.setNewMessageBind(mp);
 
-        Thread.sleep(1000L); //Some delay
-        
+        Thread.sleep(1000L); // Some delay
+
         log.info("Connecting...");
         if (!instance.connect()) {
           throw new RuntimeException("Could not connect to WhatsApp.");
         }
-        
-        Thread.sleep(1000L); //Some delay
+
+        Thread.sleep(1000L); // Some delay
 
         log.info("Logging in...");
         instance.loginWithPassword(password);
 
-        Thread.sleep(1000L); //Some delay
-        
+        Thread.sleep(1000L); // Some delay
+
       } catch (NoSuchMethodError e) {
         log.error("Error connecting in WhatsApp", e);
-        //instance = null;
+        // instance = null;
       } catch (Exception e) {
         log.error("Error connecting in WhatsApp", e);
         instance = null;

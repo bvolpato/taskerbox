@@ -39,94 +39,103 @@ import com.sun.syndication.io.FeedException;
 @Log4j
 public class HTTPUptimeChannel extends TaskerboxChannel<String> {
 
-	@URL
-	@Getter @Setter
-	@TaskerboxField("URL")
-	private String url;
+  @URL
+  @Getter
+  @Setter
+  @TaskerboxField("URL")
+  private String url;
 
-	@Getter @Setter
-	@TaskerboxField("Filter Contains")
-	private boolean contains;
+  @Getter
+  @Setter
+  @TaskerboxField("Filter Contains")
+  private boolean contains;
 
-	@Getter @Setter
-	@TaskerboxField("Filter")
-	private String filter;
+  @Getter
+  @Setter
+  @TaskerboxField("Filter")
+  private String filter;
 
-	@Getter @Setter
-	@TaskerboxField("Unique Action")
-	private boolean unique;
-	
-	@Getter @Setter
-	@TaskerboxField("Number of Tries")
-	private int numTries = 1;
-	
-	@Getter @Setter
-	@TaskerboxField("Error Interval")
-	private long errorInterval = 10000L;
-	
-	@Override
-	protected void execute() throws IOException, IllegalArgumentException, FeedException {
-		logDebug(log, "Checking #"+checkCount+"... [" + url + " / '" + filter + "']");
+  @Getter
+  @Setter
+  @TaskerboxField("Unique Action")
+  private boolean unique;
 
-		Throwable lastError = null;
-		
-		int tryNumber = 0;
-		
-		while(tryNumber++ < numTries) {
-			
-			try {
-				HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
-				
-				int statusCode = response.getStatusLine().getStatusCode();
-				if (statusCode != HttpStatus.SC_OK) {
-					perform("Error fetching " + url + " - " + response.getStatusLine().toString());
-					logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
-					return;
-				}
-				
-				String responseBody = TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
-				logDebug(log, "Got Response: " + responseBody);
-				
-				if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
-						||  (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
-					perform(responseBody);
-				}
-				
-				lastError = null;
-				break;
-				
-			} catch(Exception e) {
-				logWarn(log, "Exception \"" + e.getMessage() + "\" getting " + url + ". Try " + tryNumber + "/" + numTries);
-				lastError = e;
-				
-				try {
-					Thread.sleep(errorInterval);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				
-			}
-			
-		}
-		
-		if (lastError != null) {
-			logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
-			perform("Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries + " tries");
-		}
-			
-	}
+  @Getter
+  @Setter
+  @TaskerboxField("Number of Tries")
+  private int numTries = 1;
+
+  @Getter
+  @Setter
+  @TaskerboxField("Error Interval")
+  private long errorInterval = 10000L;
+
+  @Override
+  protected void execute() throws IOException, IllegalArgumentException, FeedException {
+    logDebug(log, "Checking #" + checkCount + "... [" + url + " / '" + filter + "']");
+
+    Throwable lastError = null;
+
+    int tryNumber = 0;
+
+    while (tryNumber++ < numTries) {
+
+      try {
+        HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode != HttpStatus.SC_OK) {
+          perform("Error fetching " + url + " - " + response.getStatusLine().toString());
+          logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
+          return;
+        }
+
+        String responseBody =
+            TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
+        logDebug(log, "Got Response: " + responseBody);
+
+        if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
+            || (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
+          perform(responseBody);
+        }
+
+        lastError = null;
+        break;
+
+      } catch (Exception e) {
+        logWarn(log, "Exception \"" + e.getMessage() + "\" getting " + url + ". Try " + tryNumber
+            + "/" + numTries);
+        lastError = e;
+
+        try {
+          Thread.sleep(errorInterval);
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
+
+      }
+
+    }
+
+    if (lastError != null) {
+      logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
+      perform("Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries
+          + " tries");
+    }
+
+  }
 
 
-	@Override
-	protected String getItemFingerprint(String entry) {
-		return entry;
-	}
+  @Override
+  protected String getItemFingerprint(String entry) {
+    return entry;
+  }
 
-	@Override
-	public String toString() {
-		return "HTTPHTMLChannel [url=" + url + ", filter=" + filter + ", unique="
-				+ unique + ", every=" + getEvery() + "]";
-	}
+  @Override
+  public String toString() {
+    return "HTTPHTMLChannel [url=" + url + ", filter=" + filter + ", unique=" + unique + ", every="
+        + getEvery() + "]";
+  }
 
-	
+
 }

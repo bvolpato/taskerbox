@@ -30,12 +30,12 @@ import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
 @Log4j
 public class FileDeleteAction extends DefaultTaskerboxAction<File> {
 
-	@Override
-	public void action(File file) {
-		logInfo(log, "Deleting file " + file.getAbsolutePath());
-		
-		boolean result = file.delete();
-		log.debug("Delete file result: " + result);
-	}
+  @Override
+  public void action(File file) {
+    logInfo(log, "Deleting file " + file.getAbsolutePath());
+
+    boolean result = file.delete();
+    log.debug("Delete file result: " + result);
+  }
 
 }

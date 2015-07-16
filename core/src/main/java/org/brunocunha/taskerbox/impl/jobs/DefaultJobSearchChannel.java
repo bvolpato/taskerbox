@@ -30,143 +30,155 @@ import org.brunocunha.taskerbox.core.http.TaskerboxHttpBox;
 @Log4j
 public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
 
-	@Getter @Setter
-	protected DefaultHttpClient httpClient;
-	
-	@Getter @Setter
-	protected List<String> visaLines;
-	
-	@Getter @Setter
-	protected List<String> experienceLines;
-	
-	@Getter @Setter
-	protected List<String> roleLines;
-	
-	@Getter @Setter
-	protected List<String> employerLines;
-	
-	@Getter @Setter
-	protected List<String> locationLines;
+  @Getter
+  @Setter
+  protected DefaultHttpClient httpClient;
 
-	@Getter @Setter
-	@TaskerboxField("Required Score")
-	protected int requiredScore = 2000;
-	
-	@Getter @Setter
-	@TaskerboxField("Max Pages")
-	protected int maxPages = 1000;
-	
-	public void setup() {
-		
-		visaLines = listFromResource("jobseeker/visa.txt");
-		experienceLines = listFromResource("jobseeker/experience.txt");
-		roleLines = listFromResource("jobseeker/role.txt");
-		employerLines = listFromResource("jobseeker/employer.txt");
-		locationLines = listFromResource("jobseeker/location.txt");
-		
-	}
-	
-	
+  @Getter
+  @Setter
+  protected List<String> visaLines;
 
-	public boolean considerTitle(String html) {
-		String titleLc = html.toLowerCase();
+  @Getter
+  @Setter
+  protected List<String> experienceLines;
 
-		for (String line : roleLines) {
-			if (titleLc.contains(line.toLowerCase().trim())) {
-				logInfo(log, "[Role] --> Return false - Found: " + line);
-				return false;
-			}
-			
-			if (line.startsWith("=")) {
-				String exactMatch = line.substring(1);
-				
-				if (titleLc.trim().equalsIgnoreCase(exactMatch.trim())) {
-					logInfo(log, "[Role] --> Return false eq - Found: " + line);
-					return false;
-				}
-				
-			}
-		}
-		
-		if ((titleLc.contains(".Net".toLowerCase()) && !titleLc.contains("Java".toLowerCase())) || (titleLc.contains("C++".toLowerCase()) && !titleLc.contains("Java".toLowerCase())) || (titleLc.contains("C#".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
-				|| (titleLc.contains("PHP".toLowerCase()) && !titleLc.contains("Java".toLowerCase())) || (titleLc.contains("Ruby".toLowerCase()) && !titleLc.contains("Java".toLowerCase())) || titleLc.contains("Mobile Application Developer".toLowerCase())
-				
-				/** Not yet Skill **/
-				|| titleLc.contains("Hadoop".toLowerCase()) || titleLc.contains("Big Data".toLowerCase()) 
+  @Getter
+  @Setter
+  protected List<String> roleLines;
 
-		) {
-			return false;
-		}
+  @Getter
+  @Setter
+  protected List<String> employerLines;
 
-		return true;
-	}
+  @Getter
+  @Setter
+  protected List<String> locationLines;
 
-	public boolean considerEmployer(String html) {
-		String htmlLc = html.toLowerCase();
+  @Getter
+  @Setter
+  @TaskerboxField("Required Score")
+  protected int requiredScore = 2000;
 
-		for (String line : employerLines) {
-			if (htmlLc.contains(line.toLowerCase().trim())) {
-				logInfo(log, "[Employer] --> Return false - Found: " + line);
-				return false;
-			}
-		}
+  @Getter
+  @Setter
+  @TaskerboxField("Max Pages")
+  protected int maxPages = 1000;
 
-		return true;
-	}
+  public void setup() {
 
-	public boolean considerLocation(String html) {
-		String htmlLc = html.toLowerCase();
+    visaLines = listFromResource("jobseeker/visa.txt");
+    experienceLines = listFromResource("jobseeker/experience.txt");
+    roleLines = listFromResource("jobseeker/role.txt");
+    employerLines = listFromResource("jobseeker/employer.txt");
+    locationLines = listFromResource("jobseeker/location.txt");
 
-		for (String line : locationLines) {
-			if (htmlLc.contains(line.toLowerCase())) {
-				logInfo(log, "[Location] --> Return false - Found: " + line);
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	
-	public boolean considerExperienceDescription(String html) {
-		String htmlLc = html.toLowerCase();
-
-		for (String line : experienceLines) {
-			if (htmlLc.contains(line.toLowerCase())) {
-				logInfo(log, "[Experience] --> Return false - Found: " + line);
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public boolean considerVisaDescription(String html) {
-		String htmlLc = html.toLowerCase();
-
-		for (String visa : visaLines) {
-			if (htmlLc.contains(visa.toLowerCase())) {
-				logInfo(log, "[Visa] --> Return false - Found: " + visa);
-				return false;
-			}
-		}
-		return true;
-	}
-
-	
-	public BasicClientCookie buildCookie(String name, String value) {
-		return TaskerboxHttpBox.buildCookie(name, value, "www.linkedin.com", "/");
-	}
+  }
 
 
-	@Override
-	protected String getItemFingerprint(String entry) {
-		return entry;
-	}
+
+  public boolean considerTitle(String html) {
+    String titleLc = html.toLowerCase();
+
+    for (String line : roleLines) {
+      if (titleLc.contains(line.toLowerCase().trim())) {
+        logInfo(log, "[Role] --> Return false - Found: " + line);
+        return false;
+      }
+
+      if (line.startsWith("=")) {
+        String exactMatch = line.substring(1);
+
+        if (titleLc.trim().equalsIgnoreCase(exactMatch.trim())) {
+          logInfo(log, "[Role] --> Return false eq - Found: " + line);
+          return false;
+        }
+
+      }
+    }
+
+    if ((titleLc.contains(".Net".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
+        || (titleLc.contains("C++".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
+        || (titleLc.contains("C#".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
+        || (titleLc.contains("PHP".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
+        || (titleLc.contains("Ruby".toLowerCase()) && !titleLc.contains("Java".toLowerCase()))
+        || titleLc.contains("Mobile Application Developer".toLowerCase())
+
+        /** Not yet Skill **/
+        || titleLc.contains("Hadoop".toLowerCase()) || titleLc.contains("Big Data".toLowerCase())
+
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public boolean considerEmployer(String html) {
+    String htmlLc = html.toLowerCase();
+
+    for (String line : employerLines) {
+      if (htmlLc.contains(line.toLowerCase().trim())) {
+        logInfo(log, "[Employer] --> Return false - Found: " + line);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public boolean considerLocation(String html) {
+    String htmlLc = html.toLowerCase();
+
+    for (String line : locationLines) {
+      if (htmlLc.contains(line.toLowerCase())) {
+        logInfo(log, "[Location] --> Return false - Found: " + line);
+        return false;
+      }
+    }
+
+    return true;
+  }
 
 
-	@Override
-	public String getGroupName() {
-		return "JobSeeker";
-	}
+  public boolean considerExperienceDescription(String html) {
+    String htmlLc = html.toLowerCase();
+
+    for (String line : experienceLines) {
+      if (htmlLc.contains(line.toLowerCase())) {
+        logInfo(log, "[Experience] --> Return false - Found: " + line);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public boolean considerVisaDescription(String html) {
+    String htmlLc = html.toLowerCase();
+
+    for (String visa : visaLines) {
+      if (htmlLc.contains(visa.toLowerCase())) {
+        logInfo(log, "[Visa] --> Return false - Found: " + visa);
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+  public BasicClientCookie buildCookie(String name, String value) {
+    return TaskerboxHttpBox.buildCookie(name, value, "www.linkedin.com", "/");
+  }
+
+
+  @Override
+  protected String getItemFingerprint(String entry) {
+    return entry;
+  }
+
+
+  @Override
+  public String getGroupName() {
+    return "JobSeeker";
+  }
 }

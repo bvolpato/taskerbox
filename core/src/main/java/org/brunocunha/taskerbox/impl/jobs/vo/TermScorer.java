@@ -18,57 +18,56 @@ package org.brunocunha.taskerbox.impl.jobs.vo;
 import java.util.regex.Pattern;
 
 public class TermScorer {
-	
-	private String term;
-	
-	private String termLc;
-	
-	private int score;
 
-	private Pattern pattern;
-	
-	public TermScorer(String term, int score) {
-		super();
-		this.term = term;
-		this.score = score;
-		
-		this.pattern = Pattern.compile("(?i).*?\\b" + term + "\\b.*?");
-		this.termLc = term.toLowerCase();
-	}
+  private String term;
 
-	public String getTerm() {
-		return term;
-	}
+  private String termLc;
 
-	public void setTerm(String term) {
-		this.term = term;
-	}
+  private int score;
 
-	public int getScore() {
-		return score;
-	}
+  private Pattern pattern;
 
-	public void setScore(int score) {
-		this.score = score;
-	}
+  public TermScorer(String term, int score) {
+    super();
+    this.term = term;
+    this.score = score;
 
-	public Pattern getPattern() {
-		return pattern;
-	}
+    this.pattern = Pattern.compile("(?i).*?\\b" + term + "\\b.*?");
+    this.termLc = term.toLowerCase();
+  }
 
-	public void setPattern(Pattern pattern) {
-		this.pattern = pattern;
-	}
+  public String getTerm() {
+    return term;
+  }
 
-	public String getTermLc() {
-		return termLc;
-	}
+  public void setTerm(String term) {
+    this.term = term;
+  }
 
-	public void setTermLc(String termLc) {
-		this.termLc = termLc;
-	}
-	
-	
-	
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public Pattern getPattern() {
+    return pattern;
+  }
+
+  public void setPattern(Pattern pattern) {
+    this.pattern = pattern;
+  }
+
+  public String getTermLc() {
+    return termLc;
+  }
+
+  public void setTermLc(String termLc) {
+    this.termLc = termLc;
+  }
+
+
 
 }

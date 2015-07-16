@@ -40,77 +40,83 @@ import com.sun.syndication.io.FeedException;
 @Log4j
 public class BuscapeChannel extends TaskerboxChannel<OfferWrapper> {
 
-	@Getter @Setter
-	@TaskerboxField("Desired Value")
-	private double desiredValue;
+  @Getter
+  @Setter
+  @TaskerboxField("Desired Value")
+  private double desiredValue;
 
-	@Getter @Setter
-	@TaskerboxField("App ID")
-	private String appId;
-	
-	@Getter @Setter
-	@TaskerboxField("Product")
-	private int productId;
-	
-	@Getter @Setter
-	@TaskerboxField("Found Value")
-	private double foundValue;
-		
-	@Override
-	public void setup() throws IOException {
-	}
+  @Getter
+  @Setter
+  @TaskerboxField("App ID")
+  private String appId;
 
-	@Override
-	protected void execute() throws IOException, IllegalArgumentException,
-			FeedException, BuscapeException {
-		
-		Filter filter = new Filter();
-		Buscape buscape = new Buscape(appId, filter);
-		
-		Result maquina = buscape.offerListByProduct(productId);
-		
-		for (Offer offer : maquina.getOffers()) {
-			if (isIgnoredSeller(offer.getSeller().getSellerName())
-					|| isIgnoredProduct(offer.getOfferName())) {
-				continue;
-			}
-			
-			double value = Double.valueOf(offer.getPrice().getValue());
-			
-			if (value < foundValue) {
-				foundValue = value;
-			}
-			
-			if (value < desiredValue) {
-				logInfo(log, "[+] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName() + " - " + value);
-				performUnique(new OfferWrapper(offer));
-			} else {
-				logInfo(log, "[-] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName() + " - " + value + " (Expected " + desiredValue + ")");
-			}
-			
-			
-		}
-	}
+  @Getter
+  @Setter
+  @TaskerboxField("Product")
+  private int productId;
 
-	private boolean isIgnoredSeller(String sellerName) {
-		return false;
-	}
+  @Getter
+  @Setter
+  @TaskerboxField("Found Value")
+  private double foundValue;
 
-	private boolean isIgnoredProduct(String productName) {
-		return false;
-	}
-	
+  @Override
+  public void setup() throws IOException {}
 
-	@Override
-	protected String getItemFingerprint(OfferWrapper entry) {
-		return entry.getValue().getSeller().getSellerName() + ":" + entry.getValue().getOfferName() + ":" + entry.getValue().getPrice().getValue();
-	}
+  @Override
+  protected void execute() throws IOException, IllegalArgumentException, FeedException,
+      BuscapeException {
 
-	@Override
-	public String getDisplayName() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(this.getId()).append(" (R$").append((int) this.getDesiredValue()).append(")");
-		return sb.toString();
-	}	
+    Filter filter = new Filter();
+    Buscape buscape = new Buscape(appId, filter);
+
+    Result maquina = buscape.offerListByProduct(productId);
+
+    for (Offer offer : maquina.getOffers()) {
+      if (isIgnoredSeller(offer.getSeller().getSellerName())
+          || isIgnoredProduct(offer.getOfferName())) {
+        continue;
+      }
+
+      double value = Double.valueOf(offer.getPrice().getValue());
+
+      if (value < foundValue) {
+        foundValue = value;
+      }
+
+      if (value < desiredValue) {
+        logInfo(log, "[+] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName()
+            + " - " + value);
+        performUnique(new OfferWrapper(offer));
+      } else {
+        logInfo(log, "[-] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName()
+            + " - " + value + " (Expected " + desiredValue + ")");
+      }
+
+
+    }
+  }
+
+  private boolean isIgnoredSeller(String sellerName) {
+    return false;
+  }
+
+  private boolean isIgnoredProduct(String productName) {
+    return false;
+  }
+
+
+  @Override
+  protected String getItemFingerprint(OfferWrapper entry) {
+    return entry.getValue().getSeller().getSellerName() + ":" + entry.getValue().getOfferName()
+        + ":" + entry.getValue().getPrice().getValue();
+  }
+
+  @Override
+  public String getDisplayName() {
+    StringBuffer sb = new StringBuffer();
+    sb.append(this.getId()).append(" (R$").append((int) this.getDesiredValue()).append(")");
+    return sb.toString();
+  }
 
 }

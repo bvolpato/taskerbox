@@ -50,327 +50,346 @@ import org.jsoup.select.Elements;
 @Log4j
 public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
-	@Getter @Setter
-	private List<Long> openIds = new ArrayList<Long>();
+  @Getter
+  @Setter
+  private List<Long> openIds = new ArrayList<Long>();
 
-	@Getter @Setter
-	@TaskerboxField("Search")
-	private String search;
+  @Getter
+  @Setter
+  @TaskerboxField("Search")
+  private String search;
 
-	@Getter @Setter
-	@TaskerboxField("Countries")
-	private String[] countries;
-	
-	@Getter @Setter
-	private File toApplyFile;
+  @Getter
+  @Setter
+  @TaskerboxField("Countries")
+  private String[] countries;
 
-	@Getter @Setter
-	@TaskerboxField("External Apply")
-	private boolean externalApply;
-	
-	@Getter @Setter
-	private String tempDir = "e:\\tmp";
-	
-	@Getter @Setter
-	@TaskerboxField("User Email")
-	private String userEmail;
-	
-	@Getter @Setter
-	@TaskerboxField("User Password")
-	private String userPassword;
+  @Getter
+  @Setter
+  private File toApplyFile;
 
-	@Getter @Setter
-	@TaskerboxField("Date Facet")
-	//1=1 day ago, 2=2-7 days, 3=8-14 days, 4=15-30 days 
-	private String dateFacet = "1,2,3";
-	
-	public void bootstrapLinkedInHttpClient(boolean fetchCookie) throws ClientProtocolException, IllegalStateException, IOException, URISyntaxException {
-		this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
-		
-		HttpGet get = new HttpGet("https://www.linkedin.com/");
-		HttpResponse getResponse = this.httpClient.execute(get);
-		
-		String getContent = EntityUtils.toString(getResponse.getEntity());
-		
-		Document getDoc = Jsoup.parse(getContent);
-		
-		String loginCsrfParam = getDoc.select("input[name=loginCsrfParam]").attr("value");
-		String csrfToken = getDoc.select("input[name=csrfToken]").attr("value");
-		
-		logInfo(log, loginCsrfParam);
-		
-		HttpPost post = new HttpPost("https://www.linkedin.com/uas/login-submit");
-		List<NameValuePair> pairs2 = new ArrayList<NameValuePair>();
-		pairs2.add(new BasicNameValuePair("isJsEnabled", "true"));
-		pairs2.add(new BasicNameValuePair("source_app", ""));
-		pairs2.add(new BasicNameValuePair("session_key", userEmail));
-		pairs2.add(new BasicNameValuePair("session_password", userPassword));
-		pairs2.add(new BasicNameValuePair("session_redirect", ""));
-		pairs2.add(new BasicNameValuePair("trk", ""));
-		pairs2.add(new BasicNameValuePair("loginCsrfParam", loginCsrfParam));
-		pairs2.add(new BasicNameValuePair("fromEmail", ""));
-		pairs2.add(new BasicNameValuePair("csrfToken", csrfToken));
-		pairs2.add(new BasicNameValuePair("sourceAlias", "0_7r5yezRXCiA_H0CRD8sf6DhOjTKUNps5xGTqeX8EEoi"));
-		pairs2.add(new BasicNameValuePair("client_ts", "1413507675390"));
-		pairs2.add(new BasicNameValuePair("client_r", "a@gmail.com:812661382:422199706:736472965"));
-		pairs2.add(new BasicNameValuePair("client_output", "-1850142"));
-		pairs2.add(new BasicNameValuePair("client_n", "812661382:422199706:736472965"));
-		pairs2.add(new BasicNameValuePair("client_v", "1.0.1"));
-		
-		
-		UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(pairs2);
-		post.setEntity(entity2);
-		
-		this.httpClient.execute(post);
-		
+  @Getter
+  @Setter
+  @TaskerboxField("External Apply")
+  private boolean externalApply;
 
-	}
+  @Getter
+  @Setter
+  private String tempDir = "e:\\tmp";
 
-	public void setup() {
-		super.setup();
-		
-		try {
-			bootstrapLinkedInHttpClient(true);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	private boolean handleJob(JSONObject job) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
-		if (job.getBoolean("isApplied")) {
-			return false;
-		}
+  @Getter
+  @Setter
+  @TaskerboxField("User Email")
+  private String userEmail;
 
-		long jobId = job.getLong("id");
+  @Getter
+  @Setter
+  @TaskerboxField("User Password")
+  private String userPassword;
 
-		if (!openIds.contains(jobId)) {
-			openIds.add(jobId);
-			// uniqueCount++;
-		} else {
-			return false;
-		}
+  @Getter
+  @Setter
+  @TaskerboxField("Date Facet")
+  // 1=1 day ago, 2=2-7 days, 3=8-14 days, 4=15-30 days
+  private String dateFacet = "1,2,3";
 
-		String jobTitle = job.getString("fmt_jobTitle").replaceAll("</?B>", "");
+  public void bootstrapLinkedInHttpClient(boolean fetchCookie) throws ClientProtocolException,
+      IllegalStateException, IOException, URISyntaxException {
+    this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
 
-		if (!externalApply
-				&& job.has("sourceDomain")) {
-			logInfo(log, jobId + " - " + jobTitle + " - " + job.getString("sourceDomain") + " --> ignored [external]");
-			return true;
-		}
+    HttpGet get = new HttpGet("https://www.linkedin.com/");
+    HttpResponse getResponse = this.httpClient.execute(get);
 
-		
+    String getContent = EntityUtils.toString(getResponse.getEntity());
 
-		
-		String jobEmployer = job.getString("fmt_companyName");
+    Document getDoc = Jsoup.parse(getContent);
 
-		String jobUrl = "https://www.linkedin.com/jobs2/view/" + jobId;
-		if (alreadyPerformedAction(jobUrl)) {
-			return true;
-		}
+    String loginCsrfParam = getDoc.select("input[name=loginCsrfParam]").attr("value");
+    String csrfToken = getDoc.select("input[name=csrfToken]").attr("value");
 
-		String location = "";
-		if (job.has("fmt_location")) {
-			location = job.getString("fmt_location");
-		}
-		String headline = jobUrl + " - " + location + " - " + jobTitle + " - " + jobEmployer;
+    logInfo(log, loginCsrfParam);
 
-		if (job.has("sourceDomain")) {
-			String sourceDomain =  job.getString("sourceDomain");
-			if (externalApply
-					&& (sourceDomain.contains("empregocerto.uol.com.br")
-							|| sourceDomain.contains("jobomas.com")
-							|| sourceDomain.contains("curriculum.com.br")
-							) 
-					) {
-				logInfo(log, "-- Ignored [externalApply - domain " + sourceDomain + "] " + headline);
-				addAlreadyPerformedAction(jobUrl);
-				return true;
-			}
-		}
-		
-		if (!considerTitle(jobTitle)) {
-			logInfo(log, "-- Ignored [title] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+    HttpPost post = new HttpPost("https://www.linkedin.com/uas/login-submit");
+    List<NameValuePair> pairs2 = new ArrayList<NameValuePair>();
+    pairs2.add(new BasicNameValuePair("isJsEnabled", "true"));
+    pairs2.add(new BasicNameValuePair("source_app", ""));
+    pairs2.add(new BasicNameValuePair("session_key", userEmail));
+    pairs2.add(new BasicNameValuePair("session_password", userPassword));
+    pairs2.add(new BasicNameValuePair("session_redirect", ""));
+    pairs2.add(new BasicNameValuePair("trk", ""));
+    pairs2.add(new BasicNameValuePair("loginCsrfParam", loginCsrfParam));
+    pairs2.add(new BasicNameValuePair("fromEmail", ""));
+    pairs2.add(new BasicNameValuePair("csrfToken", csrfToken));
+    pairs2.add(new BasicNameValuePair("sourceAlias",
+        "0_7r5yezRXCiA_H0CRD8sf6DhOjTKUNps5xGTqeX8EEoi"));
+    pairs2.add(new BasicNameValuePair("client_ts", "1413507675390"));
+    pairs2.add(new BasicNameValuePair("client_r", "a@gmail.com:812661382:422199706:736472965"));
+    pairs2.add(new BasicNameValuePair("client_output", "-1850142"));
+    pairs2.add(new BasicNameValuePair("client_n", "812661382:422199706:736472965"));
+    pairs2.add(new BasicNameValuePair("client_v", "1.0.1"));
 
-		try {
-			FileWriter out = new FileWriter(new File(tempDir + "\\job-db\\_titles.txt"), true);
-			out.write(jobTitle + "\r\n");
-			out.close();
-		} catch (Exception e) {
-		}
 
-		if (!considerEmployer(jobEmployer)) {
-			logInfo(log, "-- Ignored [employer] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+    UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(pairs2);
+    post.setEntity(entity2);
 
-		if (!considerLocation(location)) {
-			logInfo(log, "-- Ignored [location] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
-		
-		HttpEntity jobEntity = TaskerboxHttpBox.getInstance().getEntityForURL(jobUrl);
-		String jobResult = TaskerboxHttpBox.getInstance().readResponseFromEntity(jobEntity);
-		Document jobDocument = Jsoup.parse(jobResult);
-		Elements elDescription = jobDocument.select("div.description-section").select("div.rich-text");
-		Elements elSkills = jobDocument.select("div.skills-section").select("div.rich-text");
+    this.httpClient.execute(post);
 
-		
-		//FileWriter out = new FileWriter(new File(tempDir + "\\job-db\\" + jobId + ".txt"));
-		//out.write(elDescription.text() + "\r\n");
-		//out.write(elSkills.text());
-		//out.close();
 
-		if (!externalApply
-				&& !jobResult.contains("onsite-apply")) {
-			logInfo(log, "-- Ignored [onsite apply] " + headline);
-			addAlreadyPerformedAction(jobUrl);
+  }
 
-			try {
-				Thread.sleep(5000L);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			return true;
-		}
+  public void setup() {
+    super.setup();
 
-		if (!considerVisaDescription(elDescription.html()) || !considerVisaDescription(elSkills.html())) {
-			logInfo(log, "-- Ignored [visa] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
-		if (!considerExperienceDescription(elDescription.html()) || !considerExperienceDescription(elSkills.html())) {
-			logInfo(log, "-- Ignored [exp] " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+    try {
+      bootstrapLinkedInHttpClient(true);
+    } catch (ClientProtocolException e) {
+      e.printStackTrace();
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+  }
 
-		ScorerResult result = LinkedInJobDBComparer.getScore(elDescription.html() + " - " + elSkills.html());
 
-		if (result.getScore() < requiredScore) {
-			logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - " + headline);
-			addAlreadyPerformedAction(jobUrl);
-			return true;
-		}
+  private boolean handleJob(JSONObject job) throws JSONException, ClientProtocolException,
+      IOException, URISyntaxException {
+    if (job.getBoolean("isApplied")) {
+      return false;
+    }
 
-		headline = headline + " - " + result.getMatches();
+    long jobId = job.getLong("id");
 
-		logInfo(log, headline);
-		logInfo(log, elDescription.html());
+    if (!openIds.contains(jobId)) {
+      openIds.add(jobId);
+      // uniqueCount++;
+    } else {
+      return false;
+    }
 
-		performUnique(jobUrl);
+    String jobTitle = job.getString("fmt_jobTitle").replaceAll("</?B>", "");
 
-		try {
-			Thread.sleep(5000L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    if (!externalApply && job.has("sourceDomain")) {
+      logInfo(log, jobId + " - " + jobTitle + " - " + job.getString("sourceDomain")
+          + " --> ignored [external]");
+      return true;
+    }
 
-		return true;
 
-	}
 
-	public BasicClientCookie buildCookie(String name, String value) {
-		return TaskerboxHttpBox.buildCookie(name, value, "www.linkedin.com", "/");
-	}
+    String jobEmployer = job.getString("fmt_companyName");
 
-	@Override
-	protected void execute() throws Exception {
-		
-		for (String country : countries) {
-			try {
-				int strikeCount = 0;
-				
-				for (int x = 1; x < maxPages; x++) {
-					
-					//If channel is paused, stop execution
-					if (this.isPaused() && !this.isForced()) {
-						return;
-					}
-					
-					int uniqueCount = 0;
-					
-					// DefaultHttpClient client =
-					// TaskerboxHttpBox.getInstance().buildNewHttpClient();
-					String seekUrl = "https://www.linkedin.com/vsearch/jj?keywords=" + URLEncoder.encode(search) + "&countryCode=" + country + "&sortBy=DD&orig=JSHP&distance=100&locationType=I&openFacets=L,C,N&page_num=" + x + "&pt=jobs&f_TP=" + dateFacet;
-					logInfo(log, "... Seeking " + seekUrl);
-					HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
-					String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);
-					if (result.contains("<title>Sign Up | LinkedIn</title>") || result.contains("<title>LinkedIn | LinkedIn</title>") || result.contains("<p class=\"signin-link\">Already have an account?")) {
-						logError(log, "Solicitado login... Saindo.");
-						
-						this.bootstrapLinkedInHttpClient(true);
-						continue;
-						//return;
-					}
-		
-					try {
-						JSONArray jobs = new JSONObject(result).getJSONObject("content").getJSONObject("page").getJSONObject("voltron_unified_search_json").getJSONObject("search").getJSONArray("results");
-						
-						for (int j = 0; j < jobs.length(); j++) {
-							try {
-								JSONObject idxObject = jobs.getJSONObject(j);
-								if (!idxObject.has("job")) {
-									continue;
-								}
-								
-								JSONObject job = idxObject.getJSONObject("job");
-		
-								if (handleJob(job)) {
-									uniqueCount++;
-								}
-		
-							} catch (Exception e) {
-								logError(log, "Exception reading --> " + jobs.get(j));
-								e.printStackTrace();
-							}
-		
-						}
-		
-						if (uniqueCount == 0) {
-							logInfo(log, "Zero unique count. Striking...");
-							
-							strikeCount++;
-							if (strikeCount > 2) {
-								logInfo(log, "BREAK -- ZERO UNIQUE COUNT! STRIKES!");
-								break;
-							}
-						}
-		
-						try {
-							Thread.sleep(10000L);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-							return;
-						}
-						
-						//If channel is paused, stop execution
-						if (this.isPaused() && !this.isForced()) {
-							logInfo(log, "Channel is paused, interrupting [2]...");
-							return;
-						}
-						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}		
-	}
+    String jobUrl = "https://www.linkedin.com/jobs2/view/" + jobId;
+    if (alreadyPerformedAction(jobUrl)) {
+      return true;
+    }
 
-		
+    String location = "";
+    if (job.has("fmt_location")) {
+      location = job.getString("fmt_location");
+    }
+    String headline = jobUrl + " - " + location + " - " + jobTitle + " - " + jobEmployer;
+
+    if (job.has("sourceDomain")) {
+      String sourceDomain = job.getString("sourceDomain");
+      if (externalApply
+          && (sourceDomain.contains("empregocerto.uol.com.br")
+              || sourceDomain.contains("jobomas.com") || sourceDomain.contains("curriculum.com.br"))) {
+        logInfo(log, "-- Ignored [externalApply - domain " + sourceDomain + "] " + headline);
+        addAlreadyPerformedAction(jobUrl);
+        return true;
+      }
+    }
+
+    if (!considerTitle(jobTitle)) {
+      logInfo(log, "-- Ignored [title] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    try {
+      FileWriter out = new FileWriter(new File(tempDir + "\\job-db\\_titles.txt"), true);
+      out.write(jobTitle + "\r\n");
+      out.close();
+    } catch (Exception e) {
+    }
+
+    if (!considerEmployer(jobEmployer)) {
+      logInfo(log, "-- Ignored [employer] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    if (!considerLocation(location)) {
+      logInfo(log, "-- Ignored [location] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    HttpEntity jobEntity = TaskerboxHttpBox.getInstance().getEntityForURL(jobUrl);
+    String jobResult = TaskerboxHttpBox.getInstance().readResponseFromEntity(jobEntity);
+    Document jobDocument = Jsoup.parse(jobResult);
+    Elements elDescription = jobDocument.select("div.description-section").select("div.rich-text");
+    Elements elSkills = jobDocument.select("div.skills-section").select("div.rich-text");
+
+
+    // FileWriter out = new FileWriter(new File(tempDir + "\\job-db\\" + jobId + ".txt"));
+    // out.write(elDescription.text() + "\r\n");
+    // out.write(elSkills.text());
+    // out.close();
+
+    if (!externalApply && !jobResult.contains("onsite-apply")) {
+      logInfo(log, "-- Ignored [onsite apply] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+
+      try {
+        Thread.sleep(5000L);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+      return true;
+    }
+
+    if (!considerVisaDescription(elDescription.html()) || !considerVisaDescription(elSkills.html())) {
+      logInfo(log, "-- Ignored [visa] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+    if (!considerExperienceDescription(elDescription.html())
+        || !considerExperienceDescription(elSkills.html())) {
+      logInfo(log, "-- Ignored [exp] " + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    ScorerResult result =
+        LinkedInJobDBComparer.getScore(elDescription.html() + " - " + elSkills.html());
+
+    if (result.getScore() < requiredScore) {
+      logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - "
+          + headline);
+      addAlreadyPerformedAction(jobUrl);
+      return true;
+    }
+
+    headline = headline + " - " + result.getMatches();
+
+    logInfo(log, headline);
+    logInfo(log, elDescription.html());
+
+    performUnique(jobUrl);
+
+    try {
+      Thread.sleep(5000L);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    return true;
+
+  }
+
+  public BasicClientCookie buildCookie(String name, String value) {
+    return TaskerboxHttpBox.buildCookie(name, value, "www.linkedin.com", "/");
+  }
+
+  @Override
+  protected void execute() throws Exception {
+
+    for (String country : countries) {
+      try {
+        int strikeCount = 0;
+
+        for (int x = 1; x < maxPages; x++) {
+
+          // If channel is paused, stop execution
+          if (this.isPaused() && !this.isForced()) {
+            return;
+          }
+
+          int uniqueCount = 0;
+
+          // DefaultHttpClient client =
+          // TaskerboxHttpBox.getInstance().buildNewHttpClient();
+          String seekUrl =
+              "https://www.linkedin.com/vsearch/jj?keywords=" + URLEncoder.encode(search)
+                  + "&countryCode=" + country
+                  + "&sortBy=DD&orig=JSHP&distance=100&locationType=I&openFacets=L,C,N&page_num="
+                  + x + "&pt=jobs&f_TP=" + dateFacet;
+          logInfo(log, "... Seeking " + seekUrl);
+          HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
+          String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);
+          if (result.contains("<title>Sign Up | LinkedIn</title>")
+              || result.contains("<title>LinkedIn | LinkedIn</title>")
+              || result.contains("<p class=\"signin-link\">Already have an account?")) {
+            logError(log, "Solicitado login... Saindo.");
+
+            this.bootstrapLinkedInHttpClient(true);
+            continue;
+            // return;
+          }
+
+          try {
+            JSONArray jobs =
+                new JSONObject(result).getJSONObject("content").getJSONObject("page")
+                    .getJSONObject("voltron_unified_search_json").getJSONObject("search")
+                    .getJSONArray("results");
+
+            for (int j = 0; j < jobs.length(); j++) {
+              try {
+                JSONObject idxObject = jobs.getJSONObject(j);
+                if (!idxObject.has("job")) {
+                  continue;
+                }
+
+                JSONObject job = idxObject.getJSONObject("job");
+
+                if (handleJob(job)) {
+                  uniqueCount++;
+                }
+
+              } catch (Exception e) {
+                logError(log, "Exception reading --> " + jobs.get(j));
+                e.printStackTrace();
+              }
+
+            }
+
+            if (uniqueCount == 0) {
+              logInfo(log, "Zero unique count. Striking...");
+
+              strikeCount++;
+              if (strikeCount > 2) {
+                logInfo(log, "BREAK -- ZERO UNIQUE COUNT! STRIKES!");
+                break;
+              }
+            }
+
+            try {
+              Thread.sleep(10000L);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+              return;
+            }
+
+            // If channel is paused, stop execution
+            if (this.isPaused() && !this.isForced()) {
+              logInfo(log, "Channel is paused, interrupting [2]...");
+              return;
+            }
+
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+
 }

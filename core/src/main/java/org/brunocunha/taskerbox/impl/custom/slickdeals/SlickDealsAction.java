@@ -36,100 +36,98 @@ import org.jsoup.nodes.Element;
 @Log4j
 public class SlickDealsAction extends EmailDelegateAction<Document> {
 
-	private static final String HOST = "http://slickdeals.net";
-	
-	private Set<String> alreadyAct = new TreeSet<String>();
+  private static final String HOST = "http://slickdeals.net";
 
-	private List<String> ignored;
-	
-	@Override
-	public void setup() {
-		try {
-			alreadyAct = (Set<String>) TaskerboxFileUtils
-					.deserializeMemory(this);
-		} catch (Exception e) {
-			logWarn(log, "Error occurred while deserializing data for "
-					+ this.getId() + ": " + e.getMessage());
-		}
-	}
+  private Set<String> alreadyAct = new TreeSet<String>();
 
-	@Override
-	public void action(final Document entry) {
-		
-		post:
-		for (Element el : entry.select("tr[id^=sdpostrow]").select(".threadtitleline")) {
-			
-			final String url = el.select("a[id^=thread_title]").attr("href");
-			final String postTitle = el.select("a[id^=thread_title]").text();
+  private List<String> ignored;
 
-			if (!alreadyAct.contains(postTitle)) {
-				alreadyAct.add(postTitle);
-				
-				if (ignored != null) {
-					for (String ignoredString : ignored) {
-						if (postTitle.toLowerCase().contains(ignoredString.toLowerCase())) {
-							continue post;
-						}
-					}
-				}
-				
-				
-				spreadAction(HOST + url, postTitle);
-				
-				try {
-					TaskerboxFileUtils.serializeMemory(this, alreadyAct);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-			}
+  @Override
+  public void setup() {
+    try {
+      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+    } catch (Exception e) {
+      logWarn(log,
+          "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
+    }
+  }
+
+  @Override
+  public void action(final Document entry) {
+
+    post: for (Element el : entry.select("tr[id^=sdpostrow]").select(".threadtitleline")) {
+
+      final String url = el.select("a[id^=thread_title]").attr("href");
+      final String postTitle = el.select("a[id^=thread_title]").text();
+
+      if (!alreadyAct.contains(postTitle)) {
+        alreadyAct.add(postTitle);
+
+        if (ignored != null) {
+          for (String ignoredString : ignored) {
+            if (postTitle.toLowerCase().contains(ignoredString.toLowerCase())) {
+              continue post;
+            }
+          }
+        }
 
 
-		}
+        spreadAction(HOST + url, postTitle);
 
-	}
+        try {
+          TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
 
-	public void spreadAction(final String url, String postTitle) {
-		StringToasterAction toasterAction = new StringToasterAction();
-		toasterAction.setActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().browse(new URI(url));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
+      }
 
-			}
-		});
 
-		toasterAction.setTitle("SlickDeals Alert");
-		toasterAction.action(postTitle);
-		
-	}
+    }
 
-	public String getId() {
-		return id;
-	}
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public void spreadAction(final String url, String postTitle) {
+    StringToasterAction toasterAction = new StringToasterAction();
+    toasterAction.setActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        } catch (URISyntaxException e1) {
+          e1.printStackTrace();
+        }
 
-	public List<String> getIgnored() {
-		return ignored;
-	}
+      }
+    });
 
-	public void setIgnored(List<String> ignored) {
-		this.ignored = ignored;
-	}
+    toasterAction.setTitle("SlickDeals Alert");
+    toasterAction.action(postTitle);
 
-	
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public List<String> getIgnored() {
+    return ignored;
+  }
+
+  public void setIgnored(List<String> ignored) {
+    this.ignored = ignored;
+  }
+
+
 }

@@ -28,28 +28,29 @@ import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
 
 /**
  * RegistroRastreamento Wrapper - Emailable
+ * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
 @RequiredArgsConstructor
 public class CorreiosTrackingWrapper implements ITaskerboxEmailable {
 
-	@Getter @Setter
-	private RegistroRastreamento value;
-	
-	public CorreiosTrackingWrapper(RegistroRastreamento value) {
-		this.value = value;
-	}
+  @Getter
+  @Setter
+  private RegistroRastreamento value;
 
-	@Override
-	public String getEmailTitle(TaskerboxChannel<?> channel) {
-		return "Tracking " + channel.getProperty("tracking") + " - " + channel.getProperty("descricao");
-	}
+  public CorreiosTrackingWrapper(RegistroRastreamento value) {
+    this.value = value;
+  }
 
-	@Override
-	public String getEmailBody(TaskerboxChannel<?> channel) {
-		return  CorreiosChannel
-				.formatTracking((RegistroRastreamento) value, channel.getProperty("tracking"),
-						channel.getProperty("descricao"));
-	}
+  @Override
+  public String getEmailTitle(TaskerboxChannel<?> channel) {
+    return "Tracking " + channel.getProperty("tracking") + " - " + channel.getProperty("descricao");
+  }
+
+  @Override
+  public String getEmailBody(TaskerboxChannel<?> channel) {
+    return CorreiosChannel.formatTracking((RegistroRastreamento) value,
+        channel.getProperty("tracking"), channel.getProperty("descricao"));
+  }
 }

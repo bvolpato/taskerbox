@@ -35,71 +35,71 @@ import org.hibernate.validator.constraints.URL;
 @Log4j
 public class SOAPChannel<T> extends TaskerboxChannel<T> {
 
-	@NotEmpty
-	@URL
-	private String wsAddress;
-	
-	private Class<? extends TaskerboxWebService> wsClass = MessageWebService.class;
-	
-	public SOAPChannel() {
-		this.singleItemAction = false;
-	}
-	
-	@WebMethod(operationName = "sendMessage")
-	public String sendMessage(@WebParam(name = "msg") T msg) {
-		log.debug("Performing actions to message");
+  @NotEmpty
+  @URL
+  private String wsAddress;
 
-		for (ITaskerboxAction<T> action : this.getActions()) {
-			action.action(msg);
-		}
-		
-		return msg.hashCode() + " received.";
-	}
+  private Class<? extends TaskerboxWebService> wsClass = MessageWebService.class;
 
-	@Override
-	@WebMethod(exclude=true)
-	protected void execute() throws Exception {
+  public SOAPChannel() {
+    this.singleItemAction = false;
+  }
 
-		TaskerboxWebService<T> wsImpl = wsClass.newInstance();
-		wsImpl.setChannel(this);
-		
-		Endpoint.publish(wsAddress, wsImpl);
-		
-		logInfo(log, "Web service '" + wsClass.getName() + "' was published successfully.\n"
-				+ "WSDL URL: " + wsAddress + "?WSDL");
-		
-		// Keep the local web server running until the process is killed
-		while (Thread.currentThread().isAlive()) {
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException ex) {
-			}
-		}
+  @WebMethod(operationName = "sendMessage")
+  public String sendMessage(@WebParam(name = "msg") T msg) {
+    log.debug("Performing actions to message");
 
-	}
+    for (ITaskerboxAction<T> action : this.getActions()) {
+      action.action(msg);
+    }
 
-	@Override
-	@WebMethod(exclude=true)
-	public String getItemFingerprint(T entry) {
-		return entry.toString();
-	}
-	
-	@WebMethod(exclude=true)
-	public String getWsAddress() {
-		return wsAddress;
-	}
+    return msg.hashCode() + " received.";
+  }
 
-	@WebMethod(exclude=true)
-	public void setWsAddress(String wsAddress) {
-		this.wsAddress = wsAddress;
-	}
+  @Override
+  @WebMethod(exclude = true)
+  protected void execute() throws Exception {
 
-	public Class<? extends TaskerboxWebService> getWsClass() {
-		return wsClass;
-	}
+    TaskerboxWebService<T> wsImpl = wsClass.newInstance();
+    wsImpl.setChannel(this);
 
-	public void setWsClass(Class<? extends TaskerboxWebService> wsClass) {
-		this.wsClass = wsClass;
-	}
-	
+    Endpoint.publish(wsAddress, wsImpl);
+
+    logInfo(log, "Web service '" + wsClass.getName() + "' was published successfully.\n"
+        + "WSDL URL: " + wsAddress + "?WSDL");
+
+    // Keep the local web server running until the process is killed
+    while (Thread.currentThread().isAlive()) {
+      try {
+        Thread.sleep(10000);
+      } catch (InterruptedException ex) {
+      }
+    }
+
+  }
+
+  @Override
+  @WebMethod(exclude = true)
+  public String getItemFingerprint(T entry) {
+    return entry.toString();
+  }
+
+  @WebMethod(exclude = true)
+  public String getWsAddress() {
+    return wsAddress;
+  }
+
+  @WebMethod(exclude = true)
+  public void setWsAddress(String wsAddress) {
+    this.wsAddress = wsAddress;
+  }
+
+  public Class<? extends TaskerboxWebService> getWsClass() {
+    return wsClass;
+  }
+
+  public void setWsClass(Class<? extends TaskerboxWebService> wsClass) {
+    this.wsClass = wsClass;
+  }
+
 }
