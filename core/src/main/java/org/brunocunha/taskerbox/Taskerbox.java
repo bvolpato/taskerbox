@@ -74,7 +74,6 @@ public class Taskerbox {
     log.info("Inicializando Taskerbox...");
 
     Taskerbox tasker = new Taskerbox();
-    tasker.handleTaskerbox("macros.xml");
 
     if (!GraphicsEnvironment.isHeadless()) {
       TaskerboxControlFrame frame = TaskerboxControlFrame.buildInstance(tasker);
@@ -94,6 +93,8 @@ public class Taskerbox {
   }
 
   public void handleDefaultFiles() throws Exception {
+    handleTaskerbox("macros.xml");
+    
     String hostName = InetAddress.getLocalHost().getHostName();
     log.info("Host name: " + hostName);
 

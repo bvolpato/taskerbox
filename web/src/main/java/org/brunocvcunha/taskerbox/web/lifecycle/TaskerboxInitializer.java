@@ -47,29 +47,10 @@ public class TaskerboxInitializer implements ServletContextListener {
     log.info("Initializating Taskerbox...");
     
     try {
-      String hostName = InetAddress.getLocalHost().getHostName();
-      log.info("Host name: " + hostName);
 
-      Taskerbox tasker = new Taskerbox();
-      log.info("Handling macros...");
-      tasker.handleTaskerbox("macros.xml");
-
-      String taskerboxDir = System.getProperty("taskerbox.dir", System.getProperty("user.home") + "/Dropbox/Taskerbox");
-      File taskerboxDirFile = new File(taskerboxDir);
+      taskerboxInstance = new Taskerbox();
+      taskerboxInstance.handleDefaultFiles();
       
-      File hostNameFile = new File(taskerbox, "taskerbox-" + hostName + ".xml");
-      log.info("Handling hostName file: " + hostNameURL);
-      if (hostNameURL != null) {
-        tasker.handleTaskerbox(hostNameURL);
-      }
-
-      URL commonURL = sce.getServletContext().getResource("/WEB-INF/classes/web-taskerbox.xml");
-      log.info("Handling common file: " + commonURL);
-      if (commonURL != null) {
-        tasker.handleTaskerbox(commonURL);
-      }
-      
-      taskerboxInstance = tasker;
     } catch (Exception e) {
       throw new RuntimeException("Exception initializing taskerbox", e);
     }
