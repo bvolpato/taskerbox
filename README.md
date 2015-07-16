@@ -22,14 +22,14 @@ Actions
 --------
 - Desktop Toaster
 - Email Sending
-- SMS Sending (Plivo)
+- SMS Sending ([Plivo](https://www.plivo.com/))
 - WhatsApp
 
 
 Example
 --------
 
-For example, to receive Tweet Messages in your desktop (Toaster Message):
+For example, to receive Tweet Messages in your desktop (Toaster Message), polling every minute:
 ```xml
 <taskerbox>
 
@@ -47,18 +47,19 @@ For example, to receive Tweet Messages in your desktop (Toaster Message):
 
 ```
 
-To receive [Hacker News (YCombinator)](https://news.ycombinator.com/) in your Gmail, also popping up a Toaster:
+To receive [Hacker News (YCombinator)](https://news.ycombinator.com/) in your Gmail, also popping up a Toaster (polling every two minutes):
 ```xml
 
 <org.brunocunha.taskerbox.impl.feed.FeedChannel
   id="YCombinatorFeed" feedUrl="https://news.ycombinator.com/rss" every="120000">
+
   <org.brunocunha.taskerbox.impl.email.EmailAction
     smtpFrom="Taskerbox v0.1 &lt;taskerbox@brunocandido.com&gt;"
     smtpHost="mail.brunocandido.com" smtpPort="587" smtpUser="taskerbox@brunocandido.com"
     smtpPassword="(password)"  enableTLS="true" email="brunocvcunha@gmail.com" />
 
   <org.brunocunha.taskerbox.impl.feed.FeedToasterAction />
-  
+
 </org.brunocunha.taskerbox.impl.feed.FeedChannel>
 
 ```
