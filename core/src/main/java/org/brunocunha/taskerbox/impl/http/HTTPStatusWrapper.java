@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.brunocunha.taskerbox.impl.twitter;
+package org.brunocunha.taskerbox.impl.http;
 
 import java.util.Properties;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -26,53 +27,62 @@ import org.brunocunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
 import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
 
-import twitter4j.Status;
-
 /**
- * Twitter Status Wrapper - Emailable
+ * HTTP Status Wrapper - Emailable / Messageable
  * 
  * @author Bruno Candido Volpato da Cunha
  *
  */
 @RequiredArgsConstructor
-public class StatusWrapper implements ITaskerboxEmailable, ITaskerboxMessageable {
+public class HTTPStatusWrapper implements ITaskerboxEmailable, ITaskerboxMessageable {
 
   @Getter
   @Setter
-  private Status value;
+  @NonNull
+  private String statusLine;
 
-  public StatusWrapper(Status value) {
-    this.value = value;
-  }
+  @Getter
+  @Setter
+  @NonNull
+  private String url;
+
+  @Getter
+  @Setter
+  @NonNull
+  private String content;
 
   @Override
   public String getEmailTitle(TaskerboxChannel<?> channel) {
-    return "@" + value.getUser().getScreenName() + " Tweet";
+    return channel.getId() + " Status";
   }
 
   @Override
   public String getEmailBody(TaskerboxChannel<?> channel) {
 
     Properties templateProps = new Properties();
-    templateProps.put("status", value);
+    templateProps.put("statusLine", statusLine);
+    templateProps.put("url", url);
+    templateProps.put("content", content);
 
-    return TaskerboxVelocityUtils.processTemplate("email/tweet.html", templateProps);
+    return TaskerboxVelocityUtils.processTemplate("email/httpstatus.html", templateProps);
   }
 
   @Override
   public String getMessageTitle(TaskerboxChannel<?> channel) {
-    return "Tweet de @" + value.getUser().getScreenName();
+    return channel.getId() + " Status";
   }
 
   @Override
   public String getMessageBody(TaskerboxChannel<?> channel) {
-    return value.getText();
+    return channel.getId() + " - " + url + " - " + statusLine + " - " + content;
   }
 
   @Override
   public String toString() {
-    return "HTTPStatusWrapper [value=" + value + "]";
+    return "HTTPStatusWrapper [statusLine=" + statusLine + ", url=" + url + ", content=" + content
+        + "]";
   }
+
 
 
 }

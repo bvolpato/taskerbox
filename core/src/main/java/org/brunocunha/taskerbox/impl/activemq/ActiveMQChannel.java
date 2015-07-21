@@ -29,19 +29,23 @@ import lombok.Setter;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
+import org.brunocunha.taskerbox.core.annotation.TaskerboxField;
 
 public class ActiveMQChannel extends TaskerboxChannel<Message> {
 
   @Getter
   @Setter
+  @TaskerboxField("Connection")
   private String connectionString;
 
   @Getter
   @Setter
+  @TaskerboxField("Queue/Topic Name")
   private String queueName;
 
   @Getter
   @Setter
+  @TaskerboxField("Use Topic")
   private boolean topicSchema;
 
   @Getter

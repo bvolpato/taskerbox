@@ -106,7 +106,7 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 
   @Getter
   @Setter
-  private String emailTitle = "Email de Taskerbox";
+  private String emailTitle;
 
   /*
    * public static void main(String[] args) { Properties prop = new Properties(); prop.put("title",
@@ -143,7 +143,12 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
   private void handleEmailable(ITaskerboxEmailable entry) {
 
     try {
-      send(entry.getEmailTitle(getChannel()), entry.getEmailBody(getChannel()));
+      String emailTitle = getEmailTitle();
+      if (emailTitle == null) {
+        emailTitle = entry.getEmailTitle(getChannel());
+      }
+      
+      send(emailTitle, entry.getEmailBody(getChannel()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -155,7 +160,12 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
   private void handleEmailValue(EmailValueVO email) {
 
     try {
-      send(email.getTitle(), email.getBody());
+      String emailTitle = getEmailTitle();
+      if (emailTitle == null) {
+        emailTitle = email.getTitle();
+      }
+
+      send(emailTitle, email.getBody());
     } catch (Exception e) {
       e.printStackTrace();
     }

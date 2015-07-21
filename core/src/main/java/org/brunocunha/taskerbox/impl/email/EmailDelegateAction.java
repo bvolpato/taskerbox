@@ -66,7 +66,7 @@ public abstract class EmailDelegateAction<T> extends DefaultTaskerboxAction<T> {
 
   @Getter
   @Setter
-  private String emailTitle = "Email de Taskerbox";
+  private String emailTitle;
 
   protected EmailAction getEmailAction() {
     EmailAction email = new EmailAction();

@@ -37,7 +37,7 @@ import com.sun.syndication.io.FeedException;
  * 
  */
 @Log4j
-public class HTTPUptimeChannel extends TaskerboxChannel<String> {
+public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
 
   @URL
   @Getter
@@ -85,7 +85,7 @@ public class HTTPUptimeChannel extends TaskerboxChannel<String> {
 
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-          perform("Error fetching " + url + " - " + response.getStatusLine().toString());
+          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, "Error fetching " + url + " - " + response.getStatusLine().toString()));
           logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
           return;
         }
@@ -96,7 +96,7 @@ public class HTTPUptimeChannel extends TaskerboxChannel<String> {
 
         if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
             || (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
-          perform(responseBody);
+          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, responseBody));
         }
 
         lastError = null;
@@ -119,16 +119,17 @@ public class HTTPUptimeChannel extends TaskerboxChannel<String> {
 
     if (lastError != null) {
       logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
-      perform("Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries
-          + " tries");
+      
+      perform(new HTTPStatusWrapper("Error", url, "Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries
+          + " tries"));
     }
 
   }
 
 
   @Override
-  protected String getItemFingerprint(String entry) {
-    return entry;
+  protected String getItemFingerprint(HTTPStatusWrapper entry) {
+    return entry.getContent();
   }
 
   @Override

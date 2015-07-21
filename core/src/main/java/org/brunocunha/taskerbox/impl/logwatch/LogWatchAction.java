@@ -134,7 +134,6 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 
     if (newLines.size() > 0) {
 
-
       EmailAction email = getEmailAction();
       EmailValueVO emailVO = new EmailValueVO();
       emailVO.setTitle("Log Watcher [" + getChannel().getId() + "]");
