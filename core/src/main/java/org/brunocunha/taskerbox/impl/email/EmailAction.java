@@ -32,6 +32,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -185,8 +186,9 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
       sslAuthenticator = new SSLAuthenticator(smtpUser, smtpPassword);
 
       SSLContext ctx = SSLContext.getInstance("TLS");
-      ctx.init(new KeyManager[0], new TrustManager[] {new SSLAuthenticator.DefaultTrustManager()},
+      ctx.init(null, new TrustManager[] {new SSLAuthenticator.DefaultTrustManager()},
           new SecureRandom());
+      HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());
       SSLContext.setDefault(ctx);
 
       props.setProperty("mail.smtp.submitter", sslAuthenticator.getPasswordAuthentication()

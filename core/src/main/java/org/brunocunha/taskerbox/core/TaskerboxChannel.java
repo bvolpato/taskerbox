@@ -34,9 +34,9 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 import org.apache.log4j.Logger;
-import org.brunocunha.inutils4j.MyStringUtils;
 import org.brunocunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocunha.taskerbox.gui.TaskerboxControlFrame;
+import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**

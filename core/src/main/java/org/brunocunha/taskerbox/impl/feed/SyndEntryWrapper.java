@@ -17,14 +17,13 @@ package org.brunocunha.taskerbox.impl.feed;
 
 import java.util.Properties;
 
-import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
-import org.brunocunha.taskerbox.core.TaskerboxChannel;
-import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
-import org.brunocunha.taskerbox.core.utils.TaskerboxFileUtils;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
+import org.brunocunha.taskerbox.core.TaskerboxChannel;
+import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 

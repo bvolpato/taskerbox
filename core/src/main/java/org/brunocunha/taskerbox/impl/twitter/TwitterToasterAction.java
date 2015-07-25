@@ -29,8 +29,6 @@ import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocunha.taskerbox.core.TaskerboxConstants;
 import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
 
-import twitter4j.Status;
-
 /**
  * Action that shows Tweets in a Toaster Popup
  * 

@@ -16,7 +16,6 @@
 package org.brunocunha.taskerbox.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

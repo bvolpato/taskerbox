@@ -29,8 +29,6 @@ import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocunha.taskerbox.core.TaskerboxConstants;
 import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
 
-import com.sun.syndication.feed.synd.SyndEntry;
-
 /**
  * Action that shows Feeds in a Toaster Popup
  * 

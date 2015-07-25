@@ -15,10 +15,10 @@
  */
 package org.brunocunha.taskerbox.core;
 
-import org.apache.log4j.Logger;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import org.apache.log4j.Logger;
 
 
 

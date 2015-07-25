@@ -15,20 +15,14 @@
  */
 package org.brunocunha.taskerbox.impl.buscape;
 
-import java.util.Properties;
-
-import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
-import org.brunocunha.taskerbox.core.TaskerboxChannel;
-import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
-import org.brunocunha.taskerbox.core.utils.TaskerboxFileUtils;
-
-import twitter4j.Status;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
+import org.brunocunha.taskerbox.core.TaskerboxChannel;
+
 import com.buscape.developer.result.type.Offer;
-import com.sun.syndication.feed.synd.SyndEntry;
 
 /**
  * Buscape Offer Wrapper - Emailable

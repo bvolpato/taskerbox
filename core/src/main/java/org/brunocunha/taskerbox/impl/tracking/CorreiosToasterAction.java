@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
-import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocunha.taskerbox.core.TaskerboxConstants;
 import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;

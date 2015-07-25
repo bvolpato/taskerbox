@@ -22,12 +22,8 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import net.sumppen.whatsapi4j.EventManager;
-import net.sumppen.whatsapi4j.MessageProcessor;
 import net.sumppen.whatsapi4j.WhatsApi;
 import net.sumppen.whatsapi4j.WhatsAppException;
-import net.sumppen.whatsapi4j.example.ExampleEventManager;
-import net.sumppen.whatsapi4j.example.ExampleMessageProcessor;
 
 import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocunha.taskerbox.core.ITaskerboxEmailable;

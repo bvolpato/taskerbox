@@ -29,7 +29,6 @@ import org.brunocunha.taskerbox.core.TaskerboxConstants;
 import org.brunocunha.taskerbox.core.utils.TaskerboxTrayUtils;
 
 import com.plivo.helper.api.client.RestAPI;
-import com.plivo.helper.api.response.call.Call;
 import com.plivo.helper.api.response.message.MessageResponse;
 import com.plivo.helper.exception.PlivoException;
 

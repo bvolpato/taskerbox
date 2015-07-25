@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.brunocunha.inutils4j.MyStringUtils;
+import org.brunocvcunha.inutils4j.MyStringUtils;
 
 public class LinkedInJobApplyFileReader {
   public static void main(String[] args) throws IOException, URISyntaxException,

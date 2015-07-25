@@ -37,12 +37,12 @@ import javax.swing.border.EmptyBorder;
 
 import lombok.extern.log4j.Log4j;
 
-import org.brunocunha.inutils4j.MyStringUtils;
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
 import org.brunocunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocunha.taskerbox.core.utils.TaskerboxReflectionUtils;
 import org.brunocunha.taskerbox.gui.components.JSetterTextField;
 import org.brunocunha.taskerbox.impl.twitter.TwitterChannel;
+import org.brunocvcunha.inutils4j.MyStringUtils;
 
 @Log4j
 public class TaskerboxChannelPropertiesFrame extends JFrame {

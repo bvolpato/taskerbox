@@ -15,8 +15,6 @@
  */
 package org.brunocunha.taskerbox.impl.tracking;
 
-import java.util.Properties;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -24,7 +22,6 @@ import lombok.Setter;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import org.brunocunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocunha.taskerbox.core.TaskerboxChannel;
-import org.brunocunha.taskerbox.core.TaskerboxVelocityUtils;
 
 /**
  * RegistroRastreamento Wrapper - Emailable
