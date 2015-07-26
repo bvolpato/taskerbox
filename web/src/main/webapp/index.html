@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <meta charset="utf-8">
+        <title>Bootply snippet - Bootstrap Navbar Static top Template</title>
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="A basic template for Bootstrap 3.0" />
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/taskerbox.css" rel="stylesheet">
+        
+        <!--[if lt IE 9]>
+          <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+
+
+
+
+
+
+
+
+
+        <!-- CSS code from Bootply.com editor -->
+        
+        <style type="text/css">
+            
+        </style>
+    </head>
+    
+    <!-- HTML code from Bootply.com editor -->
+    
+    <body>
+        
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Taskerbox</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Channels</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#about">About</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="text-center">
+                <h1>Taskerbox Channels</h1>
+                <!--p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p-->
+            </div>
+
+            <div class="btn-group col-md-12">
+              <input id="filter" type="search" class="form-control searchinput" placeholder="Filter here..." value="">
+              <span id="searchclear" class="searchclear glyphicon glyphicon-remove-circle"></span>
+            </div>
+            
+            <p>&nbsp;</p>
+            
+            <div id="channels">
+            
+            </div>
+            
+        </div><!-- /.container -->
+
+        <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type='text/javascript' src="js/bootstrap.min.js"></script>
+
+
+
+    
+        <script type='text/javascript'>
+        
+            function listData(data) {
+                console.info("data", data);
+                
+                var dataStr = "";
+                dataStr = dataStr + "<strong>type</strong>: " + data.class + "<br/>";
+                
+                $.each( data.data, function( id, val ) {
+                        dataStr = dataStr + "<strong>" + id + "</strong>: " + val + "<br/>";
+                });
+                
+                return dataStr;
+            }
+            
+            
+            function pause(obj, isPause) {
+                
+                var panel = $(obj).parents("div.panel");
+                var panelId = panel.attr("id");
+                
+                //Removes channel_
+                var channelId = panelId.substring(8);
+                
+                
+                $.ajax({
+                  dataType: "json",
+                  url: "resources/channels/" + channelId + "/" + (isPause ? "pause" : "unpause") ,
+                  success: function( data ) {
+                                console.info("data", data);
+                             
+                                panel.parent().replaceWith(createChannelPanel(data));
+                            }
+                });
+
+                
+                return false;
+            
+            }
+
+            function force(obj) {
+                
+                var panel = $(obj).parents("div.panel");
+                var panelId = panel.attr("id");
+                
+                //Removes channel_
+                var channelId = panelId.substring(8);
+                                
+                $.ajax({
+                  dataType: "json",
+                  url: "resources/channels/" + channelId + "/force" ,
+                  success: function( data ) {
+                                console.info("data", data);
+                             
+                                panel.parent().replaceWith(createChannelPanel(data));
+                            }
+                });
+
+                
+                return false;
+            
+            }
+
+            function createLabel(id, displayName) {
+                if (id == displayName) {
+                    return id;
+                } else {
+                    return id + " - " + displayName;
+                }
+            }
+            
+            
+            function createChannelPanel(channel) {
+                return $('<div class="channel_panel col-md-4">' +
+                         '  <div id="channel_' + channel.id + '" class="panel ' + (channel.paused ? 'panel-danger' : 'panel-primary') + '">' + 
+                         '    <div class="panel-heading">' + createLabel(channel.id, channel.displayName) + '</div>'+
+                         '    <div class="panel-body">' + 
+                             (channel.paused ? '<a href="#" onclick="pause(this, false)">unpause</a>' : '<a href="#" onclick="pause(this, true)">pause</a>') +
+                         '    <a href="#" onclick="force(this)">force</a>' +
+                         '    <br/>' +
+                             listData(channel) + 
+                         '    </div>'+
+                         '  </div>' +
+                         '</div>');
+            }
+            
+            $(document).ready(function() {
+                                
+                
+                $.ajax({
+                  dataType: "json",
+                  url: "resources/channels",
+                  //data: data,
+                  success: function( data ) {
+                  
+                              $.each( data, function( id, val ) {
+                              
+                                  createChannelPanel(val).appendTo("#channels");
+
+                              });
+                             
+                            }
+                });
+                
+                $('#filter').keyup(function () {
+
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.channel_panel').hide();
+                    $('.channel_panel').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+
+                });         
+
+
+                $(".searchinput").keyup(function(){
+                    $(this).parent().find('.searchclear').toggle(Boolean($(this).val()));
+                });
+                $(".searchclear").toggle(Boolean($(".searchinput").val()));
+                $(".searchclear").click(function(){
+                    $(this).parent().find('.searchinput').val('').focus();
+                    $(this).hide();
+                });
+
+                
+            });
+        </script>
+
+    </body>
+</html>

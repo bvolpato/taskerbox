@@ -187,6 +187,7 @@ public class ChannelsResource {
     jsonChannel.addProperty("checkCount", channel.getCheckCount());
     jsonChannel.addProperty("every", channel.getEvery());
     jsonChannel.addProperty("timeout", channel.getTimeout());
+    jsonChannel.addProperty("class", channel.getClass().getName());
 
 
 
