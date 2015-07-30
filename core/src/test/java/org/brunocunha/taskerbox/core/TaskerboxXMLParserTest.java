@@ -15,7 +15,7 @@
  */
 package org.brunocunha.taskerbox.core;
 
-import org.brunocunha.taskerbox.Taskerbox;
+import org.brunocvcunha.taskerbox.Taskerbox;
 import org.junit.Assert;
 import org.junit.Test;
 

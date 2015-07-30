@@ -18,6 +18,7 @@ package org.brunocunha.taskerbox.impl.crawler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.brunocvcunha.taskerbox.impl.crawler.PastebinAction;
 import org.junit.Assert;
 import org.junit.Test;
 

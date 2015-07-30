@@ -30,9 +30,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
-import org.brunocunha.taskerbox.Taskerbox;
-import org.brunocunha.taskerbox.core.TaskerboxChannel;
-import org.brunocunha.taskerbox.core.annotation.TaskerboxField;
+import org.brunocvcunha.taskerbox.Taskerbox;
+import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.web.lifecycle.TaskerboxInitializer;
 
 import com.google.gson.JsonArray;

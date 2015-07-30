@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.brunocunha.taskerbox.core.http.TaskerboxHttpBox;
+import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 
 public final class HttpRequester {
 

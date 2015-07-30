@@ -21,8 +21,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.brunocunha.taskerbox.Taskerbox;
-import org.brunocunha.taskerbox.core.TaskerboxChannel;
+import org.brunocvcunha.taskerbox.Taskerbox;
+import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
 @WebListener
 public class TaskerboxInitializer implements ServletContextListener {
