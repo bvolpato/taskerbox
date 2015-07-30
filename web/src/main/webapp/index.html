@@ -1,15 +1,32 @@
+<!--
+
+    Copyright (C) 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
-        <title>Bootply snippet - Bootstrap Navbar Static top Template</title>
+        <title>Taskerbox Web</title>
         <meta name="generator" content="Bootply" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="A basic template for Bootstrap 3.0" />
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/taskerbox.css" rel="stylesheet">
-        
+
         <!--[if lt IE 9]>
           <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -27,16 +44,16 @@
 
 
         <!-- CSS code from Bootply.com editor -->
-        
+
         <style type="text/css">
-            
+
         </style>
     </head>
-    
+
     <!-- HTML code from Bootply.com editor -->
-    
+
     <body>
-        
+
         <div class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -69,13 +86,13 @@
               <input id="filter" type="search" class="form-control searchinput" placeholder="Filter here..." value="">
               <span id="searchclear" class="searchclear glyphicon glyphicon-remove-circle"></span>
             </div>
-            
+
             <p>&nbsp;</p>
-            
+
             <div id="channels">
-            
+
             </div>
-            
+
         </div><!-- /.container -->
 
         <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -83,68 +100,68 @@
 
 
 
-    
+
         <script type='text/javascript'>
-        
+
             function listData(data) {
                 console.info("data", data);
-                
+
                 var dataStr = "";
                 dataStr = dataStr + "<strong>type</strong>: " + data.class + "<br/>";
-                
+
                 $.each( data.data, function( id, val ) {
                         dataStr = dataStr + "<strong>" + id + "</strong>: " + val + "<br/>";
                 });
-                
+
                 return dataStr;
             }
-            
-            
+
+
             function pause(obj, isPause) {
-                
+
                 var panel = $(obj).parents("div.panel");
                 var panelId = panel.attr("id");
-                
+
                 //Removes channel_
                 var channelId = panelId.substring(8);
-                
-                
+
+
                 $.ajax({
                   dataType: "json",
                   url: "resources/channels/" + channelId + "/" + (isPause ? "pause" : "unpause") ,
                   success: function( data ) {
                                 console.info("data", data);
-                             
+
                                 panel.parent().replaceWith(createChannelPanel(data));
                             }
                 });
 
-                
+
                 return false;
-            
+
             }
 
             function force(obj) {
-                
+
                 var panel = $(obj).parents("div.panel");
                 var panelId = panel.attr("id");
-                
+
                 //Removes channel_
                 var channelId = panelId.substring(8);
-                                
+
                 $.ajax({
                   dataType: "json",
                   url: "resources/channels/" + channelId + "/force" ,
                   success: function( data ) {
                                 console.info("data", data);
-                             
+
                                 panel.parent().replaceWith(createChannelPanel(data));
                             }
                 });
 
-                
+
                 return false;
-            
+
             }
 
             function createLabel(id, displayName) {
@@ -154,40 +171,40 @@
                     return id + " - " + displayName;
                 }
             }
-            
-            
+
+
             function createChannelPanel(channel) {
                 return $('<div class="channel_panel col-md-4">' +
-                         '  <div id="channel_' + channel.id + '" class="panel ' + (channel.paused ? 'panel-danger' : 'panel-primary') + '">' + 
+                         '  <div id="channel_' + channel.id + '" class="panel ' + (channel.paused ? 'panel-danger' : 'panel-primary') + '">' +
                          '    <div class="panel-heading">' + createLabel(channel.id, channel.displayName) + '</div>'+
-                         '    <div class="panel-body">' + 
+                         '    <div class="panel-body">' +
                              (channel.paused ? '<a href="#" onclick="pause(this, false)">unpause</a>' : '<a href="#" onclick="pause(this, true)">pause</a>') +
                          '    <a href="#" onclick="force(this)">force</a>' +
                          '    <br/>' +
-                             listData(channel) + 
+                             listData(channel) +
                          '    </div>'+
                          '  </div>' +
                          '</div>');
             }
-            
+
             $(document).ready(function() {
-                                
-                
+
+
                 $.ajax({
                   dataType: "json",
                   url: "resources/channels",
                   //data: data,
                   success: function( data ) {
-                  
+
                               $.each( data, function( id, val ) {
-                              
+
                                   createChannelPanel(val).appendTo("#channels");
 
                               });
-                             
+
                             }
                 });
-                
+
                 $('#filter').keyup(function () {
 
                     var rex = new RegExp($(this).val(), 'i');
@@ -196,7 +213,7 @@
                         return rex.test($(this).text());
                     }).show();
 
-                });         
+                });
 
 
                 $(".searchinput").keyup(function(){
@@ -208,7 +225,7 @@
                     $(this).hide();
                 });
 
-                
+
             });
         </script>
 

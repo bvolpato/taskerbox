@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.brunocunha.inutils4j.MyStringUtils;
 import org.brunocunha.taskerbox.impl.jobs.vo.ScorerResult;
 import org.brunocunha.taskerbox.impl.jobs.vo.TermScorer;
-import org.brunocvcunha.inutils4j.MyStringUtils;
 
 public class LinkedInJobDBComparer {
 

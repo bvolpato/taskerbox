@@ -24,8 +24,8 @@ import java.util.Date;
 
 import lombok.extern.log4j.Log4j;
 
+import org.brunocunha.inutils4j.MyStringUtils;
 import org.brunocunha.taskerbox.core.DefaultTaskerboxAction;
-import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.jsoup.nodes.Document;
 
 @Log4j

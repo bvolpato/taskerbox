@@ -15,8 +15,8 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.brunocvcunha.taskerbox</groupId>
@@ -64,28 +64,28 @@
 	</distributionManagement>
 
     <properties>
-		
+
         <!-- Encoding -->
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        
+
 		<!-- Java -->
 		<version.java>1.7</version.java>
-		
+
 		<!-- Java EE Dependency -->
 		<version.javaee>6.0</version.javaee>
-		
+
 		<!-- JUnit -->
 		<version.junit>4.12</version.junit>
-		
+
 		<!-- Plugins -->
 		<version.compiler.plugin>2.0.2</version.compiler.plugin>
 
 		<!-- Jetty Plugin -->
 		<version.jetty>9.1.0.v20131115</version.jetty>
-        
+
 
     </properties>
-	
+
 	<build>
 
 		<plugins>
@@ -132,7 +132,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-            
+
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -147,6 +147,7 @@
 						<exclude>src/test/resources/**</exclude>
 						<exclude>src/main/resources/**</exclude>
 						<exclude>**/com/buscape/**</exclude>
+						<exclude>**/bootstrap.min.*</exclude>
 						<exclude>LICENSE</exclude>
 					</excludes>
 				</configuration>
@@ -162,13 +163,13 @@
 
     </plugins>
     </build>
-    
+
 	<modules>
 		<module>core</module>
 		<module>web</module>
 	</modules>
-	
-    
+
+
 
 	<profiles>
 		<profile>

@@ -23,7 +23,7 @@ import java.util.List;
 
 import lombok.extern.log4j.Log4j;
 
-import org.brunocvcunha.inutils4j.MyNumberUtils;
+import org.brunocunha.inutils4j.MyNumberUtils;
 
 /**
  * Reflection utilities for Taskerbox. Centralizes values from XML to object setter, casting when it
