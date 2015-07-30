@@ -54,19 +54,18 @@ public class QuartzChannel extends TaskerboxChannel<Long> {
     map.put("channel", this);
 
     JobDetail job =
-        JobBuilder.newJob(QuartzChannelJob.class).withIdentity("CronJob", getId())
-            .setJobData(map).storeDurably(true).build();
-    
+        JobBuilder.newJob(QuartzChannelJob.class).withIdentity("CronJob", getId()).setJobData(map)
+            .storeDurably(true).build();
+
     sched.addJob(job, true);
-    
+
     for (String triggerStr : triggers) {
       Trigger trigger =
-          TriggerBuilder.newTrigger().withIdentity("CronTrigger"+triggerStr, getId())
-          .forJob(job)
-          .withSchedule(CronScheduleBuilder.cronSchedule(triggerStr)).build();
-      
+          TriggerBuilder.newTrigger().withIdentity("CronTrigger" + triggerStr, getId()).forJob(job)
+              .withSchedule(CronScheduleBuilder.cronSchedule(triggerStr)).build();
+
       sched.scheduleJob(trigger);
-      
+
     }
 
 
@@ -78,4 +77,3 @@ public class QuartzChannel extends TaskerboxChannel<Long> {
   }
 
 }
-

@@ -24,10 +24,10 @@ public class TaskerboxXMLParserTest {
   @Test
   public void testSimple() throws Exception {
     Assert.assertNotEquals("/tmp", System.getProperty("taskerbox.performed.dir"));
-    
+
     Taskerbox tasker = new Taskerbox();
     tasker.handleTaskerbox(getClass().getResourceAsStream("/taskerbox-simple-properties-test.xml"));
-   
+
     Assert.assertEquals("/tmp", System.getProperty("taskerbox.performed.dir"));
 
     Assert.assertEquals("/tmp/Taskerbox", tasker.getDefaultProperties().get("workingDir"));

@@ -175,15 +175,15 @@ public class TaskerboxXmlReader {
   private void handleDefaultPropertiesNode(Element xmlChannel) {
     for (Object attrObj : xmlChannel.elements()) {
       DefaultElement e = (DefaultElement) attrObj;
-      
+
       String propertyValue = e.attributeValue("value");
-      
+
       for (String defaultAttr : tasker.getDefaultProperties().keySet()) {
         propertyValue =
             propertyValue.replace("{" + defaultAttr + "}",
                 tasker.getDefaultProperties().get(defaultAttr));
       }
-      
+
       tasker.getDefaultProperties().put(e.attributeValue("name"), propertyValue);
 
     }

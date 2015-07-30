@@ -27,8 +27,9 @@ public class QuartzChannelJob implements Job {
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
     log.info("Channel Job Invoked");
-    
-    TaskerboxChannel<Long> originChannel = (TaskerboxChannel<Long>) context.getJobDetail().getJobDataMap().get("channel");
+
+    TaskerboxChannel<Long> originChannel =
+        (TaskerboxChannel<Long>) context.getJobDetail().getJobDataMap().get("channel");
     originChannel.perform(System.nanoTime());
   }
 }

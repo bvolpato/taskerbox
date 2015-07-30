@@ -85,7 +85,8 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
 
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, "Error fetching " + url + " - " + response.getStatusLine().toString()));
+          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, "Error fetching "
+              + url + " - " + response.getStatusLine().toString()));
           logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
           return;
         }
@@ -119,9 +120,9 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
 
     if (lastError != null) {
       logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
-      
-      perform(new HTTPStatusWrapper("Error", url, "Error fetching " + url + " - " + lastError.getMessage() + " - " + numTries
-          + " tries"));
+
+      perform(new HTTPStatusWrapper("Error", url, "Error fetching " + url + " - "
+          + lastError.getMessage() + " - " + numTries + " tries"));
     }
 
   }

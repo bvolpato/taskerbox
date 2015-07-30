@@ -33,7 +33,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.validation.constraints.Max;
@@ -148,7 +147,7 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
       if (emailTitle == null) {
         emailTitle = entry.getEmailTitle(getChannel());
       }
-      
+
       send(emailTitle, entry.getEmailBody(getChannel()));
     } catch (Exception e) {
       e.printStackTrace();
