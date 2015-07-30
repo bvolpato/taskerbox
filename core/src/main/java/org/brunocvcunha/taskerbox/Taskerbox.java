@@ -36,7 +36,7 @@ import org.brunocvcunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.brunocvcunha.taskerbox.gui.TaskerboxControlFrame;
 
 /**
- * Classe principal do Taskerbox
+ * Main Class for Taskerbox (Swing Interface)
  * 
  * @author Bruno Candido Volpato da Cunha
  * 
@@ -71,7 +71,7 @@ public class Taskerbox {
 
   public static void main(String[] args) throws Exception {
     // LogManager.getRootLogger().setLevel(Level.DEBUG);
-    log.info("Inicializando Taskerbox...");
+    log.info("Initializing Taskerbox...");
 
     Taskerbox tasker = new Taskerbox();
 
