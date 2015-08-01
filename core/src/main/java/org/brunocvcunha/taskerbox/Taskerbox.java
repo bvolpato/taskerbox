@@ -93,10 +93,11 @@ public class Taskerbox {
   }
 
   public void handleDefaultFiles() throws Exception {
-    handleTaskerbox("macros.xml");
-
     String hostName = InetAddress.getLocalHost().getHostName();
     log.info("Host name: " + hostName);
+    
+    handleTaskerbox("macros.xml");
+
 
 
     File configDir = TaskerboxConfigurationUtils.getConfigurationDir();
