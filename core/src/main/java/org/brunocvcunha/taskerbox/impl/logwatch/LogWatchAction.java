@@ -16,6 +16,7 @@
 package org.brunocvcunha.taskerbox.impl.logwatch;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -161,23 +162,25 @@ public class LogWatchAction extends EmailDelegateAction<String> {
   }
 
   public void spreadToaster(final String url, String postTitle) {
-    StringToasterAction toasterAction = new StringToasterAction();
-    toasterAction.setActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        } catch (URISyntaxException e1) {
-          e1.printStackTrace();
+    if (!GraphicsEnvironment.isHeadless()) {
+      StringToasterAction toasterAction = new StringToasterAction();
+      toasterAction.setActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          try {
+            Desktop.getDesktop().browse(new URI(url));
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          } catch (URISyntaxException e1) {
+            e1.printStackTrace();
+          }
+
         }
+      });
 
-      }
-    });
-
-    toasterAction.setTitle("Log Watcher Alert");
-    toasterAction.action(postTitle);
+      toasterAction.setTitle("Log Watcher Alert");
+      toasterAction.action(postTitle);
+    }
 
   }
 

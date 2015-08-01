@@ -16,6 +16,7 @@
 package org.brunocvcunha.taskerbox.impl.feed;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,24 +41,27 @@ public class FeedToasterAction extends DefaultTaskerboxAction<SyndEntryWrapper> 
 
   @Override
   public void action(final SyndEntryWrapper entry) {
-    TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, entry.getValue().getTitle(),
-        MessageType.INFO, new ActionListener() {
+    if (!GraphicsEnvironment.isHeadless()) {
+      TaskerboxTrayUtils.displayMessage(TaskerboxConstants.TITLE, entry.getValue().getTitle(),
+          MessageType.INFO, new ActionListener() {
 
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            logInfo(log, "Action -> Open: " + entry.getValue().getUri());
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              logInfo(log, "Action -> Open: " + entry.getValue().getUri());
 
-            if (Desktop.isDesktopSupported()) {
-              try {
-                Desktop.getDesktop().browse(new URI(entry.getValue().getUri()));
-              } catch (IOException e1) {
-                e1.printStackTrace();
-              } catch (URISyntaxException e1) {
-                e1.printStackTrace();
+              if (Desktop.isDesktopSupported()) {
+                try {
+                  Desktop.getDesktop().browse(new URI(entry.getValue().getUri()));
+                } catch (IOException e1) {
+                  e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                  e1.printStackTrace();
+                }
               }
             }
-          }
-        });
+          });
+    }
+
   }
 
 }

@@ -16,6 +16,7 @@
 package org.brunocvcunha.taskerbox.impl.http;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.net.URI;
 
 import lombok.extern.log4j.Log4j;
@@ -33,11 +34,13 @@ public class URLOpenerAction extends DefaultTaskerboxAction<String> {
 
   @Override
   public void action(String input) {
-    try {
-      Desktop.getDesktop().browse(new URI(input));
-    } catch (Exception e) {
-      logError(log, "Error running URLOpenerAction for " + input, e);
-      e.printStackTrace();
+    if (!GraphicsEnvironment.isHeadless()) {
+      try {
+        Desktop.getDesktop().browse(new URI(input));
+      } catch (Exception e) {
+        logError(log, "Error running URLOpenerAction for " + input, e);
+        e.printStackTrace();
+      }
     }
   }
 

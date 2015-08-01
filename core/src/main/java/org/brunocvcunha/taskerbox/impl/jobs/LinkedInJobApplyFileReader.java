@@ -16,6 +16,7 @@
 package org.brunocvcunha.taskerbox.impl.jobs;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +35,10 @@ public class LinkedInJobApplyFileReader {
     for (String string : toApply) {
       String url = string.split(";")[0];
       System.out.println(url);
-      Desktop.getDesktop().browse(new URI(url));
+
+      if (!GraphicsEnvironment.isHeadless()) {
+        Desktop.getDesktop().browse(new URI(url));
+      }
 
       Thread.sleep(500L);
 

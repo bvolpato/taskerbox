@@ -16,6 +16,7 @@
 package org.brunocvcunha.taskerbox.impl.custom.hardmob;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -79,23 +80,25 @@ public class HardmobAction extends EmailDelegateAction<Document> {
   }
 
   public void spreadAction(final String url, String postTitle) {
-    StringToasterAction toasterAction = new StringToasterAction();
-    toasterAction.setActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        } catch (URISyntaxException e1) {
-          e1.printStackTrace();
+    if (!GraphicsEnvironment.isHeadless()) {
+      StringToasterAction toasterAction = new StringToasterAction();
+      toasterAction.setActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          try {
+            Desktop.getDesktop().browse(new URI(url));
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          } catch (URISyntaxException e1) {
+            e1.printStackTrace();
+          }
+
         }
+      });
 
-      }
-    });
-
-    toasterAction.setTitle("Hardmob Alert");
-    toasterAction.action(postTitle);
+      toasterAction.setTitle("Hardmob Alert");
+      toasterAction.action(postTitle);
+    }
 
   }
 

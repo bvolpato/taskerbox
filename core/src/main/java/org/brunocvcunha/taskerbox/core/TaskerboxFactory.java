@@ -111,10 +111,7 @@ public class TaskerboxFactory {
     try {
       log.debug("Finding setter for: " + var);
 
-      if (var.equalsIgnoreCase("paused") && GraphicsEnvironment.isHeadless()) {
-        log.info("Ignoring paused for headless running");
-        return;
-      }
+      //now that we have web ui, we shouldn't ignore pause for headless
 
       setter = new PropertyDescriptor(var, obj.getClass()).getWriteMethod();
 
