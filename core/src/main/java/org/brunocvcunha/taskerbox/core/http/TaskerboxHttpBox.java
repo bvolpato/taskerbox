@@ -32,10 +32,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -66,6 +62,10 @@ import org.brunocvcunha.taskerbox.core.http.auth.NTLMSchemeFactory;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Http Access Configuration Box It allows to configure Proxy Access via Properties

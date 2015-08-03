@@ -17,10 +17,6 @@ package org.brunocvcunha.taskerbox.impl.quartz;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
@@ -31,6 +27,10 @@ import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class QuartzChannel extends TaskerboxChannel<Long> {

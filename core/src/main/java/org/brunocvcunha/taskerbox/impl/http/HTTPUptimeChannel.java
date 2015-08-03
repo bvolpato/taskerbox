@@ -17,10 +17,6 @@ package org.brunocvcunha.taskerbox.impl.http;
 
 import java.io.IOException;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
@@ -29,6 +25,10 @@ import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.hibernate.validator.constraints.URL;
 
 import com.sun.syndication.io.FeedException;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * HTTP Uptime Monitor Channel

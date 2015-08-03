@@ -17,13 +17,13 @@ package org.brunocvcunha.taskerbox.impl.logwatch;
 
 import java.io.File;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Log Watch Channel

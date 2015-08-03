@@ -15,10 +15,10 @@
  */
 package org.brunocvcunha.taskerbox.core.ws;
 
+import org.brunocvcunha.taskerbox.impl.soap.SOAPChannel;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.brunocvcunha.taskerbox.impl.soap.SOAPChannel;
 
 
 /**

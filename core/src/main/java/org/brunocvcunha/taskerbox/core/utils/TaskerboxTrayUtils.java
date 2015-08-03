@@ -23,9 +23,9 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionListener;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * System Tray integration with Taskerbox

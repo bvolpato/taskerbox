@@ -18,14 +18,14 @@ package org.brunocvcunha.taskerbox.impl.custom.slickdeals;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.client.ClientProtocolException;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.brunocvcunha.taskerbox.impl.email.EmailAction;
 import org.brunocvcunha.taskerbox.impl.email.EmailValueVO;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SlickDealsEmailAction extends SlickDealsAction {

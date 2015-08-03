@@ -17,10 +17,10 @@ package org.brunocvcunha.taskerbox.impl.activemq;
 
 import javax.jms.Message;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class ActiveMQAction extends DefaultTaskerboxAction<Message> {

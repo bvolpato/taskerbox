@@ -24,11 +24,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Feeds in a Toaster Popup

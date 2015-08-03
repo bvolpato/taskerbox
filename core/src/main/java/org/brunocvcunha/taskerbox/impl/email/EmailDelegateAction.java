@@ -17,10 +17,10 @@ package org.brunocvcunha.taskerbox.impl.email;
 
 import java.io.File;
 
+import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 
 public abstract class EmailDelegateAction<T> extends DefaultTaskerboxAction<T> {
 

@@ -21,9 +21,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.inutils4j.MyNumberUtils;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Reflection utilities for Taskerbox. Centralizes values from XML to object setter, casting when it

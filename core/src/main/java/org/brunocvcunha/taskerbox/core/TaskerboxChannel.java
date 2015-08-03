@@ -29,15 +29,15 @@ import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.log4j.Logger;
 import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocvcunha.taskerbox.gui.TaskerboxControlFrame;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Abstract Class for all Taskerbox Channels

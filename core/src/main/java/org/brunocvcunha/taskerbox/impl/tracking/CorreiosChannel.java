@@ -17,15 +17,15 @@ package org.brunocvcunha.taskerbox.impl.tracking;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.alfredlibrary.AlfredException;
 import org.alfredlibrary.utilitarios.correios.Rastreamento;
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.utils.validation.CorreiosTracking;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Corrreios Tracking Input Channel

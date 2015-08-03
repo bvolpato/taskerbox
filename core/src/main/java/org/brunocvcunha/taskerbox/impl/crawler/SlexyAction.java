@@ -17,14 +17,14 @@ package org.brunocvcunha.taskerbox.impl.crawler;
 
 import java.io.IOException;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SlexyAction extends CrawlerAction {

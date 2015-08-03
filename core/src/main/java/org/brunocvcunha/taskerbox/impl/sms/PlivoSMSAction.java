@@ -18,10 +18,6 @@ package org.brunocvcunha.taskerbox.impl.sms;
 import java.awt.TrayIcon.MessageType;
 import java.util.LinkedHashMap;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
@@ -31,6 +27,10 @@ import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
 import com.plivo.helper.api.client.RestAPI;
 import com.plivo.helper.api.response.message.MessageResponse;
 import com.plivo.helper.exception.PlivoException;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that sends SMS using Plivo

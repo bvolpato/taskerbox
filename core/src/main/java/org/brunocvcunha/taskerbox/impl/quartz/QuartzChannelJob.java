@@ -15,12 +15,12 @@
  */
 package org.brunocvcunha.taskerbox.impl.quartz;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class QuartzChannelJob implements Job {

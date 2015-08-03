@@ -17,14 +17,13 @@ package org.brunocvcunha.taskerbox.impl.twitter;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;

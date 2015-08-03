@@ -21,14 +21,14 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Endpoint;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.ITaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.ws.MessageWebService;
 import org.brunocvcunha.taskerbox.core.ws.TaskerboxWebService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+
+import lombok.extern.log4j.Log4j;
 
 @WebService(name = "SOAP", serviceName = "SOAPService", portName = "SOAPPort")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

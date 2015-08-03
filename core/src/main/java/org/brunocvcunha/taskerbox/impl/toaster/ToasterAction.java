@@ -17,11 +17,11 @@ package org.brunocvcunha.taskerbox.impl.toaster;
 
 import java.awt.TrayIcon.MessageType;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows file name in a Toaster Popup

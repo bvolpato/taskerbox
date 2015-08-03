@@ -26,14 +26,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.TaskerboxXmlReader;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.brunocvcunha.taskerbox.gui.TaskerboxControlFrame;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Main Class for Taskerbox (Swing Interface)

@@ -18,13 +18,13 @@ package org.brunocvcunha.taskerbox.impl.crawler;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class PastieAction extends CrawlerAction {

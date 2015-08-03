@@ -19,11 +19,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.val;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
@@ -33,6 +28,11 @@ import org.codehaus.jettison.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.val;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class DiceJobSeeker extends DefaultJobSearchChannel {

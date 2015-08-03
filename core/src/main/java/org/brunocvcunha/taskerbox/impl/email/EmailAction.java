@@ -38,10 +38,6 @@ import javax.net.ssl.TrustManager;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.http.ssl.SSLAuthenticator;
@@ -49,6 +45,10 @@ import org.brunocvcunha.taskerbox.core.utils.TaskerboxDateUtils;
 import org.brunocvcunha.taskerbox.impl.toaster.StringToasterAction;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Feeds in a Toaster Popup

@@ -15,14 +15,14 @@
  */
 package org.brunocvcunha.taskerbox.impl.sockettester;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.sockettester.core.SocketTesterController;
 import org.brunocvcunha.sockettester.vo.SocketTesterVO;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SocketTesterChannel extends TaskerboxChannel<SocketTesterVO> {

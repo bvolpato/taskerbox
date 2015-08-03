@@ -17,15 +17,14 @@ package org.brunocvcunha.taskerbox.impl.twitter;
 
 import java.util.Properties;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.TaskerboxVelocityUtils;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import twitter4j.Status;
 
 /**

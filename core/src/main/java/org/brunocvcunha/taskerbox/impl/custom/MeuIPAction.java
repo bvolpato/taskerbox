@@ -22,11 +22,11 @@ import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.jsoup.nodes.Document;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class MeuIPAction extends DefaultTaskerboxAction<Document> {

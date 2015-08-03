@@ -19,11 +19,6 @@ import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.val;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
 import com.dropbox.core.DbxClient;
@@ -31,6 +26,11 @@ import com.dropbox.core.DbxDelta;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.val;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class DropboxChannel extends TaskerboxChannel<DbxDelta.Entry<DbxEntry>> {

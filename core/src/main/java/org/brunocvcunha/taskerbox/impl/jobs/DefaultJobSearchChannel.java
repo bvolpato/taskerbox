@@ -17,15 +17,15 @@ package org.brunocvcunha.taskerbox.impl.jobs;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {

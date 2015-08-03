@@ -35,14 +35,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxReflectionUtils;
 import org.brunocvcunha.taskerbox.gui.components.JSetterTextField;
 import org.brunocvcunha.taskerbox.impl.twitter.TwitterChannel;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class TaskerboxChannelPropertiesFrame extends JFrame {

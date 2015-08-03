@@ -18,9 +18,9 @@ package org.brunocvcunha.taskerbox.core;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.gui.TaskerboxControlFrame;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Class responsible for launching channels. It creates threads that are called in intervals for

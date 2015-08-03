@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Properties;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Utilities class for Velocity Templates

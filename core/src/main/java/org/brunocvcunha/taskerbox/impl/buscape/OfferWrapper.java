@@ -15,14 +15,14 @@
  */
 package org.brunocvcunha.taskerbox.impl.buscape;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
 import com.buscape.developer.result.type.Offer;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
  * Buscape Offer Wrapper - Emailable

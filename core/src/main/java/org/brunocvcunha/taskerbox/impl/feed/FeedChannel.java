@@ -19,12 +19,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import lombok.Cleanup;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.val;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.HttpEntity;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
@@ -36,6 +30,12 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+
+import lombok.Cleanup;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.val;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Feed/Atom Input Channel

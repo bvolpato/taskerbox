@@ -17,9 +17,9 @@ package org.brunocvcunha.taskerbox.impl.file;
 
 import java.io.File;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that deletes files when detected

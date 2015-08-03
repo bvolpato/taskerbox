@@ -15,13 +15,13 @@
  */
 package org.brunocvcunha.taskerbox.impl.tracking;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import org.alfredlibrary.utilitarios.correios.RegistroRastreamento;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
  * RegistroRastreamento Wrapper - Emailable

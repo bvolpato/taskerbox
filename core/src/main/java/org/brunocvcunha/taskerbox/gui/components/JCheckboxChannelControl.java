@@ -17,10 +17,10 @@ package org.brunocvcunha.taskerbox.gui.components;
 
 import javax.swing.JCheckBox;
 
+import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
 public class JCheckboxChannelControl extends JCheckBox {
 

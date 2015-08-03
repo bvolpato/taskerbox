@@ -17,15 +17,15 @@ package org.brunocvcunha.taskerbox.impl.feed;
 
 import java.util.Properties;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.TaskerboxVelocityUtils;
 
 import com.sun.syndication.feed.synd.SyndEntry;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
  * SyndEntry Wrapper - Emailable

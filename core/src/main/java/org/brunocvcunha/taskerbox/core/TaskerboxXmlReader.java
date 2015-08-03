@@ -21,8 +21,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.brunocvcunha.taskerbox.Taskerbox;
 import org.dom4j.Document;
@@ -31,6 +29,8 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultElement;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Centralized taskerbox*.xml Files Parsing

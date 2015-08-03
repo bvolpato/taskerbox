@@ -19,17 +19,17 @@ import java.awt.TrayIcon.MessageType;
 
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-import net.sumppen.whatsapi4j.WhatsApi;
-import net.sumppen.whatsapi4j.WhatsAppException;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+import net.sumppen.whatsapi4j.WhatsApi;
+import net.sumppen.whatsapi4j.WhatsAppException;
 
 /**
  * Action that sends WhatsApp Msgs

@@ -17,10 +17,6 @@ package org.brunocvcunha.taskerbox.impl.buscape;
 
 import java.io.IOException;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 
@@ -30,6 +26,10 @@ import com.buscape.developer.request.Filter;
 import com.buscape.developer.result.type.Offer;
 import com.buscape.developer.result.type.Result;
 import com.sun.syndication.io.FeedException;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Buscape Channel

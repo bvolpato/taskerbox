@@ -15,7 +15,6 @@
  */
 package org.brunocvcunha.taskerbox.core;
 
-import java.awt.GraphicsEnvironment;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -23,12 +22,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxReflectionUtils;
 import org.brunocvcunha.taskerbox.core.utils.validation.TaskerboxValidationUtils;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultAttribute;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * Class that centralizes the creation of channels and actions, based on XML.

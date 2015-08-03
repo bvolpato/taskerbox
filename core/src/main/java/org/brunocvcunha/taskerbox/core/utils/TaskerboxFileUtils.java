@@ -29,11 +29,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.commons.io.FileUtils;
 import org.brunocvcunha.taskerbox.core.ITaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+
+import lombok.extern.log4j.Log4j;
 
 /**
  * File Utilities for Taskerbox

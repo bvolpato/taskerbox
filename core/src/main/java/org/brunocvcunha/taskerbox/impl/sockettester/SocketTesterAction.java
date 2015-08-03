@@ -18,14 +18,14 @@ package org.brunocvcunha.taskerbox.impl.sockettester;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionListener;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.sockettester.vo.SocketTesterVO;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Strings in a Toaster Popup

@@ -15,12 +15,12 @@
  */
 package org.brunocvcunha.taskerbox.impl.dropbox;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 
 import com.dropbox.core.DbxDelta;
 import com.dropbox.core.DbxEntry;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class DropboxDiffAction extends DefaultTaskerboxAction<DbxDelta.Entry<DbxEntry>> {

@@ -23,13 +23,13 @@ import java.util.TreeSet;
 
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.brunocvcunha.taskerbox.core.ITaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * File/Directory Input Channel

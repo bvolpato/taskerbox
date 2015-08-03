@@ -36,8 +36,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import lombok.extern.log4j.Log4j;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.brunocvcunha.taskerbox.Taskerbox;
@@ -45,6 +43,8 @@ import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannelExecuteThread;
 import org.brunocvcunha.taskerbox.gui.components.JCheckboxChannelControl;
 import org.brunocvcunha.taskerbox.gui.event.RefreshChannelEvent;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class TaskerboxControlFrame extends JFrame {

@@ -29,15 +29,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocvcunha.taskerbox.impl.email.EmailAction;
 import org.brunocvcunha.taskerbox.impl.email.EmailDelegateAction;
 import org.brunocvcunha.taskerbox.impl.email.EmailValueVO;
 import org.brunocvcunha.taskerbox.impl.toaster.StringToasterAction;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class LogWatchAction extends EmailDelegateAction<String> {

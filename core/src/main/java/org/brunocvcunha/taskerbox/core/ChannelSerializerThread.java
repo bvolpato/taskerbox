@@ -17,12 +17,12 @@ package org.brunocvcunha.taskerbox.core;
 
 import java.io.IOException;
 
+import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
 
 @RequiredArgsConstructor
 public class ChannelSerializerThread extends Thread {

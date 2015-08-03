@@ -24,12 +24,12 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.Session;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class ActiveMQChannel extends TaskerboxChannel<Message> {
 

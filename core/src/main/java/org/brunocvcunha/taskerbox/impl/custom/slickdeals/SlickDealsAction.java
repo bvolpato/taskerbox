@@ -26,13 +26,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import lombok.extern.log4j.Log4j;
-
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocvcunha.taskerbox.impl.email.EmailDelegateAction;
 import org.brunocvcunha.taskerbox.impl.toaster.StringToasterAction;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SlickDealsAction extends EmailDelegateAction<Document> {
