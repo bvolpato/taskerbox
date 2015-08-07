@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.brunocvcunha.taskerbox.Taskerbox;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
-import org.brunocvcunha.taskerbox.web.lifecycle.TaskerboxInitializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -46,6 +45,7 @@ import com.google.gson.JsonPrimitive;
  * 
  */
 @Path("/channels")
+@Produces(MediaType.APPLICATION_JSON)
 public class ChannelsResource {
 
   /**
@@ -53,20 +53,25 @@ public class ChannelsResource {
    */
   private static final Logger log = Logger.getLogger(ChannelsResource.class.getSimpleName());
 
+  private Taskerbox taskerbox;
+  
+
+  public ChannelsResource(Taskerbox taskerbox) {
+    super();
+    this.taskerbox = taskerbox;
+  }
+
+
 
   @GET
-  @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
   public Response handleRequest() {
     log.info("Listing...");
 
     try {
 
-      Taskerbox tasker = TaskerboxInitializer.getInstance();
-
       JsonArray array = new JsonArray();
 
-      for (TaskerboxChannel<?> channel : tasker.getChannels()) {
+      for (TaskerboxChannel<?> channel : taskerbox.getChannels()) {
         JsonObject jsonChannel = getChannelJson(channel);
 
 
@@ -86,7 +91,6 @@ public class ChannelsResource {
 
   @GET
   @Path("/{channel}/pause")
-  @Produces(MediaType.APPLICATION_JSON)
   public Response handlePause(@PathParam("channel") String channelName) {
     log.info("Pausing channel " + channelName);
     return handlePauseStatus(channelName, true);
@@ -95,7 +99,6 @@ public class ChannelsResource {
 
   @GET
   @Path("/{channel}/unpause")
-  @Produces(MediaType.APPLICATION_JSON)
   public Response handleUnpause(@PathParam("channel") String channelName) {
     log.info("Unausing channel " + channelName);
     return handlePauseStatus(channelName, false);
@@ -104,14 +107,11 @@ public class ChannelsResource {
 
   @GET
   @Path("/{channel}")
-  @Produces(MediaType.APPLICATION_JSON)
   public Response handleChannel(@PathParam("channel") String channelName) {
     log.info("Getting channel " + channelName);
     try {
 
-      Taskerbox tasker = TaskerboxInitializer.getInstance();
-
-      for (TaskerboxChannel<?> channel : tasker.getChannels()) {
+      for (TaskerboxChannel<?> channel : taskerbox.getChannels()) {
 
         if (channel.getId().equalsIgnoreCase(channelName)) {
           return Response.ok().entity(getChannelJson(channel).toString()).build();
@@ -129,14 +129,11 @@ public class ChannelsResource {
 
   @GET
   @Path("/{channel}/force")
-  @Produces(MediaType.APPLICATION_JSON)
   public Response handleForce(@PathParam("channel") String channelName) {
     log.info("Forcing channel " + channelName);
     try {
 
-      Taskerbox tasker = TaskerboxInitializer.getInstance();
-
-      for (TaskerboxChannel<?> channel : tasker.getChannels()) {
+      for (TaskerboxChannel<?> channel : taskerbox.getChannels()) {
 
         if (channel.getId().equalsIgnoreCase(channelName)) {
           channel.check(channel.isPaused());
@@ -156,10 +153,7 @@ public class ChannelsResource {
   private Response handlePauseStatus(String channelName, boolean paused) {
     try {
 
-      Taskerbox tasker = TaskerboxInitializer.getInstance();
-
-
-      for (TaskerboxChannel<?> channel : tasker.getChannels()) {
+      for (TaskerboxChannel<?> channel : taskerbox.getChannels()) {
 
         if (channel.getId().equalsIgnoreCase(channelName)) {
           channel.setPaused(paused);
