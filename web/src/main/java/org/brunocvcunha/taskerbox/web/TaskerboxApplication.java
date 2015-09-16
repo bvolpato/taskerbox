@@ -40,6 +40,10 @@ public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
   @Override
   public void initialize(Bootstrap<TaskerboxConfiguration> bootstrap) {
     
+  }
+
+  @Override
+  public void run(TaskerboxConfiguration configuration, Environment environment) {
     taskerboxInstance = new Taskerbox();
     try {
       taskerboxInstance.handleDefaultFiles();
@@ -47,10 +51,6 @@ public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
       e.printStackTrace();
     }
 
-  }
-
-  @Override
-  public void run(TaskerboxConfiguration configuration, Environment environment) {
     final ChannelsResource channels = new ChannelsResource(taskerboxInstance);
     
     final TemplateHealthCheck healthCheck =

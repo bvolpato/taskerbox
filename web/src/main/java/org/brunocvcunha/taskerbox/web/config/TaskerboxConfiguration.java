@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaskerboxConfiguration extends Configuration {
-    @NotEmpty
+    //@NotEmpty
     private String template;
 
     @NotEmpty

@@ -32,6 +32,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -62,10 +67,6 @@ import org.brunocvcunha.taskerbox.core.http.auth.NTLMSchemeFactory;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 /**
  * Http Access Configuration Box It allows to configure Proxy Access via Properties
@@ -415,7 +416,12 @@ public class TaskerboxHttpBox {
     HttpHead httpHead = new HttpHead(uri);
     HttpResponse response1 = client.execute(httpHead);
 
-    return Long.valueOf(response1.getFirstHeader("Content-Length").getValue());
+    Header length = response1.getFirstHeader("Content-Length");
+    if (length == null) {
+      return -1L;
+    }
+    
+    return Long.valueOf(length.getValue());
   }
 
 

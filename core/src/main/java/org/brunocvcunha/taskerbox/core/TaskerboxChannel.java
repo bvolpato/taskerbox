@@ -123,6 +123,9 @@ public abstract class TaskerboxChannel<T> {
   @Getter
   private TaskerboxChannelExecuteThread runningThread;
 
+  @Setter
+  private String groupName;
+  
   /**
    * Check if an action for a entry was already called (considering the channel is considered to do
    * so)
@@ -521,7 +524,7 @@ public abstract class TaskerboxChannel<T> {
    * @return
    */
   public String getGroupName() {
-    return this.getClass().getSimpleName().replace("Channel", "");
+    return (groupName != null ? groupName : this.getClass().getSimpleName().replace("Channel", ""));
   }
 
 }

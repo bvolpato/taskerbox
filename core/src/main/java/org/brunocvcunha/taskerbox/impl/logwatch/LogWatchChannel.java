@@ -72,7 +72,7 @@ public class LogWatchChannel extends TaskerboxChannel<String> {
 
             logDebug(log, "Size of response: " + uniqueUrl + " - " + uniqueSize);
 
-            if (size[x] == uniqueSize) {
+            if (uniqueSize >= 0 && size[x] == uniqueSize) {
               logDebug(log, "Same size! Skipping URL " + uniqueUrl);
               continue url;
             }

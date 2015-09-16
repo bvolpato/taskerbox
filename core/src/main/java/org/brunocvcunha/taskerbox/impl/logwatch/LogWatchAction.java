@@ -94,7 +94,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
     String[] logLines = fullLog.split("(\r?\n)+");
 
     line: for (String logLine : logLines) {
-      logLine = logLine.trim();
+      logLine = logLine.replaceAll("\\s+", " ").trim();
 
       boolean validLine = false;
 
