@@ -130,16 +130,29 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+	      <groupId>org.projectlombok</groupId>
+	      <artifactId>lombok-maven-plugin</artifactId>
+	      <version>1.16.6.1</version>
+	      <executions>
+	        <execution>
+	          <phase>generate-sources</phase>
+	          <goals>
+	            <goal>delombok</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
 
-			<!--plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId> 
-				<configuration> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass> 
-				<includeProjectDependencies>true</includeProjectDependencies> <includePluginDependencies>true</includePluginDependencies> 
-				</configuration> </plugin> <plugin> <artifactId>maven-assembly-plugin</artifactId> 
-				<executions> <execution> <id>rebuild-publisher</id> <configuration> <archive> 
-				<manifest> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass> </manifest> 
-				</archive> <finalName>taskerbox</finalName> <appendAssemblyId>false</appendAssemblyId> 
-				<descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> </descriptorRefs> 
-				</configuration> <phase>package</phase> <goals> <goal>single</goal> </goals> 
+			<!--plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId>
+				<configuration> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass>
+				<includeProjectDependencies>true</includeProjectDependencies> <includePluginDependencies>true</includePluginDependencies>
+				</configuration> </plugin> <plugin> <artifactId>maven-assembly-plugin</artifactId>
+				<executions> <execution> <id>rebuild-publisher</id> <configuration> <archive>
+				<manifest> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass> </manifest>
+				</archive> <finalName>taskerbox</finalName> <appendAssemblyId>false</appendAssemblyId>
+				<descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> </descriptorRefs>
+				</configuration> <phase>package</phase> <goals> <goal>single</goal> </goals>
 				</execution> </executions> </plugin -->
 
 
