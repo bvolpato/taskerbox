@@ -60,10 +60,10 @@
 		</macro>
 
 		<macro name="linkedin-jobs" delay="900000" requiredScore="2000"
-			externalApply="false" paused="true">
+			externalApply="false" postalCode="" paused="true">
 			<org.brunocvcunha.taskerbox.impl.jobs.LinkedInJobSeeker
 				id="{id}" userEmail="{email}" userPassword="{password}" search="{search}"
-				countries="{countries}" every="{delay}" externalApply="{externalApply}"
+				countries="{countries}" every="{delay}" externalApply="{externalApply}" postalCode="{postalCode}"
 				requiredScore="{requiredScore}" paused="{paused}">
 				<org.brunocvcunha.taskerbox.impl.http.URLOpenerAction />
 			</org.brunocvcunha.taskerbox.impl.jobs.LinkedInJobSeeker>

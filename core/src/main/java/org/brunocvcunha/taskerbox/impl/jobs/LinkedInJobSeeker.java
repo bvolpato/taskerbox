@@ -66,6 +66,11 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   @Getter
   @Setter
+  @TaskerboxField("Postal Code")
+  private String postalCode;
+  
+  @Getter
+  @Setter
   private File toApplyFile;
 
   @Getter
@@ -321,6 +326,10 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
                   + "&countryCode=" + country.toLowerCase()
                   + "&sortBy=DD&orig=JSHP&distance=100&locationType=I&openFacets=L,C,N&page_num="
                   + x + "&pt=jobs&f_TP=" + dateFacet;
+          if (postalCode != null && !postalCode.isEmpty()) {
+            seekUrl += "&postalCode=" + postalCode;
+          }
+          
           logInfo(log, "... Seeking " + seekUrl);
           HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
           String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);
