@@ -139,6 +139,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   public void setup() {
     super.setup();
+    logInfo(log, "Running setup...");
 
     try {
       bootstrapLinkedInHttpClient(true);
@@ -298,7 +299,8 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   @Override
   protected void execute() throws Exception {
-
+    log.info("Running execute...");
+      
     for (String country : countries) {
       try {
         int strikeCount = 0;
@@ -316,7 +318,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
           // TaskerboxHttpBox.getInstance().buildNewHttpClient();
           String seekUrl =
               "https://www.linkedin.com/vsearch/jj?keywords=" + URLEncoder.encode(search)
-                  + "&countryCode=" + country
+                  + "&countryCode=" + country.toLowerCase()
                   + "&sortBy=DD&orig=JSHP&distance=100&locationType=I&openFacets=L,C,N&page_num="
                   + x + "&pt=jobs&f_TP=" + dateFacet;
           logInfo(log, "... Seeking " + seekUrl);
