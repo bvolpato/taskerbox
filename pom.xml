@@ -56,7 +56,7 @@
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 
 		<!-- Java -->
-		<version.java>1.7</version.java>
+		<version.java>1.6</version.java>
 
 		<!-- Java EE Dependency -->
 		<version.javaee>6.0</version.javaee>

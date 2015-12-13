@@ -54,8 +54,8 @@ public class TaskerboxReflectionUtils {
       log.debug("Invoking Integer setter");
 
       if (value.contains("-")) {
-        int randomMin = Integer.valueOf(value.split("-")[0]);
-        int randomMax = Integer.valueOf(value.split("-")[1]);
+        int randomMin = Integer.valueOf(value.split("-")[0]).intValue();
+        int randomMax = Integer.valueOf(value.split("-")[1]).intValue();
 
         int randomValue = MyNumberUtils.randomIntBetween(randomMin, randomMax);
         log.info("Setting random value: " + randomValue);
