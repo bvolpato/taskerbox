@@ -98,6 +98,12 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
   // 1=1 day ago, 2=2-7 days, 3=8-14 days, 4=15-30 days
   private String dateFacet = "1,2,3";
 
+  @Getter
+  @Setter
+  @TaskerboxField("Max Job Count")
+  private int maxCount;
+  
+  private int actionCount = 0;
   public void bootstrapLinkedInHttpClient(boolean fetchCookie) throws ClientProtocolException,
       IllegalStateException, IOException, URISyntaxException {
     this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
@@ -286,6 +292,12 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     logInfo(log, headline);
     logInfo(log, elDescription.html());
 
+    
+    if (actionCount++ == maxCount) {
+        this.setPaused(true);
+        return false;
+    }
+    
     performUnique(jobUrl);
 
     try {
