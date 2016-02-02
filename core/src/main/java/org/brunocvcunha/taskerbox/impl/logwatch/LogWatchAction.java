@@ -98,7 +98,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 
       boolean validLine = false;
 
-      if (ignored != null && ignored.size() > 0) {
+      if (ignored != null && !ignored.isEmpty()) {
         for (String ignoredStr : ignored) {
           if (logLine.toLowerCase().contains(ignoredStr.toLowerCase())) {
             continue line;
@@ -133,7 +133,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 
     }
 
-    if (newLines.size() > 0) {
+    if (!newLines.isEmpty()) {
 
       EmailAction email = getEmailAction();
       EmailValueVO emailVO = new EmailValueVO();

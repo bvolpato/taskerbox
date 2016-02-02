@@ -105,7 +105,7 @@ public class DiceJobSeeker extends DefaultJobSearchChannel {
     Document jobDocument = Jsoup.parse(jobResult);
 
     Elements elDescription = jobDocument.select("div.job_description");
-    if (elDescription.size() == 0) {
+    if (elDescription.isEmpty()) {
       elDescription = jobDocument.select("div#detailDescription");
     }
 

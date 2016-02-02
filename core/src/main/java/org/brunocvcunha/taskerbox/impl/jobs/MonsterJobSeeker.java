@@ -209,7 +209,7 @@ public class MonsterJobSeeker extends DefaultJobSearchChannel {
             }
 
             String company = "";
-            if (companyEl.select("a").size() > 0) {
+            if (!companyEl.select("a").isEmpty()) {
               company = companyEl.select("a").get(0).attr("title");
             }
 

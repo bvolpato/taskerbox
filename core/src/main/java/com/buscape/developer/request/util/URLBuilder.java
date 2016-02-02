@@ -243,7 +243,7 @@ public final class URLBuilder {
 
     StringBuilder sb = new StringBuilder();
 
-    if (map.size() > 0) {
+    if (!map.isEmpty()) {
       for (Entry<String, Object> entry : map.entrySet()) {
         sb.append("&" + entry.getKey() + "=" + entry.getValue()); //$NON-NLS-1$ //$NON-NLS-2$
       }
