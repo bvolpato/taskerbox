@@ -63,14 +63,14 @@ public class SocketTesterChannel extends TaskerboxChannel<SocketTesterVO> {
   protected void execute() throws Exception {
 
     SocketTesterVO vo = new SocketTesterVO();
-    vo.setName(name);
-    vo.setHost(host);
-    vo.setPort(port);
-    vo.setService(service);
-    vo.setStatus(status);
-    vo.setType(type);
+    vo.setName(this.name);
+    vo.setHost(this.host);
+    vo.setPort(this.port);
+    vo.setService(this.service);
+    vo.setStatus(this.status);
+    vo.setType(this.type);
 
-    log.debug("Validating service " + id + " - " + vo);
+    log.debug("Validating service " + this.id + " - " + vo);
     SocketTesterController.validate(vo);
 
     if (!vo.isValid()) {
@@ -95,8 +95,8 @@ public class SocketTesterChannel extends TaskerboxChannel<SocketTesterVO> {
 
   @Override
   public String toString() {
-    return "SocketTesterChannel [type=" + type + ", name=" + name + ", host=" + host + ", port="
-        + port + ", status=" + status + ", service=" + service + "]";
+    return "SocketTesterChannel [type=" + this.type + ", name=" + this.name + ", host=" + this.host + ", port="
+        + this.port + ", status=" + this.status + ", service=" + this.service + "]";
   }
 
 }

@@ -35,6 +35,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
+import org.brunocvcunha.taskerbox.impl.http.URLOpenerAction;
 import org.brunocvcunha.taskerbox.impl.jobs.vo.ScorerResult;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -52,7 +53,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   @Getter
   @Setter
-  private List<Long> openIds = new ArrayList<Long>();
+  private List<Long> openIds = new ArrayList<>();
 
   @Getter
   @Setter
@@ -68,7 +69,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
   @Setter
   @TaskerboxField("Postal Code")
   private String postalCode;
-  
+
   @Getter
   @Setter
   private File toApplyFile;
@@ -102,8 +103,28 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
   @Setter
   @TaskerboxField("Max Job Count")
   private int maxCount;
-  
+
   private int actionCount = 0;
+
+  public static void main(String[] args) throws Exception {
+      LinkedInJobSeeker seeker = new LinkedInJobSeeker();
+      seeker.setCountries(new String[] { "us" });
+      seeker.setUserEmail("brunocvcunha@gmail.com");
+      seeker.setUserPassword("***REMOVED***");
+      seeker.setSearch("java");
+      seeker.setExternalApply(false);
+      seeker.setPaused(false);
+      seeker.setAction(new URLOpenerAction());
+      seeker.setPostalCode("94086");
+      seeker.setId("MainRun");
+
+      //open up to 30 tabs
+      seeker.setMaxCount(30);
+
+      seeker.setup();
+      seeker.execute();
+  }
+
   public void bootstrapLinkedInHttpClient(boolean fetchCookie) throws ClientProtocolException,
       IllegalStateException, IOException, URISyntaxException {
     this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
@@ -121,11 +142,11 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     logInfo(log, loginCsrfParam);
 
     HttpPost post = new HttpPost("https://www.linkedin.com/uas/login-submit");
-    List<NameValuePair> pairs2 = new ArrayList<NameValuePair>();
+    List<NameValuePair> pairs2 = new ArrayList<>();
     pairs2.add(new BasicNameValuePair("isJsEnabled", "true"));
     pairs2.add(new BasicNameValuePair("source_app", ""));
-    pairs2.add(new BasicNameValuePair("session_key", userEmail));
-    pairs2.add(new BasicNameValuePair("session_password", userPassword));
+    pairs2.add(new BasicNameValuePair("session_key", this.userEmail));
+    pairs2.add(new BasicNameValuePair("session_password", this.userPassword));
     pairs2.add(new BasicNameValuePair("session_redirect", ""));
     pairs2.add(new BasicNameValuePair("trk", ""));
     pairs2.add(new BasicNameValuePair("loginCsrfParam", loginCsrfParam));
@@ -148,7 +169,8 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   }
 
-  public void setup() {
+  @Override
+public void setup() {
     super.setup();
     logInfo(log, "Running setup...");
 
@@ -174,8 +196,8 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
     long jobId = job.getLong("id");
 
-    if (!openIds.contains(jobId)) {
-      openIds.add(jobId);
+    if (!this.openIds.contains(jobId)) {
+      this.openIds.add(jobId);
       // uniqueCount++;
     } else {
       return false;
@@ -183,10 +205,15 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
     String jobTitle = job.getString("fmt_jobTitle").replaceAll("</?B>", "");
 
-    if (!externalApply && job.has("sourceDomain")) {
+    if (!this.externalApply && job.has("sourceDomain")) {
       logInfo(log, jobId + " - " + jobTitle + " - " + job.getString("sourceDomain")
           + " --> ignored [external]");
-      return true;
+
+      String sourceDomain = job.getString("sourceDomain");
+      if (!sourceDomain.contains("jobvite")
+              && !sourceDomain.contains("ziprecruiter")) {
+          return true;
+      }
     }
 
 
@@ -206,7 +233,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
     if (job.has("sourceDomain")) {
       String sourceDomain = job.getString("sourceDomain");
-      if (externalApply
+      if (this.externalApply
           && (sourceDomain.contains("empregocerto.uol.com.br")
               || sourceDomain.contains("jobomas.com") || sourceDomain.contains("curriculum.com.br"))) {
         logInfo(log, "-- Ignored [externalApply - domain " + sourceDomain + "] " + headline);
@@ -222,7 +249,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     }
 
     try {
-      FileWriter out = new FileWriter(new File(tempDir + "\\job-db\\_titles.txt"), true);
+      FileWriter out = new FileWriter(new File(this.tempDir + "\\job-db\\_titles.txt"), true);
       out.write(jobTitle + "\r\n");
       out.close();
     } catch (Exception e) {
@@ -252,7 +279,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     // out.write(elSkills.text());
     // out.close();
 
-    if (!externalApply && !jobResult.contains("onsite-apply")) {
+    if (!this.externalApply && !jobResult.contains("onsite-apply")) {
       logInfo(log, "-- Ignored [onsite apply] " + headline);
       addAlreadyPerformedAction(jobUrl);
 
@@ -280,7 +307,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     ScorerResult result =
         LinkedInJobDBComparer.getScore(elDescription.html() + " - " + elSkills.html());
 
-    if (result.getScore() < requiredScore) {
+    if (result.getScore() < this.requiredScore) {
       logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - "
           + headline);
       addAlreadyPerformedAction(jobUrl);
@@ -292,12 +319,12 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
     logInfo(log, headline);
     logInfo(log, elDescription.html());
 
-    
-    if (actionCount++ == maxCount) {
+
+    if (this.actionCount++ == this.maxCount) {
         this.setPaused(true);
         return false;
     }
-    
+
     performUnique(jobUrl);
 
     try {
@@ -310,19 +337,20 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
 
   }
 
-  public BasicClientCookie buildCookie(String name, String value) {
+  @Override
+public BasicClientCookie buildCookie(String name, String value) {
     return TaskerboxHttpBox.buildCookie(name, value, "www.linkedin.com", "/");
   }
 
   @Override
   protected void execute() throws Exception {
     log.info("Running execute...");
-      
-    for (String country : countries) {
+
+    for (String country : this.countries) {
       try {
         int strikeCount = 0;
 
-        for (int x = 1; x < maxPages; x++) {
+        for (int x = 1; x < this.maxPages; x++) {
 
           // If channel is paused, stop execution
           if (this.isPaused() && !this.isForced()) {
@@ -334,14 +362,14 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
           // DefaultHttpClient client =
           // TaskerboxHttpBox.getInstance().buildNewHttpClient();
           String seekUrl =
-              "https://www.linkedin.com/vsearch/jj?keywords=" + URLEncoder.encode(search)
+              "https://www.linkedin.com/vsearch/jj?keywords=" + URLEncoder.encode(this.search)
                   + "&countryCode=" + country.toLowerCase()
                   + "&sortBy=DD&orig=JSHP&distance=100&locationType=I&openFacets=L,C,N&page_num="
-                  + x + "&pt=jobs&f_TP=" + dateFacet;
-          if (postalCode != null && !postalCode.isEmpty()) {
-            seekUrl += "&postalCode=" + postalCode;
+                  + x + "&pt=jobs&f_TP=" + this.dateFacet;
+          if (this.postalCode != null && !this.postalCode.isEmpty()) {
+            seekUrl += "&postalCode=" + this.postalCode;
           }
-          
+
           logInfo(log, "... Seeking " + seekUrl);
           HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);
           String result = TaskerboxHttpBox.getInstance().readResponseFromEntity(entity);

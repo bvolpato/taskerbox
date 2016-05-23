@@ -29,7 +29,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * System Tray integration with Taskerbox
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -37,13 +37,13 @@ import lombok.extern.log4j.Log4j;
 public class TaskerboxTrayUtils {
 
   /**
-	 * 
+	 *
 	 */
   private static TrayIcon trayIconInstance;
 
   /**
    * Gets the {@link TrayIcon} reference
-   * 
+   *
    * @return
    */
   public static TrayIcon getTrayIcon() {
@@ -66,7 +66,7 @@ public class TaskerboxTrayUtils {
 
   /**
    * Displays a message at the system tray
-   * 
+   *
    * @param caption
    * @param text
    * @param messageType

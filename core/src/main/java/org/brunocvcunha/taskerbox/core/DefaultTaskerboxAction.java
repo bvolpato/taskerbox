@@ -24,7 +24,7 @@ import lombok.Setter;
 
 /**
  * Implements some boilerplate for actions
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  * @param <T>
@@ -57,7 +57,7 @@ public abstract class DefaultTaskerboxAction<T> implements ITaskerboxAction<T> {
 
   /**
    * Default to log.info displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -67,7 +67,7 @@ public abstract class DefaultTaskerboxAction<T> implements ITaskerboxAction<T> {
 
   /**
    * Default to log.warn displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -77,7 +77,7 @@ public abstract class DefaultTaskerboxAction<T> implements ITaskerboxAction<T> {
 
   /**
    * Default to log.error displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -87,7 +87,7 @@ public abstract class DefaultTaskerboxAction<T> implements ITaskerboxAction<T> {
 
   /**
    * Default to log.error displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */

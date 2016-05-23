@@ -15,6 +15,8 @@
  */
 package org.brunocvcunha.taskerbox.impl.http;
 
+import com.sun.syndication.io.FeedException;
+
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
@@ -23,17 +25,15 @@ import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.hibernate.validator.constraints.URL;
 
-import com.sun.syndication.io.FeedException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
  * HTTP Raw Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class HTTPRawChannel extends TaskerboxChannel<String> {
@@ -53,14 +53,14 @@ public class HTTPRawChannel extends TaskerboxChannel<String> {
 
   @Override
   protected void execute() throws IOException, IllegalArgumentException, FeedException {
-    log.debug("Checking #" + checkCount + "... [" + url + " / '" + filter + "']");
+    log.debug("Checking #" + this.checkCount + "... [" + this.url + " / '" + this.filter + "']");
 
     try {
-      HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+      HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(this.url);
 
       int statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
-        logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
+        logWarn(log, "Error while fetching " + this.url + " - " + response.getStatusLine());
         return;
       }
 
@@ -86,7 +86,7 @@ public class HTTPRawChannel extends TaskerboxChannel<String> {
 
   @Override
   public String toString() {
-    return "HTTPHTMLChannel [url=" + url + ", filter=" + filter + ", unique=" + unique + ", every="
+    return "HTTPHTMLChannel [url=" + this.url + ", filter=" + this.filter + ", unique=" + this.unique + ", every="
         + getEvery() + "]";
   }
 

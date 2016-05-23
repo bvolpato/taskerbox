@@ -39,14 +39,14 @@ public class SlickDealsAction extends EmailDelegateAction<Document> {
 
   private static final String HOST = "http://slickdeals.net";
 
-  private Set<String> alreadyAct = new TreeSet<String>();
+  private Set<String> alreadyAct = new TreeSet<>();
 
   private List<String> ignored;
 
   @Override
   public void setup() {
     try {
-      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+      this.alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
     } catch (Exception e) {
       logWarn(log,
           "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
@@ -61,11 +61,11 @@ public class SlickDealsAction extends EmailDelegateAction<Document> {
       final String url = el.select("a[id^=thread_title]").attr("href");
       final String postTitle = el.select("a[id^=thread_title]").text();
 
-      if (!alreadyAct.contains(postTitle)) {
-        alreadyAct.add(postTitle);
+      if (!this.alreadyAct.contains(postTitle)) {
+        this.alreadyAct.add(postTitle);
 
-        if (ignored != null) {
-          for (String ignoredString : ignored) {
+        if (this.ignored != null) {
+          for (String ignoredString : this.ignored) {
             if (postTitle.toLowerCase().contains(ignoredString.toLowerCase())) {
               continue post;
             }
@@ -76,7 +76,7 @@ public class SlickDealsAction extends EmailDelegateAction<Document> {
         spreadAction(HOST + url, postTitle);
 
         try {
-          TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+          TaskerboxFileUtils.serializeMemory(this, this.alreadyAct);
         } catch (IOException e1) {
           e1.printStackTrace();
         }
@@ -116,16 +116,18 @@ public class SlickDealsAction extends EmailDelegateAction<Document> {
 
   }
 
-  public String getId() {
-    return id;
+  @Override
+public String getId() {
+    return this.id;
   }
 
-  public void setId(String id) {
+  @Override
+public void setId(String id) {
     this.id = id;
   }
 
   public List<String> getIgnored() {
-    return ignored;
+    return this.ignored;
   }
 
   public void setIgnored(List<String> ignored) {

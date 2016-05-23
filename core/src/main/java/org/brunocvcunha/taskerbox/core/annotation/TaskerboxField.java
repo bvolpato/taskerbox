@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation that means that the field is relevant to Taskerbox Tells the Taskerbox that the field
  * must be shown in UI
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

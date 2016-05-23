@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.brunocunha.taskerbox.utils.validation;
+package org.brunovccunha.taskerbox.utils.validation;
 
 import org.brunocvcunha.taskerbox.core.utils.validation.TaskerboxValidationUtils;
 import org.brunocvcunha.taskerbox.impl.feed.FeedChannel;

@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j;
 /**
  * Class responsible for launching channels. It creates threads that are called in intervals for
  * timed threads, or a new single-thread for daemons.
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -40,7 +40,8 @@ public class TaskerboxLauncher {
 
       try {
         Thread daemonThread = new Thread() {
-          public void run() {
+          @Override
+        public void run() {
             try {
               channel.setup();
 
@@ -83,7 +84,8 @@ public class TaskerboxLauncher {
 
         Thread startThread = new Thread() {
 
-          public void run() {
+          @Override
+        public void run() {
             try {
               channel.setup();
             } catch (Exception e) {

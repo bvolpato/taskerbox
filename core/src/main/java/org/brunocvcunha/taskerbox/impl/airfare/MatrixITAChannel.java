@@ -15,6 +15,8 @@
  */
 package org.brunocvcunha.taskerbox.impl.airfare;
 
+import com.sun.syndication.io.FeedException;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,8 +43,6 @@ import org.brunocvcunha.taskerbox.impl.email.EmailValueVO;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.sun.syndication.io.FeedException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -50,9 +50,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Fluig Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 @ToString(includeFieldNames = true)
@@ -118,12 +118,12 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
   public void setup() throws IOException, URISyntaxException {
     log.debug("Setup at MatrixITAChannel...");
 
-    client = TaskerboxHttpBox.getInstance().buildNewHttpClient();
+    this.client = TaskerboxHttpBox.getInstance().buildNewHttpClient();
 
-    CookieStore store = client.getCookieStore();
-    store.addCookie(TaskerboxHttpBox.buildCookie("PREF", cookie, "matrix.itasoftware.com", "/"));
+    CookieStore store = this.client.getCookieStore();
+    store.addCookie(TaskerboxHttpBox.buildCookie("PREF", this.cookie, "matrix.itasoftware.com", "/"));
 
-    TaskerboxHttpBox.getInstance().getResponseForURL(client, "http://matrix.itasoftware.com/");
+    TaskerboxHttpBox.getInstance().getResponseForURL(this.client, "http://matrix.itasoftware.com/");
   }
 
   @Override
@@ -134,26 +134,26 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
       post.addHeader("Accept", "*/*");
       post.addHeader("X-Requested-With", "XMLHttpRequest");
 
-      List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+      List<NameValuePair> pairs = new ArrayList<>();
       pairs.add(new BasicNameValuePair("name", "calendar"));
       pairs.add(new BasicNameValuePair("summarizers",
           "calendar,overnightFlightsCalendar,itineraryStopCountList,itineraryCarrierList"));
       pairs.add(new BasicNameValuePair("format", "JSON"));
 
       JSONObject inputs = new JSONObject();
-      inputs.put("slices", new JSONArray("[{\"origins\":[\"" + from
-          + "\"],\"originPreferCity\":false,\"destinations\":[\"" + to
-          + "\"],\"destinationPreferCity\":false},{\"destinations\":[\"" + from
-          + "\"],\"destinationPreferCity\":false,\"origins\":[\"" + to
+      inputs.put("slices", new JSONArray("[{\"origins\":[\"" + this.from
+          + "\"],\"originPreferCity\":false,\"destinations\":[\"" + this.to
+          + "\"],\"destinationPreferCity\":false},{\"destinations\":[\"" + this.from
+          + "\"],\"destinationPreferCity\":false,\"origins\":[\"" + this.to
           + "\"],\"originPreferCity\":false}]"));
-      inputs.put("startDate", startDate);
-      inputs.put("layover", new JSONObject("{\"max\":" + daysMax + ",\"min\":" + daysMin + "}"));
+      inputs.put("startDate", this.startDate);
+      inputs.put("layover", new JSONObject("{\"max\":" + this.daysMax + ",\"min\":" + this.daysMin + "}"));
       inputs.put("pax", new JSONObject("{\"adults\":1}"));
       inputs.put("cabin", "COACH");
       inputs.put("changeOfAirport", true);
       inputs.put("checkAvailability", true);
       inputs.put("firstDayOfWeek", "SUNDAY");
-      inputs.put("endDate", endDate);
+      inputs.put("endDate", this.endDate);
 
       // System.out.println(inputs.toString());
       pairs.add(new BasicNameValuePair("inputs", inputs.toString()));
@@ -162,7 +162,7 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
       post.setEntity(entity);
 
       log.debug("Executing request on " + post.getURI() + "...");
-      HttpResponse response = client.execute(post);
+      HttpResponse response = this.client.execute(post);
 
       int statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
@@ -199,7 +199,7 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
         String cheapestStr = "";
         String cheapestDate = "";
 
-        Map<String, String> valueMap = new LinkedHashMap<String, String>();
+        Map<String, String> valueMap = new LinkedHashMap<>();
 
         JSONObject result = obj.getJSONObject("result");
         JSONObject calendar = result.getJSONObject("calendar");
@@ -244,14 +244,14 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
                     cheapestDate = date;
                   }
 
-                  if (value <= desiredValue) {
+                  if (value <= this.desiredValue) {
 
                     hasExpectedPrice = true;
 
                     valueMap.put(date, price);
 
                     logInfo(log, "Found expected price! " + price + " (" + value
-                        + ") - Desired value: " + desiredValue);
+                        + ") - Desired value: " + this.desiredValue);
 
 
                   }
@@ -271,7 +271,7 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
         if (hasExpectedPrice) {
 
           EmailValueVO email = new EmailValueVO();
-          email.setTitle("Taskerbox - " + from + " x " + to + " - Found: " + cheapestStr);
+          email.setTitle("Taskerbox - " + this.from + " x " + this.to + " - Found: " + cheapestStr);
 
           StringBuffer sb = new StringBuffer();
 
@@ -307,7 +307,7 @@ public class MatrixITAChannel extends TaskerboxChannel<EmailValueVO> {
           performUnique(email);
 
         } else {
-          logInfo(log, "Value " + cheapestStr + " is not desired value (" + desiredValue
+          logInfo(log, "Value " + cheapestStr + " is not desired value (" + this.desiredValue
               + ") - Cheapest Date: " + cheapestDate);
         }
 

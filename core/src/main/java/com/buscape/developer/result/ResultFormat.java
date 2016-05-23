@@ -17,7 +17,7 @@ import com.buscape.developer.util.Messages;
 
 /**
  * Format of API call response.
- * 
+ *
  * @author neto
  */
 public enum ResultFormat {
@@ -40,12 +40,12 @@ public enum ResultFormat {
 
   @Override
   public String toString() {
-    return format;
+    return this.format;
   }
 
   /**
    * Returns a instance equivalent to the value.
-   * 
+   *
    * @param value the value of {@link ResultFormat}.
    * @return a {@link ResultFormat} equivalent to value.
    */

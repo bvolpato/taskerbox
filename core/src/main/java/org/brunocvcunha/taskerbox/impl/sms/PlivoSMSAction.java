@@ -15,6 +15,10 @@
  */
 package org.brunocvcunha.taskerbox.impl.sms;
 
+import com.plivo.helper.api.client.RestAPI;
+import com.plivo.helper.api.response.message.MessageResponse;
+import com.plivo.helper.exception.PlivoException;
+
 import java.awt.TrayIcon.MessageType;
 import java.util.LinkedHashMap;
 
@@ -24,19 +28,15 @@ import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocvcunha.taskerbox.core.TaskerboxConstants;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxTrayUtils;
 
-import com.plivo.helper.api.client.RestAPI;
-import com.plivo.helper.api.response.message.MessageResponse;
-import com.plivo.helper.exception.PlivoException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
  * Action that sends SMS using Plivo
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class PlivoSMSAction extends DefaultTaskerboxAction<Object> {
@@ -61,11 +61,11 @@ public class PlivoSMSAction extends DefaultTaskerboxAction<Object> {
   public void action(Object text) {
     logInfo(log, "Sending SMS: " + text.toString());
 
-    RestAPI restAPI = new RestAPI(authId, authToken, "v1");
+    RestAPI restAPI = new RestAPI(this.authId, this.authToken, "v1");
 
-    LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
-    params.put("src", from);
-    params.put("dst", to);
+    LinkedHashMap<String, String> params = new LinkedHashMap<>();
+    params.put("src", this.from);
+    params.put("dst", this.to);
 
     if (text instanceof ITaskerboxMessageable) {
       ITaskerboxMessageable messageble = (ITaskerboxMessageable) text;

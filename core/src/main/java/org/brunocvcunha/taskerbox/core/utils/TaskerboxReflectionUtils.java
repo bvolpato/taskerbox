@@ -28,7 +28,7 @@ import lombok.extern.log4j.Log4j;
 /**
  * Reflection utilities for Taskerbox. Centralizes values from XML to object setter, casting when it
  * is needed
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

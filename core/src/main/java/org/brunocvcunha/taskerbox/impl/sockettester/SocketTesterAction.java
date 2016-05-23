@@ -29,9 +29,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Strings in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class SocketTesterAction extends DefaultTaskerboxAction<SocketTesterVO> {
@@ -62,6 +62,6 @@ public class SocketTesterAction extends DefaultTaskerboxAction<SocketTesterVO> {
     }
 
     TaskerboxTrayUtils.displayMessage("Taskerbox - Socket Tester", sb.toString(),
-        MessageType.ERROR, actionListener);
+        MessageType.ERROR, this.actionListener);
   }
 }

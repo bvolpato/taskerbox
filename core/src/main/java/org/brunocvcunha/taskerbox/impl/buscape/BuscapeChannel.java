@@ -15,11 +15,6 @@
  */
 package org.brunocvcunha.taskerbox.impl.buscape;
 
-import java.io.IOException;
-
-import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
-import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
-
 import com.buscape.developer.Buscape;
 import com.buscape.developer.BuscapeException;
 import com.buscape.developer.request.Filter;
@@ -27,15 +22,20 @@ import com.buscape.developer.result.type.Offer;
 import com.buscape.developer.result.type.Result;
 import com.sun.syndication.io.FeedException;
 
+import java.io.IOException;
+
+import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
+import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
  * Buscape Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class BuscapeChannel extends TaskerboxChannel<OfferWrapper> {
@@ -68,9 +68,9 @@ public class BuscapeChannel extends TaskerboxChannel<OfferWrapper> {
       BuscapeException {
 
     Filter filter = new Filter();
-    Buscape buscape = new Buscape(appId, filter);
+    Buscape buscape = new Buscape(this.appId, filter);
 
-    Result maquina = buscape.offerListByProduct(productId);
+    Result maquina = buscape.offerListByProduct(this.productId);
 
     for (Offer offer : maquina.getOffers()) {
       if (isIgnoredSeller(offer.getSeller().getSellerName())
@@ -80,17 +80,17 @@ public class BuscapeChannel extends TaskerboxChannel<OfferWrapper> {
 
       double value = Double.valueOf(offer.getPrice().getValue());
 
-      if (value < foundValue) {
-        foundValue = value;
+      if (value < this.foundValue) {
+        this.foundValue = value;
       }
 
-      if (value < desiredValue) {
+      if (value < this.desiredValue) {
         logInfo(log, "[+] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName()
             + " - " + value);
         performUnique(new OfferWrapper(offer));
       } else {
         logInfo(log, "[-] " + offer.getSeller().getSellerName() + " - " + offer.getOfferName()
-            + " - " + value + " (Expected " + desiredValue + ")");
+            + " - " + value + " (Expected " + this.desiredValue + ")");
       }
 
 

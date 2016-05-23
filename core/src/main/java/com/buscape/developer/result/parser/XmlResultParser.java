@@ -13,17 +13,17 @@
  */
 package com.buscape.developer.result.parser;
 
+import com.buscape.developer.result.type.Result;
+
 import java.io.ByteArrayInputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import com.buscape.developer.result.type.Result;
-
 /**
  * Implementation of AbstractResultParser that parses data in XML format to Result.
- * 
+ *
  * @author cartagena
  */
 public final class XmlResultParser extends AbstractResultParser {
@@ -34,7 +34,7 @@ public final class XmlResultParser extends AbstractResultParser {
 
   /**
    * Creates an instance of {@link XmlResultParser} with provided data.
-   * 
+   *
    * @param data the raw data, in XML, that will be parsed.
    * @return a new instance of {@link XmlResultParser},
    */

@@ -23,7 +23,7 @@ import lombok.Setter;
 
 /**
  * POJO that ties the WebService to Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  * @param <T>

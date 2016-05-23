@@ -78,7 +78,7 @@ public class LinkedInJobDBComparer {
     content = content.toLowerCase();
 
     int score = 0;
-    List<String> foundTerms = new ArrayList<String>();
+    List<String> foundTerms = new ArrayList<>();
 
     for (TermScorer scorer : TERMS) {
       if (content.contains(scorer.getTermLc())) {

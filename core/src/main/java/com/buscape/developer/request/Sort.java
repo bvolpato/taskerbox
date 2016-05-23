@@ -17,7 +17,7 @@ import com.buscape.developer.util.Messages;
 
 /**
  * Types of sorting available in API calls.
- * 
+ *
  * @author neto
  */
 public enum Sort {
@@ -89,6 +89,6 @@ public enum Sort {
    */
   @Override
   public String toString() {
-    return sort;
+    return this.sort;
   }
 }

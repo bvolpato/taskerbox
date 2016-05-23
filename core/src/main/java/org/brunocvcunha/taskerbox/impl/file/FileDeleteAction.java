@@ -23,9 +23,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that deletes files when detected
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class FileDeleteAction extends DefaultTaskerboxAction<File> {

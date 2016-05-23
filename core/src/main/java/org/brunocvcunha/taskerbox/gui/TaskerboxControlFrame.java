@@ -34,6 +34,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.log4j.Level;
@@ -50,7 +51,7 @@ import lombok.extern.log4j.Log4j;
 public class TaskerboxControlFrame extends JFrame {
 
   /**
-	 * 
+	 *
 	 */
   private static final long serialVersionUID = -1157187960493714189L;
 
@@ -58,15 +59,15 @@ public class TaskerboxControlFrame extends JFrame {
 
   private JPanel contentPane;
   private JTabbedPane tabbedPane;
-  private Map<String, JPanel> channelPanelMap = new HashMap<String, JPanel>();
+  private Map<String, JPanel> channelPanelMap = new HashMap<>();
 
   private Taskerbox box;
   private JPanel panel_1;
   private JComboBox<String> comboBox;
   private JLabel lblNewLabel;
   private JPanel panel_2;
-  private JButton btnPausarTodos;
-  private JButton btnLigarTodos;
+  private JButton btnPauseAll;
+  private JButton btnResumeAll;
 
   private TaskerboxControlFrame frame = this;
 
@@ -93,42 +94,44 @@ public class TaskerboxControlFrame extends JFrame {
   private TaskerboxControlFrame(final Taskerbox box) {
     this.box = box;
 
-    setTitle("Taskerbox v0.1 by bruno.cunha ;)");
+    setTitle("Taskerbox v0.1 by @brunocvcunha ;)");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 600, 400);
-    contentPane = new JPanel();
-    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    setContentPane(contentPane);
-    contentPane.setLayout(new BorderLayout(0, 0));
+    this.contentPane = new JPanel();
+    this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    setContentPane(this.contentPane);
+    this.contentPane.setLayout(new BorderLayout(0, 0));
 
-    panel_1 = new JPanel();
-    contentPane.add(panel_1, BorderLayout.NORTH);
+    this.panel_1 = new JPanel();
+    this.contentPane.add(this.panel_1, BorderLayout.NORTH);
 
-    lblNewLabel = new JLabel("Logging Level:");
-    panel_1.add(lblNewLabel);
+    this.lblNewLabel = new JLabel("Logging Level:");
+    this.panel_1.add(this.lblNewLabel);
 
-    comboBox = new JComboBox<String>();
-    comboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        Logger.getRootLogger().setLevel(Level.toLevel((String) comboBox.getSelectedItem()));
-        log.info("Selected: " + comboBox.getSelectedItem());
+    this.comboBox = new JComboBox<>();
+    this.comboBox.addActionListener(new ActionListener() {
+      @Override
+    public void actionPerformed(ActionEvent e) {
+        Logger.getRootLogger().setLevel(Level.toLevel((String) TaskerboxControlFrame.this.comboBox.getSelectedItem()));
+        log.info("Selected: " + TaskerboxControlFrame.this.comboBox.getSelectedItem());
       }
     });
-    comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"DEBUG", "INFO", "WARN"}));
-    comboBox.setSelectedIndex(1);
-    panel_1.add(comboBox);
+    this.comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"DEBUG", "INFO", "WARN"}));
+    this.comboBox.setSelectedIndex(1);
+    this.panel_1.add(this.comboBox);
 
-    tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    contentPane.add(tabbedPane);
+    this.tabbedPane = new JTabbedPane(SwingConstants.TOP);
+    this.contentPane.add(this.tabbedPane);
 
 
 
-    panel_2 = new JPanel();
-    contentPane.add(panel_2, BorderLayout.SOUTH);
+    this.panel_2 = new JPanel();
+    this.contentPane.add(this.panel_2, BorderLayout.SOUTH);
 
-    btnPausarTodos = new JButton("Pausar Todos");
-    btnPausarTodos.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+    this.btnPauseAll = new JButton("Pause All");
+    this.btnPauseAll.addActionListener(new ActionListener() {
+      @Override
+    public void actionPerformed(ActionEvent e) {
         if (box != null) {
           synchronized (box.getChannels()) {
             for (TaskerboxChannel<?> channel : box.getChannels()) {
@@ -140,11 +143,12 @@ public class TaskerboxControlFrame extends JFrame {
         }
       }
     });
-    panel_2.add(btnPausarTodos);
+    this.panel_2.add(this.btnPauseAll);
 
-    btnLigarTodos = new JButton("Ligar Todos");
-    btnLigarTodos.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+    this.btnResumeAll = new JButton("Resume All");
+    this.btnResumeAll.addActionListener(new ActionListener() {
+      @Override
+    public void actionPerformed(ActionEvent e) {
         if (box != null) {
           synchronized (box.getChannels()) {
             for (TaskerboxChannel<?> channel : box.getChannels()) {
@@ -156,7 +160,7 @@ public class TaskerboxControlFrame extends JFrame {
         }
       }
     });
-    panel_2.add(btnLigarTodos);
+    this.panel_2.add(this.btnResumeAll);
 
     updateChannels();
 
@@ -169,22 +173,22 @@ public class TaskerboxControlFrame extends JFrame {
   public synchronized void updateChannels() {
     log.debug("Calling updateChannels");
 
-    if (box != null) {
-      synchronized (box.getChannels()) {
+    if (this.box != null) {
+      synchronized (this.box.getChannels()) {
 
-        for (Entry<String, JPanel> panel : channelPanelMap.entrySet()) {
+        for (Entry<String, JPanel> panel : this.channelPanelMap.entrySet()) {
           panel.getValue().removeAll();
         }
 
-        for (TaskerboxChannel<?> channel : box.getChannels()) {
+        for (TaskerboxChannel<?> channel : this.box.getChannels()) {
           String groupName = channel.getGroupName();
-          JPanel channelPanel = channelPanelMap.get(groupName);
+          JPanel channelPanel = this.channelPanelMap.get(groupName);
 
           if (channelPanel == null) {
             channelPanel = new JPanel();
             channelPanel.setLayout(new GridLayout(0, 2, 0, 0));
-            tabbedPane.addTab(groupName, null, channelPanel, null);
-            channelPanelMap.put(groupName, channelPanel);
+            this.tabbedPane.addTab(groupName, null, channelPanel, null);
+            this.channelPanelMap.put(groupName, channelPanel);
           }
 
           final JCheckboxChannelControl checkboxThread = new JCheckboxChannelControl();
@@ -212,7 +216,7 @@ public class TaskerboxControlFrame extends JFrame {
                 checkboxThread.getChannel().setPaused(true);
               }
 
-              log.info(checkboxThread.getText() + " - Pausado? "
+              log.info(checkboxThread.getText() + " - Paused? "
                   + checkboxThread.getChannel().isPaused());
 
             }
@@ -228,7 +232,7 @@ public class TaskerboxControlFrame extends JFrame {
   }
 
   public Taskerbox getBox() {
-    return box;
+    return this.box;
   }
 
   public void setBox(Taskerbox box) {
@@ -243,10 +247,12 @@ public class TaskerboxControlFrame extends JFrame {
       this.channel = channel;
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
       maybeShowPopup(e);
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
       maybeShowPopup(e);
     }
@@ -259,7 +265,7 @@ public class TaskerboxControlFrame extends JFrame {
 
     private JPopupMenu getPopup() {
       if (this.popup == null) {
-        log.info("Building popup for " + channel.getId());
+        log.info("Building popup for " + this.channel.getId());
 
         this.popup = new JPopupMenu();
         JMenuItem menuItem = new JMenuItem("Executar agora");
@@ -267,12 +273,13 @@ public class TaskerboxControlFrame extends JFrame {
 
           @Override
           public void actionPerformed(ActionEvent e) {
-            log.info("Forcing check on " + channel.getId());
+            log.info("Forcing check on " + PopupListener.this.channel.getId());
             Thread t1 = new Thread() {
-              public void run() {
+              @Override
+            public void run() {
                 try {
                   // Just need to force if channel is currently paused
-                  channel.check(channel.isPaused());
+                  PopupListener.this.channel.check(PopupListener.this.channel.isPaused());
                 } catch (Exception e1) {
                   e1.printStackTrace();
                 }
@@ -284,16 +291,16 @@ public class TaskerboxControlFrame extends JFrame {
 
         this.popup.add(menuItem);
 
-        JMenuItem menuProperties = new JMenuItem("Propriedades");
+        JMenuItem menuProperties = new JMenuItem("Properties");
         menuProperties.addActionListener(new ActionListener() {
 
           @Override
           public void actionPerformed(ActionEvent event) {
-            log.info("Opening properties for " + channel.getId());
+            log.info("Opening properties for " + PopupListener.this.channel.getId());
 
             TaskerboxChannelPropertiesFrame propertiesFrame;
             try {
-              propertiesFrame = new TaskerboxChannelPropertiesFrame(frame, channel);
+              propertiesFrame = new TaskerboxChannelPropertiesFrame(TaskerboxControlFrame.this.frame, PopupListener.this.channel);
               propertiesFrame.setVisible(true);
             } catch (Exception e) {
               e.printStackTrace();
@@ -304,15 +311,15 @@ public class TaskerboxControlFrame extends JFrame {
         this.popup.add(menuProperties);
 
 
-        if (channel.isRunning()) {
-          JMenuItem menuKill = new JMenuItem("Matar Thread");
+        if (this.channel.isRunning()) {
+          JMenuItem menuKill = new JMenuItem("Kill Thread");
           menuKill.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent event) {
-              log.info("Killing " + channel.getId());
+              log.info("Killing " + PopupListener.this.channel.getId());
 
-              TaskerboxChannelExecuteThread thread = channel.getRunningThread();
+              TaskerboxChannelExecuteThread thread = PopupListener.this.channel.getRunningThread();
               if (thread != null) {
                 thread.interrupt();
 

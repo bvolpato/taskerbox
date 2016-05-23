@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Configuration utility
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -31,9 +31,9 @@ public class TaskerboxConfigurationUtils {
   public static File getConfigurationDir() {
     String taskerboxDir =
         System.getProperty("taskerbox.dir", System.getProperty("user.home") + "/Dropbox/Taskerbox");
-    
+
     log.info("Using Taskerbox Dir: " + taskerboxDir);
-    
+
     return new File(taskerboxDir);
   }
 

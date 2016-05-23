@@ -60,13 +60,13 @@ public class SOAPChannel<T> extends TaskerboxChannel<T> {
   @WebMethod(exclude = true)
   protected void execute() throws Exception {
 
-    TaskerboxWebService<T> wsImpl = wsClass.newInstance();
+    TaskerboxWebService<T> wsImpl = this.wsClass.newInstance();
     wsImpl.setChannel(this);
 
-    Endpoint.publish(wsAddress, wsImpl);
+    Endpoint.publish(this.wsAddress, wsImpl);
 
-    logInfo(log, "Web service '" + wsClass.getName() + "' was published successfully.\n"
-        + "WSDL URL: " + wsAddress + "?WSDL");
+    logInfo(log, "Web service '" + this.wsClass.getName() + "' was published successfully.\n"
+        + "WSDL URL: " + this.wsAddress + "?WSDL");
 
     // Keep the local web server running until the process is killed
     while (Thread.currentThread().isAlive()) {
@@ -86,7 +86,7 @@ public class SOAPChannel<T> extends TaskerboxChannel<T> {
 
   @WebMethod(exclude = true)
   public String getWsAddress() {
-    return wsAddress;
+    return this.wsAddress;
   }
 
   @WebMethod(exclude = true)
@@ -95,7 +95,7 @@ public class SOAPChannel<T> extends TaskerboxChannel<T> {
   }
 
   public Class<? extends TaskerboxWebService> getWsClass() {
-    return wsClass;
+    return this.wsClass;
   }
 
   public void setWsClass(Class<? extends TaskerboxWebService> wsClass) {

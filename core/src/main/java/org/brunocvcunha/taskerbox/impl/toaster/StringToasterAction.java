@@ -28,9 +28,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Strings in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class StringToasterAction extends DefaultTaskerboxAction<String> {
@@ -45,8 +45,8 @@ public class StringToasterAction extends DefaultTaskerboxAction<String> {
 
   @Override
   public void action(final String entry) {
-    log.debug("Action on StringToasterAction: " + title + " / " + entry);
-    TaskerboxTrayUtils.displayMessage(title, entry, MessageType.INFO, actionListener);
+    log.debug("Action on StringToasterAction: " + this.title + " / " + entry);
+    TaskerboxTrayUtils.displayMessage(this.title, entry, MessageType.INFO, this.actionListener);
   }
 
 }

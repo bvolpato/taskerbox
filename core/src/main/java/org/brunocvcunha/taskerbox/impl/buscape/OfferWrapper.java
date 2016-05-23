@@ -15,10 +15,10 @@
  */
 package org.brunocvcunha.taskerbox.impl.buscape;
 
+import com.buscape.developer.result.type.Offer;
+
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
-
-import com.buscape.developer.result.type.Offer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import lombok.Setter;
 
 /**
  * Buscape Offer Wrapper - Emailable
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -43,12 +43,12 @@ public class OfferWrapper implements ITaskerboxEmailable {
 
   @Override
   public String getEmailTitle(TaskerboxChannel<?> channel) {
-    return value.getSeller().getSellerName() + ": " + value.getOfferName() + " - "
-        + value.getPrice().getValue();
+    return this.value.getSeller().getSellerName() + ": " + this.value.getOfferName() + " - "
+        + this.value.getPrice().getValue();
   }
 
   @Override
   public String getEmailBody(TaskerboxChannel<?> channel) {
-    return value.getLinks().getLinks().get(0).getUrl();
+    return this.value.getLinks().getLinks().get(0).getUrl();
   }
 }

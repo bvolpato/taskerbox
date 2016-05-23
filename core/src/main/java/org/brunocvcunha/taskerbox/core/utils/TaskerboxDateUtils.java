@@ -20,7 +20,7 @@ import java.util.Date;
 
 /**
  * Date Utilities for Taskerbox
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

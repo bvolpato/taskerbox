@@ -17,7 +17,7 @@ package org.brunocvcunha.taskerbox.core;
 
 /**
  * Taskerbox constants
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

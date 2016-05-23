@@ -17,7 +17,7 @@ package org.brunocvcunha.taskerbox.core;
 
 /**
  * Interface that represents emailable objects
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

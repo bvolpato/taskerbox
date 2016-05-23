@@ -22,7 +22,7 @@ public class Job {
   private String url;
 
   public Long getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(Long id) {
@@ -30,7 +30,7 @@ public class Job {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -38,7 +38,7 @@ public class Job {
   }
 
   public String getLocation() {
-    return location;
+    return this.location;
   }
 
   public void setLocation(String location) {
@@ -46,7 +46,7 @@ public class Job {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {

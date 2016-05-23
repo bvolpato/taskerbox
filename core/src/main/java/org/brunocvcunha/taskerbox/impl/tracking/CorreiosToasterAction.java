@@ -28,9 +28,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Strings in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class CorreiosToasterAction extends DefaultTaskerboxAction<CorreiosTrackingWrapper> {
@@ -46,9 +46,9 @@ public class CorreiosToasterAction extends DefaultTaskerboxAction<CorreiosTracki
   @Override
   public void action(final CorreiosTrackingWrapper entry) {
     log.debug("Action on CorreiosToasterAction: " + entry);
-    TaskerboxTrayUtils.displayMessage(title, CorreiosChannel.formatTracking(entry.getValue(),
+    TaskerboxTrayUtils.displayMessage(this.title, CorreiosChannel.formatTracking(entry.getValue(),
         getChannel().getProperty("tracking"), getChannel().getProperty("descricao")),
-        MessageType.INFO, actionListener);
+        MessageType.INFO, this.actionListener);
   }
 
 }

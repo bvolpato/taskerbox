@@ -37,7 +37,7 @@ public class TermScorer {
   }
 
   public String getTerm() {
-    return term;
+    return this.term;
   }
 
   public void setTerm(String term) {
@@ -45,7 +45,7 @@ public class TermScorer {
   }
 
   public int getScore() {
-    return score;
+    return this.score;
   }
 
   public void setScore(int score) {
@@ -53,7 +53,7 @@ public class TermScorer {
   }
 
   public Pattern getPattern() {
-    return pattern;
+    return this.pattern;
   }
 
   public void setPattern(Pattern pattern) {
@@ -61,7 +61,7 @@ public class TermScorer {
   }
 
   public String getTermLc() {
-    return termLc;
+    return this.termLc;
   }
 
   public void setTermLc(String termLc) {

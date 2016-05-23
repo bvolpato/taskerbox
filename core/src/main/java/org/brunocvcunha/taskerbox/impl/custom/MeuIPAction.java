@@ -45,10 +45,10 @@ public class MeuIPAction extends DefaultTaskerboxAction<Document> {
             body);
     logInfo(log, "IP Address Found: " + ip);
 
-    if (outputFile != null) {
+    if (this.outputFile != null) {
       FileWriter out;
       try {
-        out = new FileWriter(outputFile, true);
+        out = new FileWriter(this.outputFile, true);
         out.write(getTimestamp() + " " + InetAddress.getLocalHost().getHostName() + " - " + ip
             + "\r\n");
         out.close();
@@ -58,11 +58,13 @@ public class MeuIPAction extends DefaultTaskerboxAction<Document> {
     }
   }
 
-  public String getId() {
-    return id;
+  @Override
+public String getId() {
+    return this.id;
   }
 
-  public void setId(String id) {
+  @Override
+public void setId(String id) {
     this.id = id;
   }
 
@@ -72,7 +74,7 @@ public class MeuIPAction extends DefaultTaskerboxAction<Document> {
   }
 
   public File getOutputFile() {
-    return outputFile;
+    return this.outputFile;
   }
 
   public void setOutputFile(File outputFile) {

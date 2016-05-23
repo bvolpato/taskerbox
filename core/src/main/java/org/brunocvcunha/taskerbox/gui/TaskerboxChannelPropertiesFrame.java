@@ -33,6 +33,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.brunocvcunha.inutils4j.MyStringUtils;
@@ -49,7 +51,7 @@ public class TaskerboxChannelPropertiesFrame extends JFrame {
 
   private JPanel contentPane;
 
-  private List<JSetterTextField> setters = new ArrayList<JSetterTextField>();
+  private List<JSetterTextField> setters = new ArrayList<>();
 
   /**
    * Launch the application.
@@ -60,7 +62,8 @@ public class TaskerboxChannelPropertiesFrame extends JFrame {
     twitter.setConsumerKey("aaa");
 
     EventQueue.invokeLater(new Runnable() {
-      public void run() {
+      @Override
+    public void run() {
         try {
           TaskerboxChannelPropertiesFrame frame =
               new TaskerboxChannelPropertiesFrame(null, twitter);
@@ -74,7 +77,7 @@ public class TaskerboxChannelPropertiesFrame extends JFrame {
 
   /**
    * Create the frame.
-   * 
+   *
    * @throws IntrospectionException
    * @throws InvocationTargetException
    * @throws IllegalArgumentException
@@ -83,26 +86,26 @@ public class TaskerboxChannelPropertiesFrame extends JFrame {
   public TaskerboxChannelPropertiesFrame(final TaskerboxControlFrame frame,
       final TaskerboxChannel<?> channel) throws IntrospectionException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-    setTitle("Propriedades do Canal " + channel.getId());
+    setTitle("Channel Properties " + channel.getId());
 
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 450, 300);
-    contentPane = new JPanel();
-    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    contentPane.setLayout(new BorderLayout(0, 0));
-    setContentPane(contentPane);
+    this.contentPane = new JPanel();
+    this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    this.contentPane.setLayout(new BorderLayout(0, 0));
+    setContentPane(this.contentPane);
 
     JPanel panel = new JPanel();
-    contentPane.add(panel, BorderLayout.NORTH);
+    this.contentPane.add(panel, BorderLayout.NORTH);
 
-    JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    contentPane.add(tabbedPane, BorderLayout.CENTER);
+    JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
+    this.contentPane.add(tabbedPane, BorderLayout.CENTER);
 
     JPanel panel_2 = new JPanel();
     FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
     flowLayout.setHgap(100);
     flowLayout.setAlignment(FlowLayout.LEADING);
-    tabbedPane.addTab("Propriedades", null, panel_2, null);
+    tabbedPane.addTab("Properties", null, panel_2, null);
 
     for (Field field : channel.getClass().getDeclaredFields()) {
       if (field.isAnnotationPresent(TaskerboxField.class)) {
@@ -138,20 +141,21 @@ public class TaskerboxChannelPropertiesFrame extends JFrame {
 
         fieldPanel.add(textField, BorderLayout.EAST);
 
-        setters.add(textField);
+        this.setters.add(textField);
         panel_2.add(fieldPanel);
       }
     }
 
     JPanel panel_1 = new JPanel();
-    contentPane.add(panel_1, BorderLayout.SOUTH);
+    this.contentPane.add(panel_1, BorderLayout.SOUTH);
 
     JButton btnSalvar = new JButton("Salvar");
     btnSalvar.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      @Override
+    public void actionPerformed(ActionEvent e) {
 
 
-        for (JSetterTextField setter : setters) {
+        for (JSetterTextField setter : TaskerboxChannelPropertiesFrame.this.setters) {
           log.info("Setting field " + setter.getSetter().getName() + ": " + setter.getText());
           channel.getPropertyBag().put(setter.getSetter().getName(), setter.getText());
           try {

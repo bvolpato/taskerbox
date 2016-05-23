@@ -42,12 +42,13 @@ public class TaskerboxChannelExecuteThread extends Thread {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Thread#run()
    */
-  public void run() {
+  @Override
+public void run() {
     try {
-      channel.execute();
+      this.channel.execute();
 
       this.success = true;
     } catch (Exception e) {

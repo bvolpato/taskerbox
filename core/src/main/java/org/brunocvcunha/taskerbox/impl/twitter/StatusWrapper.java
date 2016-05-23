@@ -29,7 +29,7 @@ import twitter4j.Status;
 
 /**
  * Twitter Status Wrapper - Emailable
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -46,31 +46,31 @@ public class StatusWrapper implements ITaskerboxEmailable, ITaskerboxMessageable
 
   @Override
   public String getEmailTitle(TaskerboxChannel<?> channel) {
-    return "@" + value.getUser().getScreenName() + " Tweet";
+    return "@" + this.value.getUser().getScreenName() + " Tweet";
   }
 
   @Override
   public String getEmailBody(TaskerboxChannel<?> channel) {
 
     Properties templateProps = new Properties();
-    templateProps.put("status", value);
+    templateProps.put("status", this.value);
 
     return TaskerboxVelocityUtils.processTemplate("email/tweet.html", templateProps);
   }
 
   @Override
   public String getMessageTitle(TaskerboxChannel<?> channel) {
-    return "Tweet de @" + value.getUser().getScreenName();
+    return "Tweet de @" + this.value.getUser().getScreenName();
   }
 
   @Override
   public String getMessageBody(TaskerboxChannel<?> channel) {
-    return value.getText();
+    return this.value.getText();
   }
 
   @Override
   public String toString() {
-    return "HTTPStatusWrapper [value=" + value + "]";
+    return "HTTPStatusWrapper [value=" + this.value + "]";
   }
 
 

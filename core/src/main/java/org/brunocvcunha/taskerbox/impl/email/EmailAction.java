@@ -52,9 +52,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Feeds in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class EmailAction extends DefaultTaskerboxAction<Object> {
@@ -111,7 +111,7 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
   /*
    * public static void main(String[] args) { Properties prop = new Properties(); prop.put("title",
    * "titulo"); prop.put("content", "titulo explanado");
-   * 
+   *
    * System.out.println(callTemplate("synd.html", prop)); }
    */
 
@@ -131,7 +131,7 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
       logWarn(log, "Email Unknown Action! " + entry.getClass() + " --- " + entry.toString());
 
       EmailValueVO vo = new EmailValueVO();
-      vo.setTitle(emailTitle);
+      vo.setTitle(this.emailTitle);
       vo.setBody(entry.toString());
 
       handleEmailValue(vo);
@@ -179,10 +179,10 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
     Properties props = System.getProperties();
 
     SSLAuthenticator sslAuthenticator = null;
-    if (enableSSL) {
-      log.debug("Using SSL to Connection with " + smtpHost + ":" + smtpPort);
+    if (this.enableSSL) {
+      log.debug("Using SSL to Connection with " + this.smtpHost + ":" + this.smtpPort);
 
-      sslAuthenticator = new SSLAuthenticator(smtpUser, smtpPassword);
+      sslAuthenticator = new SSLAuthenticator(this.smtpUser, this.smtpPassword);
 
       SSLContext ctx = SSLContext.getInstance("TLS");
       ctx.init(null, new TrustManager[] {new SSLAuthenticator.DefaultTrustManager()},
@@ -195,23 +195,24 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
       props.setProperty("mail.smtp.auth", "true");
     }
 
-    props.setProperty("mail.smtp.host", smtpHost);
-    props.setProperty("mail.smtp.port", String.valueOf(smtpPort));
-    props.setProperty("mail.smtp.starttls", String.valueOf(enableTLS));
+    props.setProperty("mail.smtp.host", this.smtpHost);
+    props.setProperty("mail.smtp.port", String.valueOf(this.smtpPort));
+    props.setProperty("mail.smtp.starttls", String.valueOf(this.enableTLS));
     props.setProperty("mail.smtp.starttls.enable", "true");
 
     Session session;
 
-    if (smtpPassword != null && !smtpPassword.equals("")) {
+    if (this.smtpPassword != null && !this.smtpPassword.equals("")) {
       props.setProperty("mail.smtp.auth", "true");
 
       Authenticator auth = new Authenticator() {
+        @Override
         public PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication(smtpUser, smtpPassword);
+          return new PasswordAuthentication(EmailAction.this.smtpUser, EmailAction.this.smtpPassword);
         }
       };
 
-      if (enableSSL) {
+      if (this.enableSSL) {
         log.debug("Opening SSL Session...");
 
         session = Session.getInstance(props, sslAuthenticator);
@@ -224,9 +225,9 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 
 
 
-    if (logFile != null) {
+    if (this.logFile != null) {
       try {
-        FileWriter out = new FileWriter(logFile, true);
+        FileWriter out = new FileWriter(this.logFile, true);
         out.write("=========================================\r\n");
         out.write(TaskerboxDateUtils.getTimestamp() + " Assunto: " + title + "\r\n");
         out.write(content + "\r\n");
@@ -237,19 +238,19 @@ public class EmailAction extends DefaultTaskerboxAction<Object> {
 
     }
 
-    String msg = "Sending email to: " + email + " (Channel: [channel]): " + title;
+    String msg = "Sending email to: " + this.email + " (Channel: [channel]): " + title;
     if (getChannel() != null) {
       msg = msg.replace("[channel]", getChannel().getId());
     }
     logInfo(log, "Sending email: " + msg);
 
-    if (showToaster) {
+    if (this.showToaster) {
       new StringToasterAction().action(msg);
     }
 
     MimeMessage message = new MimeMessage(session);
-    message.setFrom(new InternetAddress(smtpFrom));
-    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+    message.setFrom(new InternetAddress(this.smtpFrom));
+    message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
     message.setSubject(title);
     message.setContent(content, "text/html");
 

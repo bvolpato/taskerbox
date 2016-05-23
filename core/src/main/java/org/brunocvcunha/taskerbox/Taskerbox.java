@@ -37,9 +37,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Main Class for Taskerbox (Swing Interface)
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class Taskerbox {
@@ -49,13 +49,13 @@ public class Taskerbox {
 
   @Getter
   @Setter
-  private Map<String, String> macros = new LinkedHashMap<String, String>();
+  private Map<String, String> macros = new LinkedHashMap<>();
   @Getter
   @Setter
-  private Map<String, List<?>> macroAttrs = new LinkedHashMap<String, List<?>>();
+  private Map<String, List<?>> macroAttrs = new LinkedHashMap<>();
   @Getter
   @Setter
-  private Map<String, String> defaultProperties = new LinkedHashMap<String, String>();
+  private Map<String, String> defaultProperties = new LinkedHashMap<>();
 
   @Getter
   @Setter
@@ -63,11 +63,11 @@ public class Taskerbox {
 
   @Getter
   @Setter
-  private List<TaskerboxChannel<?>> daemons = new ArrayList<TaskerboxChannel<?>>();
+  private List<TaskerboxChannel<?>> daemons = new ArrayList<>();
 
   @Getter
   @Setter
-  private List<TaskerboxChannel<?>> channels = new ArrayList<TaskerboxChannel<?>>();
+  private List<TaskerboxChannel<?>> channels = new ArrayList<>();
 
   public static void main(String[] args) throws Exception {
     // LogManager.getRootLogger().setLevel(Level.DEBUG);
@@ -95,7 +95,7 @@ public class Taskerbox {
   public void handleDefaultFiles() throws Exception {
     String hostName = InetAddress.getLocalHost().getHostName();
     log.info("Host name: " + hostName);
-    
+
     handleTaskerbox("macros.xml");
 
 

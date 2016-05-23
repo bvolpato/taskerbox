@@ -33,16 +33,16 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * File/Directory Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class FileChannel extends TaskerboxChannel<File> {
 
   @Getter
   @Setter
-  private Set<String> alreadyChecked = new TreeSet<String>();
+  private Set<String> alreadyChecked = new TreeSet<>();
 
   @NotNull
   @Getter
@@ -63,33 +63,33 @@ public class FileChannel extends TaskerboxChannel<File> {
 
   @Override
   protected void execute() {
-    logInfo(log, "Checking... [" + file + " / " + lookChildren + "]");
+    logInfo(log, "Checking... [" + this.file + " / " + this.lookChildren + "]");
 
-    if (file == null) {
+    if (this.file == null) {
       return;
     }
 
-    if (lookChildren) {
-      for (File child : file.listFiles()) {
+    if (this.lookChildren) {
+      for (File child : this.file.listFiles()) {
         doAction(child);
       }
     } else {
-      doAction(file);
+      doAction(this.file);
     }
 
   }
 
   private void doAction(File file) {
 
-    if (!singleItemAction || (singleItemAction && !alreadyPerformedAction(file))) {
-      log.debug("doAction for " + file + ", singleItemAction? " + singleItemAction);
+    if (!this.singleItemAction || (this.singleItemAction && !alreadyPerformedAction(file))) {
+      log.debug("doAction for " + file + ", singleItemAction? " + this.singleItemAction);
       for (ITaskerboxAction<File> action : this.getActions()) {
         action.action(file);
       }
 
       addAlreadyPerformedAction(file);
 
-      if (deleteAfterAction) {
+      if (this.deleteAfterAction) {
         log.debug("Deleting " + file);
         removeAlreadyPerformedAction(file);
 

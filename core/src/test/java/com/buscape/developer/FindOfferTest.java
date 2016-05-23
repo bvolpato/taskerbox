@@ -15,6 +15,8 @@ package com.buscape.developer;
 
 import static org.junit.Assert.assertEquals;
 
+import com.buscape.developer.result.type.Result;
+
 import java.io.File;
 
 import javax.xml.bind.JAXBContext;
@@ -23,8 +25,6 @@ import javax.xml.bind.Unmarshaller;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.buscape.developer.result.type.Result;
 
 public class FindOfferTest {
 

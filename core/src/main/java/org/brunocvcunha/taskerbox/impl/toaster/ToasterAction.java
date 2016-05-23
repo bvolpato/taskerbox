@@ -25,9 +25,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows file name in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class ToasterAction<T> extends DefaultTaskerboxAction<T> {

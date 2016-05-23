@@ -33,9 +33,9 @@ import net.sumppen.whatsapi4j.WhatsAppException;
 
 /**
  * Action that sends WhatsApp Msgs
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class WhatsappAction extends DefaultTaskerboxAction<Object> {
@@ -87,10 +87,10 @@ public class WhatsappAction extends DefaultTaskerboxAction<Object> {
 
     logInfo(log, "Sending Message: " + sendMessage);
 
-    WhatsApi api = WhatsappConnection.getOrCreateInstance(from, appName, alias, password);
+    WhatsApi api = WhatsappConnection.getOrCreateInstance(this.from, this.appName, this.alias, this.password);
     try {
-      api.sendMessage(to, sendMessage);
-      Thread.sleep(messageInterval); // Some delay
+      api.sendMessage(this.to, sendMessage);
+      Thread.sleep(this.messageInterval); // Some delay
     } catch (WhatsAppException e) {
       log.error("Error sending WhatsApp Message", e);
     } catch (InterruptedException e) {

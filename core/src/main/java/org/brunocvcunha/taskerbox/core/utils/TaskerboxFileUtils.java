@@ -37,7 +37,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * File Utilities for Taskerbox
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -58,7 +58,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Get File that stores information for channels in performed dir
-   * 
+   *
    * @param channel
    * @return
    */
@@ -71,7 +71,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Get File that stores persistent storage information
-   * 
+   *
    * @param channel
    * @return
    */
@@ -83,7 +83,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Get File that stores information for actions in performed dir
-   * 
+   *
    * @param action
    * @return
    */
@@ -96,7 +96,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Save lines to file
-   * 
+   *
    * @param channel
    * @throws IOException
    */
@@ -125,7 +125,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Save lines to file
-   * 
+   *
    * @param action
    * @throws IOException
    */
@@ -142,7 +142,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Imports lines to set
-   * 
+   *
    * @param action
    * @throws IOException
    */
@@ -153,7 +153,7 @@ public class TaskerboxFileUtils {
       FileReader fr = new FileReader(getPerformedFileForAction(action));
       BufferedReader br = new BufferedReader(fr);
 
-      Set<String> alreadyPerformed = new TreeSet<String>();
+      Set<String> alreadyPerformed = new TreeSet<>();
       while (br.ready()) {
         alreadyPerformed.add(br.readLine());
       }
@@ -168,7 +168,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Imports lines to set
-   * 
+   *
    * @param channel
    * @throws IOException
    * @throws ClassNotFoundException
@@ -203,7 +203,7 @@ public class TaskerboxFileUtils {
 
   /**
    * Save temp file in performed dir
-   * 
+   *
    * @param name
    * @param content
    */

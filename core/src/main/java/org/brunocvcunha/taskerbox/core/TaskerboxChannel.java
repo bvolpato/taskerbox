@@ -41,9 +41,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Abstract Class for all Taskerbox Channels
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  * @param <T>
  */
 @Log4j
@@ -72,7 +72,7 @@ public abstract class TaskerboxChannel<T> {
 
   @Getter
   @Setter
-  public Set<String> alreadyPerformed = new TreeSet<String>();
+  public Set<String> alreadyPerformed = new TreeSet<>();
 
   @Getter
   @Setter
@@ -88,11 +88,11 @@ public abstract class TaskerboxChannel<T> {
 
   @Getter
   @Setter
-  private Map<String, String> propertyBag = new LinkedHashMap<String, String>();
+  private Map<String, String> propertyBag = new LinkedHashMap<>();
 
   @Getter
   @Setter
-  private Map<String, String> storedPropertyBag = new LinkedHashMap<String, String>();
+  private Map<String, String> storedPropertyBag = new LinkedHashMap<>();
 
   @Getter
   @Setter
@@ -125,16 +125,16 @@ public abstract class TaskerboxChannel<T> {
 
   @Setter
   private String groupName;
-  
+
   /**
    * Check if an action for a entry was already called (considering the channel is considered to do
    * so)
-   * 
+   *
    * @param entry
    * @return
    */
   public boolean alreadyPerformedAction(T entry) {
-    if (singleItemAction) {
+    if (this.singleItemAction) {
       log.debug("Checking if already performed action for " + entry.toString());
     }
     // else {
@@ -142,7 +142,7 @@ public abstract class TaskerboxChannel<T> {
     // return false;
     // }
 
-    if (alreadyPerformed.contains(getItemFingerprint(entry).replaceAll("\r?\n", ""))) {
+    if (this.alreadyPerformed.contains(getItemFingerprint(entry).replaceAll("\r?\n", ""))) {
       log.debug("Already performed action for " + getItemFingerprint(entry).replaceAll("\r?\n", ""));
       return true;
     }
@@ -152,18 +152,18 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Add performed action, using entry fingerprint as key
-   * 
+   *
    * @param entry
    */
   public void addAlreadyPerformedAction(T entry) {
-    lastPerformed = System.currentTimeMillis();
+    this.lastPerformed = System.currentTimeMillis();
 
-    synchronized (alreadyPerformed) {
-      alreadyPerformed.add(getItemFingerprint(entry).replaceAll("\r?\n", ""));
+    synchronized (this.alreadyPerformed) {
+      this.alreadyPerformed.add(getItemFingerprint(entry).replaceAll("\r?\n", ""));
     }
 
-    if (!pendingSerializerThread) {
-      pendingSerializerThread = true;
+    if (!this.pendingSerializerThread) {
+      this.pendingSerializerThread = true;
       ChannelSerializerThread serializerThread = new ChannelSerializerThread(this);
       serializerThread.start();
     }
@@ -171,18 +171,18 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Remove entry from already performed
-   * 
+   *
    * @param entry
    */
   public void removeAlreadyPerformedAction(T entry) {
-    synchronized (alreadyPerformed) {
-      alreadyPerformed.remove(getItemFingerprint(entry));
+    synchronized (this.alreadyPerformed) {
+      this.alreadyPerformed.remove(getItemFingerprint(entry));
     }
   }
 
   /**
    * Unique performing controller
-   * 
+   *
    * @param entry
    */
   public void performUnique(T entry) {
@@ -198,7 +198,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Multiple performing controller
-   * 
+   *
    * @param entry
    */
   public void perform(T entry) {
@@ -218,7 +218,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Propagate exception for actions
-   * 
+   *
    * @param entry
    */
   public void performException(Throwable entry) {
@@ -238,19 +238,19 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Creates the scheduler thread for the channel
-   * 
+   *
    * @param initialDelay
    * @param delay
    * @param unit
    */
   public void scheduleTask(long initialDelay, long delay, TimeUnit unit) {
-    scheduler = Executors.newScheduledThreadPool(1);
+    this.scheduler = Executors.newScheduledThreadPool(1);
 
     this.scheduledCheckerThread = new ScheduledChecker(this);
     this.scheduledCheckerThread.setName("scheduler-" + getId());
 
     // was scheduleWithFixedDelay
-    scheduler.scheduleAtFixedRate(scheduledCheckerThread, initialDelay, delay, unit);
+    this.scheduler.scheduleAtFixedRate(this.scheduledCheckerThread, initialDelay, delay, unit);
 
   }
 
@@ -284,7 +284,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Gets a {@link List} for the given file in the app
-   * 
+   *
    * @param resourceName
    * @return
    */
@@ -302,14 +302,14 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Main method of channel
-   * 
+   *
    * @throws Exception
    */
   protected abstract void execute() throws Exception;
 
   /**
    * Runs check without forcing if it is paused
-   * 
+   *
    * @throws Exception
    */
   public void check() throws Exception {
@@ -318,7 +318,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Runs check even if the channel is paused (used by UI)
-   * 
+   *
    * @param force
    * @throws Exception
    */
@@ -372,7 +372,7 @@ public abstract class TaskerboxChannel<T> {
   /**
    * Fingerprint implementation - Fingerprint must produce an unique value for different entries
    * because it is used to "already checked" implementation
-   * 
+   *
    * @param entry
    * @return
    */
@@ -380,7 +380,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default to log.info displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -390,7 +390,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default to log.info displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -400,7 +400,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default to log.warn displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -410,7 +410,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default to log.error displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -420,7 +420,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default to log.error displaying the channel id
-   * 
+   *
    * @param logger
    * @param msg
    */
@@ -430,12 +430,12 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Set Unique Action to Channel. It creates the list and add the action to collection
-   * 
+   *
    * @param action
    */
   public void setAction(ITaskerboxAction<T> action) {
     if (this.actions == null) {
-      this.actions = new ArrayList<ITaskerboxAction<T>>();
+      this.actions = new ArrayList<>();
     }
 
     this.actions.add(action);
@@ -444,7 +444,7 @@ public abstract class TaskerboxChannel<T> {
   /**
    * When the ID is setted, it is possible to import from repository what was performed previously
    * in the channel, avoiding duplicates action performing in case of relaunch.
-   * 
+   *
    * @param id
    */
   public void setId(String id) {
@@ -462,7 +462,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Default implementation to Setup. So the endpoint channels are not forced to implement
-   * 
+   *
    * @throws Exception
    */
   public void setup() throws Exception {}
@@ -470,7 +470,7 @@ public abstract class TaskerboxChannel<T> {
   /**
    * Add key/value pair to property bag. It is used to work with generic properties (not defined as
    * a member of class)
-   * 
+   *
    * @param key
    * @param value
    */
@@ -481,7 +481,7 @@ public abstract class TaskerboxChannel<T> {
   /**
    * Add key/value pair to stored property bag. It is used to work with generic properties (not
    * defined as a member of class)
-   * 
+   *
    * @param key
    * @param value
    */
@@ -491,7 +491,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Delegate method to get property from bag
-   * 
+   *
    * @param key
    * @return
    */
@@ -501,7 +501,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Delegate method to get property from stored bag
-   * 
+   *
    * @param key
    * @return
    */
@@ -511,7 +511,7 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Defaults the display name (name that is shown in UI) to ID
-   * 
+   *
    * @return
    */
   public String getDisplayName() {
@@ -520,11 +520,11 @@ public abstract class TaskerboxChannel<T> {
 
   /**
    * Gets the Group of the Channel. It is mostly used in case to join channels together in the UI
-   * 
+   *
    * @return
    */
   public String getGroupName() {
-    return (groupName != null ? groupName : this.getClass().getSimpleName().replace("Channel", ""));
+    return (this.groupName != null ? this.groupName : this.getClass().getSimpleName().replace("Channel", ""));
   }
 
 }

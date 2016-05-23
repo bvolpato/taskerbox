@@ -32,10 +32,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -68,11 +64,15 @@ import org.brunocvcunha.taskerbox.core.utils.TaskerboxConfigurationUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
 /**
  * Http Access Configuration Box It allows to configure Proxy Access via Properties
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class TaskerboxHttpBox {
@@ -136,7 +136,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Getting Singleton
-   * 
+   *
    * @return
    * @throws IOException
    */
@@ -181,7 +181,7 @@ public class TaskerboxHttpBox {
 
   /**
    * String boolean check
-   * 
+   *
    * @param str
    * @return
    */
@@ -198,7 +198,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Build new HTTP Client
-   * 
+   *
    * @return
    */
   public DefaultHttpClient buildNewHttpClient() {
@@ -207,7 +207,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Build a new HTTP Client for the given parameters
-   * 
+   *
    * @param params
    * @return
    */
@@ -259,7 +259,7 @@ public class TaskerboxHttpBox {
 
         if (this.authProxy) {
 
-          List<String> authPreferences = new ArrayList<String>();
+          List<String> authPreferences = new ArrayList<>();
 
           if (this.ntlmProxy) {
 
@@ -291,7 +291,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url using the given Http Client
-   * 
+   *
    * @param client
    * @param url
    * @return
@@ -306,7 +306,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url with the Default Http Client
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException
@@ -320,7 +320,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url with the Default Http Client
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException
@@ -334,7 +334,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url with a brand-new Http Client
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException
@@ -348,31 +348,31 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given URI with the Default Http Client
-   * 
+   *
    * @param uri
    * @return
    * @throws ClientProtocolException
    * @throws IOException
    */
   public HttpResponse getResponseForURL(URI uri) throws ClientProtocolException, IOException {
-    return getResponseForURL(httpClient, uri);
+    return getResponseForURL(this.httpClient, uri);
   }
 
   /**
    * Gets the {@link HttpResponse} object for a given URI with the Default Http Client
-   * 
+   *
    * @param uri
    * @return
    * @throws ClientProtocolException
    * @throws IOException
    */
   public long getResponseSizeForURL(URI uri) throws ClientProtocolException, IOException {
-    return getResponseSizeForURL(httpClient, uri);
+    return getResponseSizeForURL(this.httpClient, uri);
   }
 
   /**
    * Gets the {@link HttpResponse} object for a given URI with a brand-new Http Client
-   * 
+   *
    * @param uri
    * @return
    * @throws ClientProtocolException
@@ -385,7 +385,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url using the given Http Client
-   * 
+   *
    * @param client
    * @param uri
    * @return
@@ -403,7 +403,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets the {@link HttpResponse} object for a given url using the given Http Client
-   * 
+   *
    * @param client
    * @param uri
    * @return
@@ -420,14 +420,14 @@ public class TaskerboxHttpBox {
     if (length == null) {
       return -1L;
     }
-    
+
     return Long.valueOf(length.getValue());
   }
 
 
   /**
    * Returns the {@link HttpEntity} for a URI
-   * 
+   *
    * @param uri
    * @return
    * @throws ClientProtocolException
@@ -441,7 +441,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Returns the {@link HttpEntity} for string url
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException
@@ -455,7 +455,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Returns the String body (response) for the given URI
-   * 
+   *
    * @param uri
    * @return
    * @throws ClientProtocolException
@@ -470,7 +470,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Returns the String body (response) for the given string url
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException
@@ -484,7 +484,7 @@ public class TaskerboxHttpBox {
   }
 
   /**
-   * 
+   *
    * @param entity
    * @return
    * @throws IllegalStateException
@@ -498,7 +498,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Build a cookie object for the given parameters
-   * 
+   *
    * @param name
    * @param value
    * @param domain
@@ -514,7 +514,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Default Trust Manager that trusts all certs
-   * 
+   *
    * @return
    */
   private TrustManager[] getTrustingManager() {
@@ -540,7 +540,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Setter of NTLMProxy. If true, sets authenticated to true as well
-   * 
+   *
    * @param ntlmProxy
    */
   public void setNtlmProxy(boolean ntlmProxy) {
@@ -552,7 +552,7 @@ public class TaskerboxHttpBox {
 
   /**
    * Gets a Jsoup {@link Document} for the given url
-   * 
+   *
    * @param url
    * @return
    * @throws ClientProtocolException

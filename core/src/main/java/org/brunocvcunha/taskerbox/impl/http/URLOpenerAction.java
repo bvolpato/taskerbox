@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Open URL Action
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

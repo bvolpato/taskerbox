@@ -33,9 +33,9 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Twitter Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
@@ -94,9 +94,9 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
     logInfo(log, "Twitter setup...");
 
     ConfigurationBuilder cb = new ConfigurationBuilder();
-    cb.setDebugEnabled(true).setOAuthConsumerKey(consumerKey)
-        .setOAuthConsumerSecret(consumerSecret).setOAuthAccessToken(accessToken)
-        .setOAuthAccessTokenSecret(accessTokenSecret);
+    cb.setDebugEnabled(true).setOAuthConsumerKey(this.consumerKey)
+        .setOAuthConsumerSecret(this.consumerSecret).setOAuthAccessToken(this.accessToken)
+        .setOAuthAccessTokenSecret(this.accessTokenSecret);
     TwitterFactory tf = new TwitterFactory(cb.build());
 
     this.twitter = tf.getInstance();
@@ -112,24 +112,24 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
       setup();
     }
 
-    if (username != null) {
-      logInfo(log, "Checking tweets of @" + username + " with @" + loggedUser);
+    if (this.username != null) {
+      logInfo(log, "Checking tweets of @" + this.username + " with @" + this.loggedUser);
     } else {
-      logInfo(log, "Checking tweets with @" + loggedUser);
+      logInfo(log, "Checking tweets with @" + this.loggedUser);
     }
 
     ResponseList<Status> statusList;
 
 
-    if (username == null || username.equals("")) {
-      statusList = twitter.getHomeTimeline();
+    if (this.username == null || this.username.equals("")) {
+      statusList = this.twitter.getHomeTimeline();
     } else {
-      statusList = twitter.getUserTimeline(username);
+      statusList = this.twitter.getUserTimeline(this.username);
     }
 
     status: for (Status status : statusList) {
 
-      if (filter != null && !status.getText().contains(filter)) {
+      if (this.filter != null && !status.getText().contains(this.filter)) {
         continue;
       }
 
@@ -137,11 +137,11 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
       StatusWrapper statusWrapper = new StatusWrapper(status);
 
       if (!alreadyPerformedAction(statusWrapper)) {
-        if (ignoreUsers != null && ignoreUsers.contains(status.getUser().getScreenName())) {
+        if (this.ignoreUsers != null && this.ignoreUsers.contains(status.getUser().getScreenName())) {
           continue;
         }
-        if (ignoreStarts != null) {
-          for (String start : ignoreStarts) {
+        if (this.ignoreStarts != null) {
+          for (String start : this.ignoreStarts) {
             if (status.getText().startsWith(start)) {
               continue status;
             }
@@ -158,7 +158,8 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
     }
   }
 
-  public String getItemFingerprint(StatusWrapper status) {
+  @Override
+public String getItemFingerprint(StatusWrapper status) {
     return String.valueOf(status.getValue().getId());
   }
 

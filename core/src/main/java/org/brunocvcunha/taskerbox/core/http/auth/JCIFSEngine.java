@@ -28,9 +28,9 @@ import jcifs.util.Base64;
 
 /**
  * JCIFS Configuration
- * 
+ *
  * From: https://hc.apache.org/httpcomponents-client-ga/ntlm.html
- * 
+ *
  */
 public final class JCIFSEngine implements NTLMEngine {
 
@@ -38,13 +38,15 @@ public final class JCIFSEngine implements NTLMEngine {
       | NtlmFlags.NTLMSSP_NEGOTIATE_128 | NtlmFlags.NTLMSSP_NEGOTIATE_NTLM2
       | NtlmFlags.NTLMSSP_NEGOTIATE_ALWAYS_SIGN | NtlmFlags.NTLMSSP_REQUEST_TARGET;
 
-  public String generateType1Msg(final String domain, final String workstation)
+  @Override
+public String generateType1Msg(final String domain, final String workstation)
       throws NTLMEngineException {
     final Type1Message type1Message = new Type1Message(TYPE_1_FLAGS, domain, workstation);
     return Base64.encode(type1Message.toByteArray());
   }
 
-  public String generateType3Msg(final String username, final String password, final String domain,
+  @Override
+public String generateType3Msg(final String username, final String password, final String domain,
       final String workstation, final String challenge) throws NTLMEngineException {
     Type2Message type2Message;
     try {

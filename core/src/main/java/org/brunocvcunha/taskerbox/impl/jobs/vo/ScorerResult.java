@@ -30,7 +30,7 @@ public class ScorerResult {
   }
 
   public int getScore() {
-    return score;
+    return this.score;
   }
 
   public void setScore(int score) {
@@ -38,7 +38,7 @@ public class ScorerResult {
   }
 
   public List<String> getMatches() {
-    return matches;
+    return this.matches;
   }
 
   public void setMatches(List<String> matches) {

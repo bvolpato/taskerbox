@@ -27,9 +27,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Log Watch Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class LogWatchChannel extends TaskerboxChannel<String> {
@@ -54,30 +54,30 @@ public class LogWatchChannel extends TaskerboxChannel<String> {
 
   @Override
   public void setup() {
-    size = new long[url.length];
+    this.size = new long[this.url.length];
   }
 
   @Override
   protected void execute() {
 
     try {
-      url: for (int x = 0; x < url.length; x++) {
-        String uniqueUrl = url[x];
+      url: for (int x = 0; x < this.url.length; x++) {
+        String uniqueUrl = this.url[x];
 
         try {
           logDebug(log, "Checking [" + uniqueUrl + "]");
 
-          if (controlBySize) {
+          if (this.controlBySize) {
             long uniqueSize = TaskerboxHttpBox.getInstance().getResponseSizeForURL(uniqueUrl);
 
             logDebug(log, "Size of response: " + uniqueUrl + " - " + uniqueSize);
 
-            if (uniqueSize >= 0 && size[x] == uniqueSize) {
+            if (uniqueSize >= 0 && this.size[x] == uniqueSize) {
               logDebug(log, "Same size! Skipping URL " + uniqueUrl);
               continue url;
             }
 
-            size[x] = uniqueSize;
+            this.size[x] = uniqueSize;
           }
 
           String responseBody = TaskerboxHttpBox.getInstance().getStringBodyForURL(uniqueUrl);

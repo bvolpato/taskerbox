@@ -21,15 +21,15 @@ import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import lombok.extern.log4j.Log4j;
 
 /**
  * Utilities class for Velocity Templates
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -39,7 +39,7 @@ public class TaskerboxVelocityUtils {
   public static String processTemplate(String template, Properties props) {
 
     Properties veProps = new Properties();
-    veProps.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+    veProps.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
     veProps.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 
     // inicializando o velocity

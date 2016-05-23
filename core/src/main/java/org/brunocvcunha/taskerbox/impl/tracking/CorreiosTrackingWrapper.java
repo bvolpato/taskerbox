@@ -25,7 +25,7 @@ import lombok.Setter;
 
 /**
  * RegistroRastreamento Wrapper - Emailable
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -47,7 +47,7 @@ public class CorreiosTrackingWrapper implements ITaskerboxEmailable {
 
   @Override
   public String getEmailBody(TaskerboxChannel<?> channel) {
-    return CorreiosChannel.formatTracking((RegistroRastreamento) value,
+    return CorreiosChannel.formatTracking(this.value,
         channel.getProperty("tracking"), channel.getProperty("descricao"));
   }
 }

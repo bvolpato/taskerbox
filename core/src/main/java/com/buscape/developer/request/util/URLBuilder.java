@@ -13,10 +13,6 @@
  */
 package com.buscape.developer.request.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.buscape.developer.request.Country;
 import com.buscape.developer.request.EBitMedal;
 import com.buscape.developer.request.Filter;
@@ -25,6 +21,10 @@ import com.buscape.developer.request.Service;
 import com.buscape.developer.request.Sort;
 import com.buscape.developer.result.ResultFormat;
 import com.buscape.developer.util.Messages;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public final class URLBuilder {
@@ -38,10 +38,10 @@ public final class URLBuilder {
   private Parameters parameters;
 
   public URLBuilder() {
-    hostName = Messages.getString("URLBuilder.main-url"); //$NON-NLS-1$
-    filter = new Filter();
-    parameters = new Parameters();
-    format = ResultFormat.XML;
+    this.hostName = Messages.getString("URLBuilder.main-url"); //$NON-NLS-1$
+    this.filter = new Filter();
+    this.parameters = new Parameters();
+    this.format = ResultFormat.XML;
   }
 
   public URLBuilder service(Service service) {
@@ -50,37 +50,37 @@ public final class URLBuilder {
   }
 
   public URLBuilder asCategoryListService() {
-    service = Service.LIST_CATEGORY;
+    this.service = Service.LIST_CATEGORY;
     return this;
   }
 
   public URLBuilder asProductListService() {
-    service = Service.LIST_PRODUCT;
+    this.service = Service.LIST_PRODUCT;
     return this;
   }
 
   public URLBuilder asOfferListService() {
-    service = Service.LIST_OFFER;
+    this.service = Service.LIST_OFFER;
     return this;
   }
 
   public URLBuilder asTopProductsService() {
-    service = Service.TOP_PRODUCTS;
+    this.service = Service.TOP_PRODUCTS;
     return this;
   }
 
   public URLBuilder asUserRatingService() {
-    service = Service.USER_RATING;
+    this.service = Service.USER_RATING;
     return this;
   }
 
   public URLBuilder asProductDetailsService() {
-    service = Service.DETAILS_PRODUCT;
+    this.service = Service.DETAILS_PRODUCT;
     return this;
   }
 
   public URLBuilder asSellerDetailsService() {
-    service = Service.DETAILS_SELLER;
+    this.service = Service.DETAILS_SELLER;
     return this;
   }
 
@@ -110,42 +110,42 @@ public final class URLBuilder {
   }
 
   public URLBuilder categoryIdParam(String categoryId) {
-    parameters.setCategoryId(Integer.parseInt(categoryId));
+    this.parameters.setCategoryId(Integer.parseInt(categoryId));
     return this;
   }
 
   public URLBuilder categoryIdParam(int categoryId) {
-    parameters.setCategoryId(categoryId);
+    this.parameters.setCategoryId(categoryId);
     return this;
   }
 
   public URLBuilder productIdParam(String productId) {
-    parameters.setProductId(Integer.parseInt(productId));
+    this.parameters.setProductId(Integer.parseInt(productId));
     return this;
   }
 
   public URLBuilder productIdParam(int productId) {
-    parameters.setProductId(productId);
+    this.parameters.setProductId(productId);
     return this;
   }
 
   public URLBuilder sellerIdParam(String sellerId) {
-    parameters.setSellerId(Integer.parseInt(sellerId));
+    this.parameters.setSellerId(Integer.parseInt(sellerId));
     return this;
   }
 
   public URLBuilder sellerIdParam(int sellerId) {
-    parameters.setSellerId(sellerId);
+    this.parameters.setSellerId(sellerId);
     return this;
   }
 
   public URLBuilder keywordParam(String keyword) {
-    parameters.setKeyword(keyword);
+    this.parameters.setKeyword(keyword);
     return this;
   }
 
   public URLBuilder barcodeParam(String barcode) {
-    parameters.setBarcode(barcode);
+    this.parameters.setBarcode(barcode);
     return this;
   }
 
@@ -160,75 +160,75 @@ public final class URLBuilder {
   }
 
   public URLBuilder resultsFilter(String results) {
-    filter.setResults(Integer.parseInt(results));
+    this.filter.setResults(Integer.parseInt(results));
     return this;
   }
 
   public URLBuilder resultsFilter(int results) {
-    filter.setResults(results);
+    this.filter.setResults(results);
     return this;
   }
 
   public URLBuilder pageFilter(String page) {
-    filter.setPage(Integer.parseInt(page));
+    this.filter.setPage(Integer.parseInt(page));
     return this;
   }
 
   public URLBuilder pageFilter(int page) {
-    filter.setPage(page);
+    this.filter.setPage(page);
     return this;
   }
 
   public URLBuilder priceMinFilter(String priceMin) {
-    filter.setPriceMin(Double.parseDouble(priceMin));
+    this.filter.setPriceMin(Double.parseDouble(priceMin));
     return this;
   }
 
   public URLBuilder priceMinFilter(double priceMin) {
-    filter.setPriceMin(priceMin);
+    this.filter.setPriceMin(priceMin);
     return this;
   }
 
   public URLBuilder priceMaxFilter(String priceMax) {
-    filter.setPriceMax(Double.parseDouble(priceMax));
+    this.filter.setPriceMax(Double.parseDouble(priceMax));
     return this;
   }
 
   public URLBuilder priceMaxFilter(double priceMax) {
-    filter.setPriceMax(priceMax);
+    this.filter.setPriceMax(priceMax);
     return this;
   }
 
   public URLBuilder sortFilter(String sort) {
-    filter.setSort(Sort.valueOf(sort));
+    this.filter.setSort(Sort.valueOf(sort));
     return this;
   }
 
   public URLBuilder sortFilter(Sort sort) {
-    filter.setSort(sort);
+    this.filter.setSort(sort);
     return this;
   }
 
   public URLBuilder medalFilter(String medal) {
-    filter.setMedal(EBitMedal.valueOf(medal));
+    this.filter.setMedal(EBitMedal.valueOf(medal));
     return this;
   }
 
   public URLBuilder medalFilter(EBitMedal medal) {
-    filter.setMedal(medal);
+    this.filter.setMedal(medal);
     return this;
   }
 
   public String build() {
     StringBuilder sb = new StringBuilder();
 
-    sb.append(hostName);
+    sb.append(this.hostName);
     sb.append("/"); //$NON-NLS-1$
-    sb.append(service);
+    sb.append(this.service);
     sb.append("/"); //$NON-NLS-1$
-    sb.append(applicationId);
+    sb.append(this.applicationId);
     sb.append("/"); //$NON-NLS-1$
-    sb.append(countryCode.code());
+    sb.append(this.countryCode.code());
     sb.append("/?"); //$NON-NLS-1$
     sb.append(formatFiltersAndParameters());
 
@@ -236,9 +236,9 @@ public final class URLBuilder {
   }
 
   private String formatFiltersAndParameters() {
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.putAll(filter.asMap());
-    map.putAll(parameters.asMap());
+    Map<String, Object> map = new HashMap<>();
+    map.putAll(this.filter.asMap());
+    map.putAll(this.parameters.asMap());
     map.put(Messages.getString("URLBuilder.format"), this.format.toString()); //$NON-NLS-1$
 
     StringBuilder sb = new StringBuilder();

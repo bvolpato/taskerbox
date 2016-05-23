@@ -13,18 +13,6 @@
  */
 package com.buscape.developer.result.parser;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import com.buscape.developer.result.type.Address;
 import com.buscape.developer.result.type.Addresses;
 import com.buscape.developer.result.type.Category;
@@ -52,9 +40,21 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * Implementation of AbstractResultParser that parses data in JSON format to Result.
- * 
+ *
  * @author cartagena
  */
 public final class JsonResultParser extends AbstractResultParser {
@@ -69,7 +69,7 @@ public final class JsonResultParser extends AbstractResultParser {
     Type listProduct = new TypeToken<List<Product>>() {}.getType();
     Type listItem = new TypeToken<List<ItemList>>() {}.getType();
 
-    gson =
+    this.gson =
         new GsonBuilder()
             .setFieldNamingStrategy(new XmlAttributeNamingStrategy())
             .registerTypeAdapter(Addresses.class, new AddressesDeserializer())
@@ -90,7 +90,7 @@ public final class JsonResultParser extends AbstractResultParser {
 
   /**
    * Creates an instance of {@link JsonResultParser} with provided data.
-   * 
+   *
    * @param data the raw data, in JSON, that will be parsed.
    * @return a new instance of {@link JsonResultParser},
    */
@@ -100,16 +100,17 @@ public final class JsonResultParser extends AbstractResultParser {
 
   @Override
   public Result getResult() {
-    if (result == null) {
+    if (this.result == null) {
       JsonObject root = new JsonParser().parse(this.data).getAsJsonObject();
-      result = gson.fromJson(root, Result.class);
+      this.result = this.gson.fromJson(root, Result.class);
     }
 
-    return result;
+    return this.result;
   }
 
   private static class XMLGregorianCalendarInstanceCreator implements
       InstanceCreator<XMLGregorianCalendar> {
+    @Override
     public XMLGregorianCalendar createInstance(Type type) {
 
       try {
@@ -130,7 +131,7 @@ public final class JsonResultParser extends AbstractResultParser {
     public Addresses deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
       Addresses result = new Addresses();
-      List<Address> list = new ArrayList<Address>();
+      List<Address> list = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -154,7 +155,7 @@ public final class JsonResultParser extends AbstractResultParser {
     public Contacts deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
       Contacts result = new Contacts();
-      List<Contact> list = new ArrayList<Contact>();
+      List<Contact> list = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -178,7 +179,7 @@ public final class JsonResultParser extends AbstractResultParser {
     public Filters deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
       Filters result = new Filters();
-      List<Filter> list = new ArrayList<Filter>();
+      List<Filter> list = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -203,7 +204,7 @@ public final class JsonResultParser extends AbstractResultParser {
     public Links deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {
       Links result = new Links();
-      List<Link> list = new ArrayList<Link>();
+      List<Link> list = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -225,7 +226,7 @@ public final class JsonResultParser extends AbstractResultParser {
     @Override
     public List<Category> deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<Category> result = new ArrayList<Category>();
+      List<Category> result = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -247,7 +248,7 @@ public final class JsonResultParser extends AbstractResultParser {
     @Override
     public List<ItemList> deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<ItemList> result = new ArrayList<ItemList>();
+      List<ItemList> result = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -266,7 +267,7 @@ public final class JsonResultParser extends AbstractResultParser {
     @Override
     public List<Offer> deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<Offer> result = new ArrayList<Offer>();
+      List<Offer> result = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {
@@ -285,7 +286,7 @@ public final class JsonResultParser extends AbstractResultParser {
     @Override
     public List<Product> deserialize(JsonElement json, Type typeOfT,
         JsonDeserializationContext context) throws JsonParseException {
-      List<Product> result = new ArrayList<Product>();
+      List<Product> result = new ArrayList<>();
 
       Iterator<JsonElement> it = json.getAsJsonArray().iterator();
       while (it.hasNext()) {

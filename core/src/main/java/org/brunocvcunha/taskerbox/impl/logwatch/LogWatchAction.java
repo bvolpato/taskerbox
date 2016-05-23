@@ -43,7 +43,7 @@ import lombok.extern.log4j.Log4j;
 public class LogWatchAction extends EmailDelegateAction<String> {
 
   @Getter
-  private Set<String> alreadyAct = new TreeSet<String>();
+  private Set<String> alreadyAct = new TreeSet<>();
 
   @Getter
   @Setter
@@ -56,7 +56,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
   @Override
   public void setup() {
     try {
-      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+      this.alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
     } catch (Exception e) {
       logWarn(log,
           "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
@@ -89,7 +89,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
       }
     }
     boolean needSerialize = false;
-    List<String> newLines = new ArrayList<String>();
+    List<String> newLines = new ArrayList<>();
 
     String[] logLines = fullLog.split("(\r?\n)+");
 
@@ -98,15 +98,15 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 
       boolean validLine = false;
 
-      if (ignored != null && !ignored.isEmpty()) {
-        for (String ignoredStr : ignored) {
+      if (this.ignored != null && !this.ignored.isEmpty()) {
+        for (String ignoredStr : this.ignored) {
           if (logLine.toLowerCase().contains(ignoredStr.toLowerCase())) {
             continue line;
           }
         }
       }
 
-      for (String seek : seekFor) {
+      for (String seek : this.seekFor) {
         if (logLine.toLowerCase().contains(seek.toLowerCase())) {
 
           validLine = true;
@@ -118,8 +118,8 @@ public class LogWatchAction extends EmailDelegateAction<String> {
         continue;
       }
 
-      if (!alreadyAct.contains(logLine)) {
-        alreadyAct.add(logLine);
+      if (!this.alreadyAct.contains(logLine)) {
+        this.alreadyAct.add(logLine);
         needSerialize = true;
 
         newLines.add(logLine);
@@ -153,7 +153,7 @@ public class LogWatchAction extends EmailDelegateAction<String> {
 
     if (needSerialize) {
       try {
-        TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+        TaskerboxFileUtils.serializeMemory(this, this.alreadyAct);
       } catch (IOException e1) {
         e1.printStackTrace();
       }

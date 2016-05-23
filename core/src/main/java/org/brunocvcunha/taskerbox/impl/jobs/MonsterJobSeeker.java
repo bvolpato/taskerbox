@@ -65,7 +65,8 @@ public class MonsterJobSeeker extends DefaultJobSearchChannel {
     this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
   }
 
-  public void setup() {
+  @Override
+public void setup() {
     super.setup();
 
     try {
@@ -117,7 +118,7 @@ public class MonsterJobSeeker extends DefaultJobSearchChannel {
     Elements elDescription = jobDocument.select("div#jobBodyContent");
 
     if (!jobDocument.html().contains("ApplyOnlineUrl: ''")
-        && !jobDocument.html().contains("ApplyOnlineUrl: 'http://my.monster.com") && !externalApply) {
+        && !jobDocument.html().contains("ApplyOnlineUrl: 'http://my.monster.com") && !this.externalApply) {
       logInfo(log, "-- Ignored [externalApply] " + headline);
       addAlreadyPerformedAction(jobUrl);
       return true;
@@ -136,7 +137,7 @@ public class MonsterJobSeeker extends DefaultJobSearchChannel {
 
     ScorerResult result = LinkedInJobDBComparer.getScore(elDescription.html());
 
-    if (result.getScore() < requiredScore) {
+    if (result.getScore() < this.requiredScore) {
       logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - "
           + headline);
       addAlreadyPerformedAction(jobUrl);
@@ -163,13 +164,13 @@ public class MonsterJobSeeker extends DefaultJobSearchChannel {
   @Override
   protected void execute() throws Exception {
     try {
-      for (int x = 1; x < maxPages; x++) {
+      for (int x = 1; x < this.maxPages; x++) {
         int uniqueCount = 0;
 
         // DefaultHttpClient client =
         // TaskerboxHttpBox.getInstance().buildNewHttpClient();
         String seekUrl =
-            "http://jobsearch.monster." + site + "/search/?q=" + URLEncoder.encode(search)
+            "http://jobsearch.monster." + this.site + "/search/?q=" + URLEncoder.encode(this.search)
                 + "&sort=dt.rv.di&pg=" + x;
         logInfo(log, "... Seeking " + seekUrl);
         HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);

@@ -29,7 +29,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Thread that is created by a scheduler
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -44,30 +44,32 @@ public class ScheduledChecker extends Thread {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Thread#run()
    */
-  public void run() {
+  @Override
+public void run() {
     try {
-      if (!channel.isPaused()) {
+      if (!this.channel.isPaused()) {
 
-        if (channel.getTimeout() <= 0) {
-          channel.check();
+        if (this.channel.getTimeout() <= 0) {
+          this.channel.check();
         } else {
 
           ExecutorService executor = Executors.newCachedThreadPool();
           Callable<Object> task = new Callable<Object>() {
+            @Override
             public Object call() throws Exception {
-              channel.check();
-              return channel.getCheckCount();
+              ScheduledChecker.this.channel.check();
+              return ScheduledChecker.this.channel.getCheckCount();
             }
           };
 
           Future<Object> future = executor.submit(task);
           try {
-            future.get(channel.getTimeout(), TimeUnit.MILLISECONDS);
+            future.get(this.channel.getTimeout(), TimeUnit.MILLISECONDS);
           } catch (Exception e) {
-            log.warn("Timeout reached on scheduler for " + channel.getId());
+            log.warn("Timeout reached on scheduler for " + this.channel.getId());
           } finally {
             future.cancel(true);
           }

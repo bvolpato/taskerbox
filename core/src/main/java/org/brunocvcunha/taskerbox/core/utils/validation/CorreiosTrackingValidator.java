@@ -23,7 +23,7 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * Implemented Correios Tracking Validator
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -41,7 +41,7 @@ public class CorreiosTrackingValidator implements ConstraintValidator<CorreiosTr
     if (value == null) {
       return false;
     }
-    Matcher m = pattern.matcher(value);
+    Matcher m = this.pattern.matcher(value);
     return m.matches();
   }
 

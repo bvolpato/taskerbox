@@ -17,7 +17,7 @@ import com.buscape.developer.util.Messages;
 
 /**
  * Countries codes used on url composition to API calls.
- * 
+ *
  * @author neto
  */
 public enum Country {
@@ -65,10 +65,10 @@ public enum Country {
 
   /**
    * The code, to be used on url composition, of current country.
-   * 
+   *
    * @return a string with the value of code.
    */
   public String code() {
-    return code;
+    return this.code;
   }
 }

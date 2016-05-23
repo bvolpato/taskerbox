@@ -61,10 +61,10 @@ public class ActiveMQChannel extends TaskerboxChannel<Message> {
   @Override
   protected void execute() throws Exception {
     try {
-      isAlive = true;
+      this.isAlive = true;
 
       // Create a ConnectionFactory
-      ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionString);
+      ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.connectionString);
 
       // Create a Connection
       Connection connection = connectionFactory.createConnection();
@@ -76,7 +76,7 @@ public class ActiveMQChannel extends TaskerboxChannel<Message> {
           System.err.println("JMS Exception occured: " + ex.getMessage());
           ex.printStackTrace();
 
-          isAlive = false;
+          ActiveMQChannel.this.isAlive = false;
         }
       });
 
@@ -85,16 +85,17 @@ public class ActiveMQChannel extends TaskerboxChannel<Message> {
 
       // Create the destination (Topic or Queue)
       Destination destination;
-      if (topicSchema) {
-        destination = session.createTopic(queueName);
+      if (this.topicSchema) {
+        destination = session.createTopic(this.queueName);
       } else {
-        destination = session.createQueue(queueName);
+        destination = session.createQueue(this.queueName);
       }
 
       // Create a MessageConsumer from the Session to the Topic or Queue
       MessageConsumer consumer = session.createConsumer(destination);
 
       MessageListener messageListener = new MessageListener() {
+        @Override
         public void onMessage(Message message) {
           try {
             perform(message);
@@ -114,7 +115,7 @@ public class ActiveMQChannel extends TaskerboxChannel<Message> {
 
 
       // Checks every 5s if the thread is still alive
-      while (!isPaused() && isAlive) {
+      while (!isPaused() && this.isAlive) {
         Thread.sleep(5000L);
       }
 
@@ -127,11 +128,11 @@ public class ActiveMQChannel extends TaskerboxChannel<Message> {
   @Override
   protected String getItemFingerprint(Message entry) {
     try {
-      return queueName + "-" + entry.getJMSMessageID();
+      return this.queueName + "-" + entry.getJMSMessageID();
     } catch (JMSException e) {
       e.printStackTrace();
     }
 
-    return queueName + "-" + entry.toString();
+    return this.queueName + "-" + entry.toString();
   }
 }

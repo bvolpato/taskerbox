@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.brunocunha.taskerbox.core;
+package org.brunovccunha.taskerbox.core;
 
 import org.brunocvcunha.taskerbox.Taskerbox;
 import org.junit.Assert;

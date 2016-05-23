@@ -15,13 +15,13 @@
  */
 package org.brunocvcunha.taskerbox.impl.feed;
 
+import com.sun.syndication.feed.synd.SyndEntry;
+
 import java.util.Properties;
 
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.TaskerboxVelocityUtils;
-
-import com.sun.syndication.feed.synd.SyndEntry;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import lombok.Setter;
 
 /**
  * SyndEntry Wrapper - Emailable
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -46,14 +46,14 @@ public class SyndEntryWrapper implements ITaskerboxEmailable {
 
   @Override
   public String getEmailTitle(TaskerboxChannel<?> channel) {
-    return "[" + channel.getId() + "] " + value.getTitle();
+    return "[" + channel.getId() + "] " + this.value.getTitle();
   }
 
   @Override
   public String getEmailBody(TaskerboxChannel<?> channel) {
 
     Properties templateProps = new Properties();
-    templateProps.put("entry", value);
+    templateProps.put("entry", this.value);
 
     return TaskerboxVelocityUtils.processTemplate("email/synd.html", templateProps);
   }

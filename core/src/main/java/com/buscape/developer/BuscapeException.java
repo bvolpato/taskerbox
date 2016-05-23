@@ -15,7 +15,7 @@ package com.buscape.developer;
 
 /**
  * Indicates errors that occurs inside the API wrapper.
- * 
+ *
  * @author cartagena
  */
 public final class BuscapeException extends Exception {

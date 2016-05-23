@@ -64,13 +64,14 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   @TaskerboxField("Max Pages")
   protected int maxPages = 1000;
 
-  public void setup() {
+  @Override
+public void setup() {
 
-    visaLines = listFromResource("jobseeker/visa.txt");
-    experienceLines = listFromResource("jobseeker/experience.txt");
-    roleLines = listFromResource("jobseeker/role.txt");
-    employerLines = listFromResource("jobseeker/employer.txt");
-    locationLines = listFromResource("jobseeker/location.txt");
+    this.visaLines = listFromResource("jobseeker/visa.txt");
+    this.experienceLines = listFromResource("jobseeker/experience.txt");
+    this.roleLines = listFromResource("jobseeker/role.txt");
+    this.employerLines = listFromResource("jobseeker/employer.txt");
+    this.locationLines = listFromResource("jobseeker/location.txt");
 
   }
 
@@ -79,7 +80,7 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   public boolean considerTitle(String html) {
     String titleLc = html.toLowerCase();
 
-    for (String line : roleLines) {
+    for (String line : this.roleLines) {
       if (titleLc.contains(line.toLowerCase().trim())) {
         logInfo(log, "[Role] --> Return false - Found: " + line);
         return false;
@@ -116,7 +117,7 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   public boolean considerEmployer(String html) {
     String htmlLc = html.toLowerCase();
 
-    for (String line : employerLines) {
+    for (String line : this.employerLines) {
       if (htmlLc.contains(line.toLowerCase().trim())) {
         logInfo(log, "[Employer] --> Return false - Found: " + line);
         return false;
@@ -129,7 +130,7 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   public boolean considerLocation(String html) {
     String htmlLc = html.toLowerCase();
 
-    for (String line : locationLines) {
+    for (String line : this.locationLines) {
       if (htmlLc.contains(line.toLowerCase())) {
         logInfo(log, "[Location] --> Return false - Found: " + line);
         return false;
@@ -143,7 +144,7 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   public boolean considerExperienceDescription(String html) {
     String htmlLc = html.toLowerCase();
 
-    for (String line : experienceLines) {
+    for (String line : this.experienceLines) {
       if (htmlLc.contains(line.toLowerCase())) {
         logInfo(log, "[Experience] --> Return false - Found: " + line);
         return false;
@@ -156,7 +157,7 @@ public abstract class DefaultJobSearchChannel extends TaskerboxChannel<String> {
   public boolean considerVisaDescription(String html) {
     String htmlLc = html.toLowerCase();
 
-    for (String visa : visaLines) {
+    for (String visa : this.visaLines) {
       if (htmlLc.contains(visa.toLowerCase())) {
         logInfo(log, "[Visa] --> Return false - Found: " + visa);
         return false;

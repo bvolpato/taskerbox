@@ -15,17 +15,17 @@
  */
 package org.brunocvcunha.taskerbox.impl.dropbox;
 
-import java.util.Locale;
-
-import javax.validation.constraints.NotNull;
-
-import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
-
 import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxDelta;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+
+import java.util.Locale;
+
+import javax.validation.constraints.NotNull;
+
+import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -68,29 +68,29 @@ public class DropboxChannel extends TaskerboxChannel<DbxDelta.Entry<DbxEntry>> {
   protected void execute() throws Exception {
 
     DbxRequestConfig config = new DbxRequestConfig("Taskerbox/0.1", Locale.getDefault().toString());
-    DbxClient client = new DbxClient(config, accessToken);
+    DbxClient client = new DbxClient(config, this.accessToken);
 
-    String cursor = lastDelta;
-    if (lastDelta == null) {
+    String cursor = this.lastDelta;
+    if (this.lastDelta == null) {
       cursor = getStoredProperty("cursor");
     }
     logInfo(log, "Current Delta: " + cursor);
 
-    DbxDelta<DbxEntry> delta = client.getDeltaWithPathPrefix(cursor, path);
+    DbxDelta<DbxEntry> delta = client.getDeltaWithPathPrefix(cursor, this.path);
     handleDelta(client, delta);
   }
 
   private void handleDelta(DbxClient client, DbxDelta<DbxEntry> delta) throws DbxException {
-    lastDelta = delta.cursor;
-    addStoredProperty("cursor", lastDelta);
-    logInfo(log, "Saving current delta: " + lastDelta);
+    this.lastDelta = delta.cursor;
+    addStoredProperty("cursor", this.lastDelta);
+    logInfo(log, "Saving current delta: " + this.lastDelta);
 
     for (val entry : delta.entries) {
       performUnique(entry);
     }
 
     if (delta.hasMore) {
-      handleDelta(client, client.getDeltaWithPathPrefix(delta.cursor, path));
+      handleDelta(client, client.getDeltaWithPathPrefix(delta.cursor, this.path));
     }
 
   }

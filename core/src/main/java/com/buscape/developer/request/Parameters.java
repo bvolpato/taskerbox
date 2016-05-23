@@ -35,7 +35,7 @@ public final class Parameters {
    * @return the categoryId
    */
   public final Integer getCategoryId() {
-    return categoryId;
+    return this.categoryId;
   }
 
   /**
@@ -49,7 +49,7 @@ public final class Parameters {
    * @return the productId
    */
   public final Integer getProductId() {
-    return productId;
+    return this.productId;
   }
 
   /**
@@ -63,7 +63,7 @@ public final class Parameters {
    * @return the sellerId
    */
   public final Integer getSellerId() {
-    return sellerId;
+    return this.sellerId;
   }
 
   /**
@@ -77,7 +77,7 @@ public final class Parameters {
    * @return the keyword
    */
   public final String getKeyword() {
-    return keyword;
+    return this.keyword;
   }
 
   /**
@@ -91,7 +91,7 @@ public final class Parameters {
    * @return the barcode
    */
   public final String getBarcode() {
-    return barcode;
+    return this.barcode;
   }
 
   /**
@@ -104,11 +104,11 @@ public final class Parameters {
   /**
    * Build a {@link Map} that represents this instance. The pair key/value of map are the name of
    * fields in object and the values of fields, respectively.
-   * 
+   *
    * @return a {@link Map} populated with the values of this instance.
    */
   public Map<String, Object> asMap() {
-    Map<String, Object> result = new HashMap<String, Object>();
+    Map<String, Object> result = new HashMap<>();
 
     for (Field field : getClass().getDeclaredFields()) {
       try {

@@ -15,6 +15,8 @@
  */
 package org.brunocvcunha.taskerbox.impl.http;
 
+import com.sun.syndication.io.FeedException;
+
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
@@ -26,17 +28,15 @@ import org.hibernate.validator.constraints.URL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.sun.syndication.io.FeedException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
  * HTTP HTML Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class HTTPHTMLChannel extends TaskerboxChannel<Document> {
@@ -58,22 +58,22 @@ public class HTTPHTMLChannel extends TaskerboxChannel<Document> {
 
   @Override
   protected void execute() throws IOException, IllegalArgumentException, FeedException {
-    log.debug("Checking #" + checkCount + "... [" + url + " / '" + filter + "']");
+    log.debug("Checking #" + this.checkCount + "... [" + this.url + " / '" + this.filter + "']");
 
     try {
-      HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+      HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(this.url);
 
       int statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
-        logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
+        logWarn(log, "Error while fetching " + this.url + " - " + response.getStatusLine());
         return;
       }
 
       String responseBody =
           TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
       log.debug("Got Response: " + responseBody);
-      if (filter != null && !filter.equals("")) {
-        if (!responseBody.contains(filter)) {
+      if (this.filter != null && !this.filter.equals("")) {
+        if (!responseBody.contains(this.filter)) {
           log.debug("Response filtered out!");
           return;
         }
@@ -109,7 +109,7 @@ public class HTTPHTMLChannel extends TaskerboxChannel<Document> {
 
   @Override
   public String toString() {
-    return "HTTPHTMLChannel [url=" + url + ", filter=" + filter + ", unique=" + unique + ", every="
+    return "HTTPHTMLChannel [url=" + this.url + ", filter=" + this.filter + ", unique=" + this.unique + ", every="
         + getEvery() + "]";
   }
 

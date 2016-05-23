@@ -24,15 +24,15 @@ import javax.validation.ValidatorFactory;
 
 /**
  * Taskerbox Validation Utilities
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 public class TaskerboxValidationUtils {
 
   /**
    * Execute validations in object
-   * 
+   *
    * @param object
    * @throws IllegalArgumentException
    */

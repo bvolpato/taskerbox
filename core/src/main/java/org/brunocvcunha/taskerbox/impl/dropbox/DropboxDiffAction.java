@@ -15,10 +15,10 @@
  */
 package org.brunocvcunha.taskerbox.impl.dropbox;
 
-import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
-
 import com.dropbox.core.DbxDelta;
 import com.dropbox.core.DbxEntry;
+
+import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 
 import lombok.extern.log4j.Log4j;
 

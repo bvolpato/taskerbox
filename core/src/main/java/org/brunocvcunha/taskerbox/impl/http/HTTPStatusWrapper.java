@@ -29,7 +29,7 @@ import lombok.Setter;
 
 /**
  * HTTP Status Wrapper - Emailable / Messageable
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -60,9 +60,9 @@ public class HTTPStatusWrapper implements ITaskerboxEmailable, ITaskerboxMessage
   public String getEmailBody(TaskerboxChannel<?> channel) {
 
     Properties templateProps = new Properties();
-    templateProps.put("statusLine", statusLine);
-    templateProps.put("url", url);
-    templateProps.put("content", content);
+    templateProps.put("statusLine", this.statusLine);
+    templateProps.put("url", this.url);
+    templateProps.put("content", this.content);
 
     return TaskerboxVelocityUtils.processTemplate("email/httpstatus.html", templateProps);
   }
@@ -74,12 +74,12 @@ public class HTTPStatusWrapper implements ITaskerboxEmailable, ITaskerboxMessage
 
   @Override
   public String getMessageBody(TaskerboxChannel<?> channel) {
-    return channel.getId() + " - " + url + " - " + statusLine + " - " + content;
+    return channel.getId() + " - " + this.url + " - " + this.statusLine + " - " + this.content;
   }
 
   @Override
   public String toString() {
-    return "HTTPStatusWrapper [statusLine=" + statusLine + ", url=" + url + ", content=" + content
+    return "HTTPStatusWrapper [statusLine=" + this.statusLine + ", url=" + this.url + ", content=" + this.content
         + "]";
   }
 

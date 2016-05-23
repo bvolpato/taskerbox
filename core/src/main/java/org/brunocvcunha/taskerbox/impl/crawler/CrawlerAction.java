@@ -51,11 +51,11 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
 
   @Getter
   @Setter
-  private List<Pattern> compiledPatterns = new ArrayList<Pattern>();
+  private List<Pattern> compiledPatterns = new ArrayList<>();
 
   @Getter
   @Setter
-  private Set<String> alreadyAct = new TreeSet<String>();
+  private Set<String> alreadyAct = new TreeSet<>();
 
   private int count;
 
@@ -66,13 +66,13 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
       logInfo(log, "Filters: " + this.getFilters());
       logInfo(log, "Ignores: " + this.getIgnored());
 
-      if (patterns != null) {
-        for (String pattern : patterns) {
-          compiledPatterns.add(Pattern.compile(pattern));
+      if (this.patterns != null) {
+        for (String pattern : this.patterns) {
+          this.compiledPatterns.add(Pattern.compile(pattern));
         }
       }
 
-      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+      this.alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
 
     } catch (Exception e) {
       logWarn(log,
@@ -82,13 +82,13 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
 
   public boolean isBounded(String content) {
     String lowerContent = content.toLowerCase();
-    for (String filter : filters) {
+    for (String filter : this.filters) {
       if (lowerContent.contains(filter.toLowerCase())) {
         return true;
       }
     }
 
-    for (Pattern pattern : compiledPatterns) {
+    for (Pattern pattern : this.compiledPatterns) {
       if (pattern.matcher(lowerContent).find()) {
         return true;
       }
@@ -99,7 +99,7 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
 
   public boolean isIgnored(String content) {
     String lowerContent = content.toLowerCase();
-    for (String find : ignored) {
+    for (String find : this.ignored) {
       if (lowerContent.contains(find.toLowerCase())) {
         return true;
       }
@@ -117,8 +117,8 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
   }
 
   public void serializeAlreadyAct() {
-    if (++count > 5) {
-      count = 0;
+    if (++this.count > 5) {
+      this.count = 0;
 
       try {
         TaskerboxFileUtils.serializeMemory(this, getAlreadyAct());
@@ -163,11 +163,11 @@ public abstract class CrawlerAction extends DefaultTaskerboxAction<Document> {
   }
 
   public File getOutput() {
-    if (!output.exists()) {
-      output.mkdirs();
+    if (!this.output.exists()) {
+      this.output.mkdirs();
     }
 
-    return output;
+    return this.output;
   }
 
   public void setOutput(File output) {

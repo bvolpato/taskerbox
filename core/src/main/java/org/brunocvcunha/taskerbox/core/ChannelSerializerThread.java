@@ -32,9 +32,10 @@ public class ChannelSerializerThread extends Thread {
   @Setter
   private TaskerboxChannel<?> channel;
 
-  public void run() {
+  @Override
+public void run() {
 
-    while (channel.getLastPerformed() > (System.currentTimeMillis() - 1000)) {
+    while (this.channel.getLastPerformed() > (System.currentTimeMillis() - 1000)) {
       try {
         Thread.sleep(500L);
       } catch (InterruptedException e) {
@@ -43,12 +44,12 @@ public class ChannelSerializerThread extends Thread {
     }
 
     try {
-      TaskerboxFileUtils.serializeMemory(channel);
+      TaskerboxFileUtils.serializeMemory(this.channel);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    channel.setPendingSerializerThread(false);
+    this.channel.setPendingSerializerThread(false);
 
   }
 

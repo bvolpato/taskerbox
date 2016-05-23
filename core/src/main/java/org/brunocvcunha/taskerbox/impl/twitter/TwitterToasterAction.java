@@ -32,9 +32,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Action that shows Tweets in a Toaster Popup
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class TwitterToasterAction extends DefaultTaskerboxAction<StatusWrapper> {

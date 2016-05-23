@@ -129,20 +129,20 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-	      <groupId>org.projectlombok</groupId>
-	      <artifactId>lombok-maven-plugin</artifactId>
-	      <version>1.16.6.1</version>
-	      <executions>
-	        <execution>
-	          <phase>generate-sources</phase>
-	          <goals>
-	            <goal>delombok</goal>
-	          </goals>
-	        </execution>
-	      </executions>
-	    </plugin>
+		
+			<!--plugin>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-maven-plugin</artifactId>
+				<version>1.16.8.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>delombok</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin-->
 
 			<!--plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId>
 				<configuration> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass>
@@ -273,7 +273,7 @@
 		<dependency>
 			<groupId>org.brunocvcunha.inutils4j</groupId>
 			<artifactId>inutils4j</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -291,7 +291,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.6</version>
+			<version>1.16.8</version>
 			<scope>provided</scope>
 		</dependency>
 

@@ -18,7 +18,7 @@ import com.buscape.developer.util.Messages;
 
 /**
  * Medals from EBit
- * 
+ *
  * @author neto
  */
 public enum EBitMedal {
@@ -65,7 +65,7 @@ public enum EBitMedal {
     } else if (medal.equals(Messages.getString("Medal.silver"))) { //$NON-NLS-1$
       return SILVER;
     } else {
-      throw new IllegalArgumentException(String.format("The medal '%s' isn't recognized.", medal)); //$NON-NLS-1$ //$NON-NLS-2$
+      throw new IllegalArgumentException(String.format("The medal '%s' isn't recognized.", medal)); //$NON-NLS-1$
     }
   }
 
@@ -75,6 +75,6 @@ public enum EBitMedal {
    */
   @Override
   public String toString() {
-    return medal;
+    return this.medal;
   }
 }

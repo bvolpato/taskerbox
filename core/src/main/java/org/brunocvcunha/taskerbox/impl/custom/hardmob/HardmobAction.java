@@ -38,12 +38,12 @@ public class HardmobAction extends EmailDelegateAction<Document> {
 
   private String id;
 
-  private Set<String> alreadyAct = new TreeSet<String>();
+  private Set<String> alreadyAct = new TreeSet<>();
 
   @Override
   public void setup() {
     try {
-      alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
+      this.alreadyAct = (Set<String>) TaskerboxFileUtils.deserializeMemory(this);
     } catch (Exception e) {
       logWarn(log,
           "Error occurred while deserializing data for " + this.getId() + ": " + e.getMessage());
@@ -57,13 +57,13 @@ public class HardmobAction extends EmailDelegateAction<Document> {
       final String url = el.select(".title").attr("href");
       final String postTitle = el.select(".title").text();
 
-      if (!alreadyAct.contains(postTitle)) {
-        alreadyAct.add(postTitle);
+      if (!this.alreadyAct.contains(postTitle)) {
+        this.alreadyAct.add(postTitle);
 
         spreadAction(url, postTitle);
 
         try {
-          TaskerboxFileUtils.serializeMemory(this, alreadyAct);
+          TaskerboxFileUtils.serializeMemory(this, this.alreadyAct);
         } catch (IOException e1) {
           e1.printStackTrace();
         }
@@ -102,11 +102,13 @@ public class HardmobAction extends EmailDelegateAction<Document> {
 
   }
 
-  public String getId() {
-    return id;
+  @Override
+public String getId() {
+    return this.id;
   }
 
-  public void setId(String id) {
+  @Override
+public void setId(String id) {
     this.id = id;
   }
 

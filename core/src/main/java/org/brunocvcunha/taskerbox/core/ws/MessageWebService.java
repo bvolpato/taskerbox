@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Default WebService Channel to produce Taskerbox flows using SOAP calls
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

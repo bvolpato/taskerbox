@@ -29,9 +29,9 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Corrreios Tracking Input Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class CorreiosChannel extends TaskerboxChannel<CorreiosTrackingWrapper> {
@@ -47,10 +47,10 @@ public class CorreiosChannel extends TaskerboxChannel<CorreiosTrackingWrapper> {
 
   @Override
   protected void execute() {
-    logInfo(log, "Checking " + this.getId() + " - " + this.getDescricao() + " [" + tracking + "]");
+    logInfo(log, "Checking " + this.getId() + " - " + this.getDescricao() + " [" + this.tracking + "]");
 
     try {
-      List<RegistroRastreamento> registros = Rastreamento.rastrear(tracking);
+      List<RegistroRastreamento> registros = Rastreamento.rastrear(this.tracking);
 
       for (int r = 0; r < registros.size(); r++) {
         RegistroRastreamento registro = registros.get(r);
@@ -69,8 +69,9 @@ public class CorreiosChannel extends TaskerboxChannel<CorreiosTrackingWrapper> {
 
   }
 
-  public String getItemFingerprint(CorreiosTrackingWrapper registro) {
-    return tracking + ";" + registro.getValue().getDataHora() + ";" + registro.getValue().getAcao()
+  @Override
+public String getItemFingerprint(CorreiosTrackingWrapper registro) {
+    return this.tracking + ";" + registro.getValue().getDataHora() + ";" + registro.getValue().getAcao()
         + ";" + registro.getValue().getLocal() + ";" + registro.getValue().getDetalhe();
   }
 

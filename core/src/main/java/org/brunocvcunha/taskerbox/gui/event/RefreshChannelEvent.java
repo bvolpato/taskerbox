@@ -29,7 +29,7 @@ public class RefreshChannelEvent {
   }
 
   public TaskerboxChannel<?> getChannel() {
-    return channel;
+    return this.channel;
   }
 
   public void setChannel(TaskerboxChannel<?> channel) {
@@ -37,7 +37,7 @@ public class RefreshChannelEvent {
   }
 
   public boolean isRunning() {
-    return running;
+    return this.running;
   }
 
   public void setRunning(boolean running) {

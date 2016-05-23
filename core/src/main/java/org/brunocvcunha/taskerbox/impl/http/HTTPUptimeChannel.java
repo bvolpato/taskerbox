@@ -15,6 +15,8 @@
  */
 package org.brunocvcunha.taskerbox.impl.http;
 
+import com.sun.syndication.io.FeedException;
+
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
@@ -24,17 +26,15 @@ import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.brunocvcunha.taskerbox.core.http.TaskerboxHttpBox;
 import org.hibernate.validator.constraints.URL;
 
-import com.sun.syndication.io.FeedException;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
  * HTTP Uptime Monitor Channel
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
- * 
+ *
  */
 @Log4j
 public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
@@ -72,22 +72,22 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
 
   @Override
   protected void execute() throws IOException, IllegalArgumentException, FeedException {
-    logDebug(log, "Checking #" + checkCount + "... [" + url + " / '" + filter + "']");
+    logDebug(log, "Checking #" + this.checkCount + "... [" + this.url + " / '" + this.filter + "']");
 
     Throwable lastError = null;
 
     int tryNumber = 0;
 
-    while (tryNumber++ < numTries) {
+    while (tryNumber++ < this.numTries) {
 
       try {
-        HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(url);
+        HttpResponse response = TaskerboxHttpBox.getInstance().getResponseForURLNewClient(this.url);
 
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, "Error fetching "
-              + url + " - " + response.getStatusLine().toString()));
-          logWarn(log, "Error while fetching " + url + " - " + response.getStatusLine());
+          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), this.url, "Error fetching "
+              + this.url + " - " + response.getStatusLine().toString()));
+          logWarn(log, "Error while fetching " + this.url + " - " + response.getStatusLine());
           return;
         }
 
@@ -95,21 +95,21 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
             TaskerboxHttpBox.getInstance().readResponseFromEntity(response.getEntity());
         logDebug(log, "Got Response: " + responseBody);
 
-        if ((contains && responseBody.toLowerCase().contains(filter.toLowerCase()))
-            || (!contains && !responseBody.toLowerCase().contains(filter.toLowerCase()))) {
-          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), url, responseBody));
+        if ((this.contains && responseBody.toLowerCase().contains(this.filter.toLowerCase()))
+            || (!this.contains && !responseBody.toLowerCase().contains(this.filter.toLowerCase()))) {
+          perform(new HTTPStatusWrapper(response.getStatusLine().toString(), this.url, responseBody));
         }
 
         lastError = null;
         break;
 
       } catch (Exception e) {
-        logWarn(log, "Exception \"" + e.getMessage() + "\" getting " + url + ". Try " + tryNumber
-            + "/" + numTries);
+        logWarn(log, "Exception \"" + e.getMessage() + "\" getting " + this.url + ". Try " + tryNumber
+            + "/" + this.numTries);
         lastError = e;
 
         try {
-          Thread.sleep(errorInterval);
+          Thread.sleep(this.errorInterval);
         } catch (InterruptedException e1) {
           e1.printStackTrace();
         }
@@ -119,10 +119,10 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
     }
 
     if (lastError != null) {
-      logError(log, "Error occurred on HTTPUptimeChannel - " + url + " . Performing...", lastError);
+      logError(log, "Error occurred on HTTPUptimeChannel - " + this.url + " . Performing...", lastError);
 
-      perform(new HTTPStatusWrapper("Error", url, "Error fetching " + url + " - "
-          + lastError.getMessage() + " - " + numTries + " tries"));
+      perform(new HTTPStatusWrapper("Error", this.url, "Error fetching " + this.url + " - "
+          + lastError.getMessage() + " - " + this.numTries + " tries"));
     }
 
   }
@@ -135,7 +135,7 @@ public class HTTPUptimeChannel extends TaskerboxChannel<HTTPStatusWrapper> {
 
   @Override
   public String toString() {
-    return "HTTPHTMLChannel [url=" + url + ", filter=" + filter + ", unique=" + unique + ", every="
+    return "HTTPHTMLChannel [url=" + this.url + ", filter=" + this.filter + ", unique=" + this.unique + ", every="
         + getEvery() + "]";
   }
 

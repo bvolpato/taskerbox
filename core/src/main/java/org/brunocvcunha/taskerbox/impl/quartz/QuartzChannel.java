@@ -59,7 +59,7 @@ public class QuartzChannel extends TaskerboxChannel<Long> {
 
     sched.addJob(job, true);
 
-    for (String triggerStr : triggers) {
+    for (String triggerStr : this.triggers) {
       Trigger trigger =
           TriggerBuilder.newTrigger().withIdentity("CronTrigger" + triggerStr, getId()).forJob(job)
               .withSchedule(CronScheduleBuilder.cronSchedule(triggerStr)).build();

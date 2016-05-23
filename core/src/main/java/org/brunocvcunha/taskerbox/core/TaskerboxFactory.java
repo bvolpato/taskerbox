@@ -31,7 +31,7 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Class that centralizes the creation of channels and actions, based on XML.
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */
@@ -69,7 +69,7 @@ public class TaskerboxFactory {
 
     }
 
-    List<ITaskerboxAction> actions = new ArrayList<ITaskerboxAction>();
+    List<ITaskerboxAction> actions = new ArrayList<>();
     for (Element channelChildren : (List<Element>) xmlChannel.elements()) {
       Class<? extends ITaskerboxAction> actionClass =
           (Class<? extends ITaskerboxAction>) Class.forName(channelChildren.getName());

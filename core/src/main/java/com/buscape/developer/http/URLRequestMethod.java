@@ -15,7 +15,7 @@ package com.buscape.developer.http;
 
 /**
  * The methods that can be used in API calls.
- * 
+ *
  * @author cartagena
  */
 enum URLRequestMethod {
@@ -23,14 +23,14 @@ enum URLRequestMethod {
   /**
    * Http DELETE method
    */
-  DELETE, //$NON-NLS-1$
+  DELETE,
   /**
    * Http GET method
    */
-  GET, //$NON-NLS-1$
+  GET,
   /**
    * Http POST method
    */
-  POST; //$NON-NLS-1$
+  POST;
 
 }

@@ -59,7 +59,8 @@ public class DiceJobSeeker extends DefaultJobSearchChannel {
     this.httpClient = TaskerboxHttpBox.getInstance().getHttpClient();
   }
 
-  public void setup() {
+  @Override
+public void setup() {
     super.setup();
 
     try {
@@ -129,7 +130,7 @@ public class DiceJobSeeker extends DefaultJobSearchChannel {
 
     ScorerResult result = LinkedInJobDBComparer.getScore(elDescription.html());
 
-    if (result.getScore() < requiredScore) {
+    if (result.getScore() < this.requiredScore) {
       logInfo(log, "-- Ignored [scorer] " + result.getScore() + " - " + result.getMatches() + " - "
           + headline);
       addAlreadyPerformedAction(jobUrl);
@@ -156,13 +157,13 @@ public class DiceJobSeeker extends DefaultJobSearchChannel {
   @Override
   protected void execute() throws Exception {
     try {
-      for (int x = 1; x < maxPages; x++) {
+      for (int x = 1; x < this.maxPages; x++) {
         int uniqueCount = 0;
 
         // DefaultHttpClient client =
         // TaskerboxHttpBox.getInstance().buildNewHttpClient();
         String seekUrl =
-            "http://www.dice.com/job/results?n=50&q=" + URLEncoder.encode(search) + "&o="
+            "http://www.dice.com/job/results?n=50&q=" + URLEncoder.encode(this.search) + "&o="
                 + (x * 50);
         logInfo(log, "... Seeking " + seekUrl);
         HttpEntity entity = TaskerboxHttpBox.getInstance().getEntityForURL(seekUrl);

@@ -26,7 +26,7 @@ public final class HttpRequester {
 
   /**
    * Constructs HttpRequester object.
-   * 
+   *
    * @param uri a uri used in requests of the new object.
    */
   public HttpRequester(String url) {
@@ -40,7 +40,7 @@ public final class HttpRequester {
 
   /**
    * Performs an http request in uri and returns its response.
-   * 
+   *
    * @return an string with the content of response.
    * @throws IOException if an I/O error occurs while reading the response.
    * @throws URISyntaxException
@@ -51,7 +51,7 @@ public final class HttpRequester {
   }
 
   private String readInputStream() throws IOException, IllegalStateException, URISyntaxException {
-    return TaskerboxHttpBox.getInstance().getStringBodyForURL(uri);
+    return TaskerboxHttpBox.getInstance().getStringBodyForURL(this.uri);
   }
 
 }

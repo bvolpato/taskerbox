@@ -26,7 +26,7 @@ import com.buscape.developer.result.type.Result;
 
 /**
  * Buscapé API wrapper
- * 
+ *
  * @author neto
  */
 public final class Buscape {
@@ -44,7 +44,7 @@ public final class Buscape {
   /**
    * Constructs a wrapper object to Buscapé API, with <code>BRAZIL</code> as country and
    * <code>XML</code> as default result format.
-   * 
+   *
    * @param applicationId identification of application which will use the API.
    * @param filter default filter for all requests made in API.
    */
@@ -54,7 +54,7 @@ public final class Buscape {
 
   /**
    * Constructs a wrapper object to Buscapé API, with <code>BRAZIL</code> as country.
-   * 
+   *
    * @param applicationId identification of application which will use the API.
    * @param filter default filter for all requests made in API.
    * @param format default result format of requests.
@@ -65,7 +65,7 @@ public final class Buscape {
 
   /**
    * Constructs a wrapper object to Buscapé API.
-   * 
+   *
    * @param applicationId identification of application which will use the API.
    * @param filter default filter for all requests made in API.
    * @param countryCode code of country where the API will be used.
@@ -83,7 +83,7 @@ public final class Buscape {
   /**
    * Calls the Category List (<i>findCategoryList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param categoryId identification of category which will be listed.
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -95,7 +95,7 @@ public final class Buscape {
   /**
    * Calls the Category List (<i>findCategoryList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param keyword keyword used to filter the categories.
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -107,7 +107,7 @@ public final class Buscape {
   /**
    * Calls the Product List (<i>findProductList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param categoryId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -119,7 +119,7 @@ public final class Buscape {
   /**
    * Calls the Product List (<i>findProductList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param keyword keyword used to filter the products.
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -131,7 +131,7 @@ public final class Buscape {
   /**
    * Calls the Offer List (<i>findOfferList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param categoryId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -143,7 +143,7 @@ public final class Buscape {
   /**
    * Calls the Offer List (<i>findOfferList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param productId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -155,7 +155,7 @@ public final class Buscape {
   /**
    * Calls the Offer List (<i>findOfferList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param barcode TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -167,7 +167,7 @@ public final class Buscape {
   /**
    * Calls the Offer List (<i>findOfferList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param keyword TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -179,7 +179,7 @@ public final class Buscape {
   /**
    * Calls the Offer List (<i>findOfferList</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param categoryId TODO
    * @param keyword TODO
    * @return a {@link Result} object populated with information of response.
@@ -192,7 +192,7 @@ public final class Buscape {
   /**
    * Calls the Popular Products List (<i>topProducts</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
    */
@@ -203,7 +203,7 @@ public final class Buscape {
   /**
    * Calls the User Rating (<i>viewUserRatings</i>) service and return a {@link Result} object
    * containing the result of this request.
-   * 
+   *
    * @param productId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -215,7 +215,7 @@ public final class Buscape {
   /**
    * Calls the Details of a Product (<i>viewProductDetails</i>) service and return a {@link Result}
    * object containing the result of this request.
-   * 
+   *
    * @param productId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -227,7 +227,7 @@ public final class Buscape {
   /**
    * Calls the Details of a Seller (<i>viewSellerDetails</i>) service and return a {@link Result}
    * object containing the result of this request.
-   * 
+   *
    * @param sellerId TODO
    * @return a {@link Result} object populated with information of response.
    * @throws BuscapeException
@@ -266,8 +266,8 @@ public final class Buscape {
 
   private Result callGenericService(Service service, Parameters f) throws BuscapeException {
     String url =
-        new URLBuilder().service(service).applicationId(applicationId).countryCode(countryCode)
-            .formatFilter(format).filter(this.filter).parameters(f).build();
+        new URLBuilder().service(service).applicationId(this.applicationId).countryCode(this.countryCode)
+            .formatFilter(this.format).filter(this.filter).parameters(f).build();
     String data = callService(url);
     AbstractResultParser builder = getResultBuilder(data);
 
@@ -285,6 +285,6 @@ public final class Buscape {
   }
 
   private AbstractResultParser getResultBuilder(String data) {
-    return factory.createParser(data, format);
+    return this.factory.createParser(data, this.format);
   }
 }

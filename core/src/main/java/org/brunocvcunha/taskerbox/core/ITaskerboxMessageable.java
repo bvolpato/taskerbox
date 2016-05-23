@@ -17,7 +17,7 @@ package org.brunocvcunha.taskerbox.core;
 
 /**
  * Interface that represents short message objects
- * 
+ *
  * @author Bruno Candido Volpato da Cunha
  *
  */

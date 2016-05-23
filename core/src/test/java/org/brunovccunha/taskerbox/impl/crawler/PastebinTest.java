@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.brunocunha.taskerbox.impl.crawler;
+package org.brunovccunha.taskerbox.impl.crawler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +28,15 @@ public class PastebinTest {
   public void testAction() {
     PastebinAction action = new PastebinAction();
 
-    List<String> filters = new ArrayList<String>();
+    List<String> filters = new ArrayList<>();
     filters.add("bruno");
     action.setFilters(filters);
 
-    List<String> ignores = new ArrayList<String>();
+    List<String> ignores = new ArrayList<>();
     ignores.add("viagr");
     action.setIgnored(ignores);
 
-    List<String> patterns = new ArrayList<String>();
+    List<String> patterns = new ArrayList<>();
     patterns
         .add("\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})\\b");
     action.setPatterns(patterns);

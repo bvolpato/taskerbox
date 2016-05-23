@@ -23,18 +23,19 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * SSL Authenticator for Mail API
- * 
+ *
  */
 public class SSLAuthenticator extends javax.mail.Authenticator {
 
   private PasswordAuthentication authentication;
 
   public SSLAuthenticator(String userName, String password) {
-    authentication = new PasswordAuthentication(userName, password);
+    this.authentication = new PasswordAuthentication(userName, password);
   }
 
-  public PasswordAuthentication getPasswordAuthentication() {
-    return authentication;
+  @Override
+public PasswordAuthentication getPasswordAuthentication() {
+    return this.authentication;
   }
 
   public static class DefaultTrustManager implements X509TrustManager {

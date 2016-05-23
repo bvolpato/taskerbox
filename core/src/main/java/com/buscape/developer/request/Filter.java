@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * Represents the filters that can appear in url used to API calls.
- * 
+ *
  * @author cartagena
  */
 public final class Filter implements Cloneable {
@@ -40,19 +40,19 @@ public final class Filter implements Cloneable {
   public Filter() {}
 
   public Filter(Filter base) {
-    results = base.results;
-    page = base.page;
-    priceMin = base.priceMin;
-    priceMax = base.priceMax;
-    sort = base.sort;
-    medal = base.medal;
+    this.results = base.results;
+    this.page = base.page;
+    this.priceMin = base.priceMin;
+    this.priceMax = base.priceMax;
+    this.sort = base.sort;
+    this.medal = base.medal;
   }
 
   /**
    * @return the results
    */
   public final Integer getResults() {
-    return results;
+    return this.results;
   }
 
   /**
@@ -66,7 +66,7 @@ public final class Filter implements Cloneable {
    * @return the page
    */
   public final Integer getPage() {
-    return page;
+    return this.page;
   }
 
   /**
@@ -80,7 +80,7 @@ public final class Filter implements Cloneable {
    * @return the priceMin
    */
   public final Double getPriceMin() {
-    return priceMin;
+    return this.priceMin;
   }
 
   /**
@@ -94,7 +94,7 @@ public final class Filter implements Cloneable {
    * @return the priceMax
    */
   public final Double getPriceMax() {
-    return priceMax;
+    return this.priceMax;
   }
 
   /**
@@ -108,7 +108,7 @@ public final class Filter implements Cloneable {
    * @return the sort
    */
   public final Sort getSort() {
-    return sort;
+    return this.sort;
   }
 
   /**
@@ -122,7 +122,7 @@ public final class Filter implements Cloneable {
    * @return the medal
    */
   public final EBitMedal getMedal() {
-    return medal;
+    return this.medal;
   }
 
   /**
@@ -135,11 +135,11 @@ public final class Filter implements Cloneable {
   /**
    * Build a {@link Map} that represents this instance. The pair key/value of map are the name of
    * fields in object and the values of fields, respectively.
-   * 
+   *
    * @return a {@link Map} populated with the values of this instance.
    */
   public Map<String, Object> asMap() {
-    Map<String, Object> result = new HashMap<String, Object>();
+    Map<String, Object> result = new HashMap<>();
 
     for (Field field : getClass().getDeclaredFields()) {
       try {
@@ -162,7 +162,7 @@ public final class Filter implements Cloneable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#clone()
    */
   @Override
