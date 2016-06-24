@@ -143,17 +143,40 @@
 					</execution>
 				</executions>
 			</plugin-->
-
-			<!--plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId>
-				<configuration> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass>
-				<includeProjectDependencies>true</includeProjectDependencies> <includePluginDependencies>true</includePluginDependencies>
-				</configuration> </plugin> <plugin> <artifactId>maven-assembly-plugin</artifactId>
-				<executions> <execution> <id>rebuild-publisher</id> <configuration> <archive>
-				<manifest> <mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass> </manifest>
-				</archive> <finalName>taskerbox</finalName> <appendAssemblyId>false</appendAssemblyId>
-				<descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> </descriptorRefs>
-				</configuration> <phase>package</phase> <goals> <goal>single</goal> </goals>
-				</execution> </executions> </plugin -->
+		
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass>
+					<includeProjectDependencies>true</includeProjectDependencies>
+					<includePluginDependencies>true</includePluginDependencies>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>rebuild-publisher</id>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>org.brunocvcunha.taskerbox.Taskerbox</mainClass>
+								</manifest>
+							</archive>
+							<finalName>taskerbox</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 
 
@@ -381,8 +404,13 @@
 			<version>2.2.1</version>
 		</dependency>
 
+		<!-- http://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160212</version>
+		</dependency>
 	</dependencies>
-
 
 
 </project>
