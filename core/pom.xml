@@ -129,7 +129,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		
+
 			<!--plugin>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok-maven-plugin</artifactId>
@@ -143,7 +143,7 @@
 					</execution>
 				</executions>
 			</plugin-->
-		
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -392,11 +392,12 @@
 			<version>3.0.6</version>
 		</dependency>
 
-		<dependency>
+		<!-- dropped whatsapp support -->
+		<!--dependency>
 			<groupId>net.sumppen.whatsapp</groupId>
 			<artifactId>whatsapi4j</artifactId>
 			<version>1.1.0-SNAPSHOT</version>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>

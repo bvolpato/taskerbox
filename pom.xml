@@ -254,4 +254,13 @@
 		</profile>
 	</profiles>
 
+
+	<repositories>
+		<repository>
+	    <id>demoiselle-releases</id>
+	    <url>http://demoiselle.c3sl.ufpr.br/maven/repository/release/</url>
+	  </repository>
+
+	</repositories>
+
 </project>
