@@ -1,7 +1,10 @@
 Taskerbox
 ========
 
-[![Apache License](http://img.shields.io/badge/license-ASL-blue.svg)](https://github.com/brunocvcunha/inutils4j/blob/master/LICENSE)
+[![Apache License](http://img.shields.io/badge/license-ASL-blue.svg)](https://github.com/brunocvcunha/taskerbox/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/brunocvcunha/taskerbox.svg)](https://travis-ci.org/brunocvcunha/taskerbox)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.brunocvcunha.taskerbox/taskerbox/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.brunocvcunha.taskerbox/taskerbox)
+[![Coverage Status](https://coveralls.io/repos/github/brunocvcunha/taskerbox/badge.svg?branch=master)](https://coveralls.io/github/brunocvcunha/taskerbox?branch=master)
 
 Java automation engine based on producers (channels) &amp; consumers (actions)
 
@@ -63,3 +66,29 @@ To receive [Hacker News (YCombinator)](https://news.ycombinator.com/) in your Gm
 </org.brunocvcunha.taskerbox.impl.feed.FeedChannel>
 
 ```
+
+
+
+Download
+--------
+
+Download [the latest JAR][1] or grab via Maven:
+```xml
+<dependency>
+  <groupId>org.brunocvcunha.taskerbox</groupId>
+  <artifactId>taskerbox-core</artifactId>
+  <version>0.1</version>
+</dependency>
+```
+or Gradle:
+```groovy
+compile 'org.brunocvcunha.taskerbox:taskerbox-core:0.1'
+```
+
+Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+
+Taskerbox requires at minimum Java 7.
+
+
+ [1]: https://search.maven.org/remote_content?g=org.brunocvcunha.taskerbox&a=taskerbox&v=LATEST
+ [snap]: https://oss.sonatype.org/content/repositories/snapshots/
