@@ -51,7 +51,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
- * Action that shows Feeds in a Toaster Popup
+ * Action that sends emails
  *
  * @author Bruno Candido Volpato da Cunha
  *
