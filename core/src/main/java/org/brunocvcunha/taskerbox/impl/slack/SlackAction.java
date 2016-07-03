@@ -1,15 +1,17 @@
 /**
  * Copyright (C) 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.brunocvcunha.taskerbox.impl.slack;
 
@@ -23,6 +25,7 @@ import java.net.URLEncoder;
 import org.brunocvcunha.inutils4j.MyStreamUtils;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
+import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -74,7 +77,9 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
   public void action(final Object entry) {
 
     try {
-      if (entry instanceof ITaskerboxEmailable) {
+      if (entry instanceof ITaskerboxMessageable) {
+        handleMessageable((ITaskerboxMessageable) entry);
+      } else if (entry instanceof ITaskerboxEmailable) {
         handleEmailable((ITaskerboxEmailable) entry);
       } else {
         send(entry.toString());
@@ -86,6 +91,11 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
 
   private void handleEmailable(ITaskerboxEmailable entry) throws IOException {
     send(entry.getEmailTitle(getChannel()) + " - " + entry.getEmailBody(getChannel()));
+  }
+
+
+  private void handleMessageable(ITaskerboxMessageable entry) throws IOException {
+    send(entry.getMessageTitle(getChannel()) + " - " + entry.getMessageBody(getChannel()));
   }
 
 
