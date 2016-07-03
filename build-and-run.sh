@@ -17,7 +17,10 @@
 
 
 mvn clean install -N
-mvn eclipse:eclipse license:format clean install -f core/pom.xml
-mvn eclipse:eclipse license:format clean install -f web/pom.xml
+mvn clean install
 
-java -jar web/target/taskerbox.jar server web/src/main/resources/taskerbox.yaml
+(
+  cd web  
+  java -jar target/taskerbox.jar server taskerbox.yml
+)
+
