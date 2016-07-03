@@ -42,7 +42,6 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
   private final static String API_URL = "https://slack.com/api/chat.postMessage";
   private int timeout = 30_000;
   
-  @Email
   @NotEmpty
   @Getter
   @Setter
@@ -62,6 +61,10 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
   @Setter
   @NotEmpty
   private String iconEmoji;
+
+  @Getter
+  @Setter
+  private String messagePrefix;
 
   @Getter
   @Setter
@@ -92,7 +95,7 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
 
     final StringWriter w = new StringWriter();
     w.append("token=").append(token).append("&");
-    w.append("text=").append(URLEncoder.encode(message, "UTF-8")).append('&');
+    w.append("text=").append(URLEncoder.encode(messagePrefix + " - " + message, "UTF-8")).append('&');
     if (slackChannel != null) {
       w.append("channel=").append(URLEncoder.encode(slackChannel, "UTF-8")).append('&');
     }
