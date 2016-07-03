@@ -21,16 +21,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Bruno 
+ *
+ */
 public class TaskerboxConfiguration extends Configuration {
-    //@NotEmpty
-    private String template;
 
     @NotEmpty
     private String fileToUse;
     
-    @NotEmpty
-    private String defaultName = "Taskerbox";
-
     /**
      * @return the fileToUse
      */
@@ -47,23 +46,4 @@ public class TaskerboxConfiguration extends Configuration {
         this.fileToUse = fileToUse;
     }
 
-    @JsonProperty
-    public String getTemplate() {
-        return template;
-    }
-
-    @JsonProperty
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    @JsonProperty
-    public String getDefaultName() {
-        return defaultName;
-    }
-
-    @JsonProperty
-    public void setDefaultName(String name) {
-        this.defaultName = name;
-    }
 }

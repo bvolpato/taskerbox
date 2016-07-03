@@ -56,6 +56,9 @@ public class ChannelsResource {
   private Taskerbox taskerbox;
   
 
+  /**
+   * @param taskerbox
+   */
   public ChannelsResource(Taskerbox taskerbox) {
     super();
     this.taskerbox = taskerbox;

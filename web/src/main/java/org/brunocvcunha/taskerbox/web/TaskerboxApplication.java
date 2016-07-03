@@ -19,7 +19,6 @@ import java.io.File;
 
 import org.brunocvcunha.taskerbox.Taskerbox;
 import org.brunocvcunha.taskerbox.web.config.TaskerboxConfiguration;
-import org.brunocvcunha.taskerbox.web.health.TemplateHealthCheck;
 import org.brunocvcunha.taskerbox.web.resources.ChannelsResource;
 
 import io.dropwizard.Application;
@@ -27,10 +26,19 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+/**
+ * Taskerbox Dropwizard Appliaction
+ * @author Bruno Candido Volpato da Cunha
+ *
+ */
 public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
   
   private Taskerbox taskerboxInstance;
   
+  /**
+   * @param args
+   * @throws Exception
+   */
   public static void main(String[] args) throws Exception {
     new TaskerboxApplication().run(args);
   }
@@ -57,11 +65,9 @@ public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
 
     final ChannelsResource channels = new ChannelsResource(taskerboxInstance);
     
-    final TemplateHealthCheck healthCheck =
-        new TemplateHealthCheck(configuration.getTemplate());
-    environment.healthChecks().register("template", healthCheck);
-
-    environment.jersey().setUrlPattern("/resources/*");
+    //TODO: add health checks
+    //final TemplateHealthCheck healthCheck = new TemplateHealthCheck("Taskerbox");
+    //environment.healthChecks().register("template", healthCheck);
 
     environment.jersey().register(channels);
 

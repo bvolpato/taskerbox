@@ -6,6 +6,4 @@ server:
   - type: http
     port: 8001
 
-template: Hello, %s!
-defaultName: Taskerbox
-fileToUse: /Users/brunovolpato/Dropbox/Taskerbox/taskerbox-BR-MacBook-Pro.local.xml
+fileToUse: ../taskerbox.xml
