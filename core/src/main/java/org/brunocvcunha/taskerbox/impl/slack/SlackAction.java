@@ -26,6 +26,7 @@ import org.brunocvcunha.inutils4j.MyStreamUtils;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
+import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -48,29 +49,35 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
   @NotEmpty
   @Getter
   @Setter
+  @TaskerboxField("Token")
   private String token;
 
   @NotEmpty
   @Getter
   @Setter
+  @TaskerboxField("Slack Channel")
   private String slackChannel;
 
   @Getter
   @Setter
   @NotEmpty
+  @TaskerboxField("Username")
   private String username;
 
   @Getter
   @Setter
   @NotEmpty
+  @TaskerboxField("Icon Emoji")
   private String iconEmoji;
 
   @Getter
   @Setter
+  @TaskerboxField("Message Prefix")
   private String messagePrefix;
 
   @Getter
   @Setter
+  @TaskerboxField("Message Override")
   private String messageOverride;
 
   @Getter
