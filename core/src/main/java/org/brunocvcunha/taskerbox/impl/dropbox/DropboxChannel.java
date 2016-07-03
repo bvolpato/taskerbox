@@ -15,11 +15,11 @@
  */
 package org.brunocvcunha.taskerbox.impl.dropbox;
 
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxDelta;
-import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v1.DbxDelta;
+import com.dropbox.core.v1.DbxEntry;
 
 import java.util.Locale;
 
@@ -68,7 +68,7 @@ public class DropboxChannel extends TaskerboxChannel<DbxDelta.Entry<DbxEntry>> {
   protected void execute() throws Exception {
 
     DbxRequestConfig config = new DbxRequestConfig("Taskerbox/0.1", Locale.getDefault().toString());
-    DbxClient client = new DbxClient(config, this.accessToken);
+    DbxClientV1 client = new DbxClientV1(config, this.accessToken);
 
     String cursor = this.lastDelta;
     if (this.lastDelta == null) {
@@ -80,7 +80,7 @@ public class DropboxChannel extends TaskerboxChannel<DbxDelta.Entry<DbxEntry>> {
     handleDelta(client, delta);
   }
 
-  private void handleDelta(DbxClient client, DbxDelta<DbxEntry> delta) throws DbxException {
+  private void handleDelta(DbxClientV1 client, DbxDelta<DbxEntry> delta) throws DbxException {
     this.lastDelta = delta.cursor;
     addStoredProperty("cursor", this.lastDelta);
     logInfo(log, "Saving current delta: " + this.lastDelta);

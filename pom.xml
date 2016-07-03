@@ -56,7 +56,7 @@
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 
 		<!-- Java -->
-		<version.java>1.6</version.java>
+		<version.java>1.8</version.java>
 
 		<!-- Java EE Dependency -->
 		<version.javaee>6.0</version.javaee>
@@ -67,21 +67,9 @@
 		<!-- Plugins -->
 		<version.compiler.plugin>2.0.2</version.compiler.plugin>
 
-		<!-- Jetty Plugin -->
-		<version.jetty>9.1.0.v20131115</version.jetty>
-
-
     </properties>
 
 	<build>
-
-		<extensions>
-			<extension>
-				<groupId>org.springframework.build</groupId>
-				<artifactId>aws-maven</artifactId>
-				<version>5.0.0.RELEASE</version>
-			</extension>
-		</extensions>
 
 		<plugins>
 
@@ -90,8 +78,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${version.java}</source>
+					<target>${version.java}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
@@ -231,27 +219,6 @@
 		</profile>
 
 
-		<profile>
-			<id>aws</id>
-
-
-				<!--  Push WAR to AWS S3 -->
-				<distributionManagement>
-					<repository>
-						<id>aws-release</id>
-						<name>AWS Release Repository</name>
-						<url>s3://brunocvcunha-exp/release</url>
-					</repository>
-					<snapshotRepository>
-						<id>aws-snapshot</id>
-						<name>AWS Snapshot Repository</name>
-						<url>s3://brunocvcunha-exp/snapshot</url>
-					</snapshotRepository>
-				</distributionManagement>
-
-			<build>
-			</build>
-		</profile>
 	</profiles>
 
 

@@ -15,8 +15,8 @@
  */
 package org.brunocvcunha.taskerbox.impl.dropbox;
 
-import com.dropbox.core.DbxDelta;
-import com.dropbox.core.DbxEntry;
+import com.dropbox.core.v1.DbxDelta;
+import com.dropbox.core.v1.DbxEntry;
 
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 

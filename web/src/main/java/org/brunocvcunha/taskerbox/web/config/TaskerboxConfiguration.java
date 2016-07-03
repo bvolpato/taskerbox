@@ -26,7 +26,26 @@ public class TaskerboxConfiguration extends Configuration {
     private String template;
 
     @NotEmpty
+    private String fileToUse;
+    
+    @NotEmpty
     private String defaultName = "Taskerbox";
+
+    /**
+     * @return the fileToUse
+     */
+    @JsonProperty
+    public String getFileToUse() {
+        return fileToUse;
+    }
+
+    /**
+     * @param fileToUse the fileToUse to set
+     */
+    @JsonProperty
+    public void setFileToUse(String fileToUse) {
+        this.fileToUse = fileToUse;
+    }
 
     @JsonProperty
     public String getTemplate() {

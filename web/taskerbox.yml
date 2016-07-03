@@ -1,0 +1,11 @@
+server:
+  applicationConnectors:
+  - type: http 
+    port: 8000
+  adminConnectors:
+  - type: http
+    port: 8001
+
+template: Hello, %s!
+defaultName: Taskerbox
+fileToUse: /Users/brunovolpato/Dropbox/Taskerbox/taskerbox-BR-MacBook-Pro.local.xml

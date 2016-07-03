@@ -83,7 +83,7 @@ public class Taskerbox {
 
     if (args.length == 0) {
 
-      tasker.handleDefaultFiles();
+      tasker.handleDefaultFiles(null);
 
     } else {
       for (String arg : args) {
@@ -92,7 +92,7 @@ public class Taskerbox {
     }
   }
 
-  public void handleDefaultFiles() throws Exception {
+  public void handleDefaultFiles(File fileToUse) throws Exception {
     String hostName = InetAddress.getLocalHost().getHostName();
     log.info("Host name: " + hostName);
 
@@ -102,14 +102,20 @@ public class Taskerbox {
 
     File configDir = TaskerboxConfigurationUtils.getConfigurationDir();
 
-    File hostFile = new File(configDir, "taskerbox-" + hostName + ".xml");
-    if (hostFile.exists()) {
-      handleTaskerbox(hostFile);
-    }
-
-    File genericFile = new File(configDir, "taskerbox.xml");
-    if (genericFile.exists()) {
-      handleTaskerbox(genericFile);
+    if (fileToUse != null) {
+      handleTaskerbox(fileToUse);
+    } else {
+      
+      File hostFile = new File(configDir, "taskerbox-" + hostName + ".xml");
+      if (hostFile.exists()) {
+        handleTaskerbox(hostFile);
+      }
+      
+      File genericFile = new File(configDir, "taskerbox.xml");
+      if (genericFile.exists()) {
+        handleTaskerbox(genericFile);
+      }
+      
     }
 
   }

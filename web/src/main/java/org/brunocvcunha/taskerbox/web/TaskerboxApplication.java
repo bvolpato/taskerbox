@@ -15,14 +15,17 @@
  */
 package org.brunocvcunha.taskerbox.web;
 
-import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import java.io.File;
 
 import org.brunocvcunha.taskerbox.Taskerbox;
 import org.brunocvcunha.taskerbox.web.config.TaskerboxConfiguration;
 import org.brunocvcunha.taskerbox.web.health.TemplateHealthCheck;
 import org.brunocvcunha.taskerbox.web.resources.ChannelsResource;
+
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 
 public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
   
@@ -39,14 +42,15 @@ public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
 
   @Override
   public void initialize(Bootstrap<TaskerboxConfiguration> bootstrap) {
-    
+      bootstrap.addBundle(new AssetsBundle("/static/", "/static/"));
   }
 
   @Override
   public void run(TaskerboxConfiguration configuration, Environment environment) {
+      
     taskerboxInstance = new Taskerbox();
     try {
-      taskerboxInstance.handleDefaultFiles();
+      taskerboxInstance.handleDefaultFiles(new File(configuration.getFileToUse()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -56,6 +60,8 @@ public class TaskerboxApplication extends Application<TaskerboxConfiguration> {
     final TemplateHealthCheck healthCheck =
         new TemplateHealthCheck(configuration.getTemplate());
     environment.healthChecks().register("template", healthCheck);
+
+    environment.jersey().setUrlPattern("/resources/*");
 
     environment.jersey().register(channels);
 

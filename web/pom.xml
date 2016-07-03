@@ -36,11 +36,19 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<properties>
-		<dropwizard.version>0.8.2</dropwizard.version>
+		<dropwizard.version>0.9.3</dropwizard.version>
+		
+		<jackson.version>2.7.5</jackson.version>
 	</properties>
 
 	<build>
 		<finalName>taskerbox</finalName>
+	
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+			</resource>
+		</resources>
 
 		<plugins>
 			<plugin>
@@ -50,21 +58,6 @@
 				<configuration>
 					<source>${version.java}</source>
 					<target>${version.java}</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${version.jetty}</version>
-				<configuration>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
-					<httpConnector>
-						<port>8080</port>
-					</httpConnector>
-					<webApp>
-						<contextPath>/taskerbox</contextPath>
-					</webApp>
 				</configuration>
 			</plugin>
 
@@ -138,14 +131,6 @@
 					<artifactId>slf4j-simple</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-validator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.glassfish.jersey.core</groupId>
 					<artifactId>jersey-client</artifactId>
 				</exclusion>
@@ -171,26 +156,27 @@
 			<artifactId>dropwizard-core</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-assets</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
 
-
-		<!-- Runtime provided dependencies - used for compilation -->
-		<!--dependency> <groupId>javax.ws.rs</groupId> <artifactId>jsr311-api</artifactId> 
-			<version>1.1.1</version> </dependency -->
-
-
-		<!-- testing dropwizard <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
-			<version>3.0.1</version> <scope>provided</scope> </dependency> -->
-
-		<!-- Jersey - Necessario para utilizar no Tomcat -->
-
-		<!-- testing dropwizard <dependency> <groupId>org.glassfish.jersey.core</groupId> 
-			<artifactId>jersey-server</artifactId> <version>2.4.1</version> </dependency> 
-			<dependency> <groupId>org.glassfish.jersey.media</groupId> <artifactId>jersey-media-moxy</artifactId> 
-			<version>2.4.1</version> </dependency> <dependency> <groupId>org.glassfish.jersey.media</groupId> 
-			<artifactId>jersey-media-json-jackson</artifactId> <version>2.4.1</version> 
-			</dependency> <dependency> <groupId>org.glassfish.jersey.containers</groupId> 
-			<artifactId>jersey-container-servlet</artifactId> <version>2.4.1</version> 
-			</dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 
 	</dependencies>
 
