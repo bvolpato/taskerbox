@@ -71,6 +71,10 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
 
   @Getter
   @Setter
+  private String messageOverride;
+
+  @Getter
+  @Setter
   private boolean showToaster = true;
 
   @Override
@@ -105,7 +109,13 @@ public class SlackAction extends DefaultTaskerboxAction<Object> {
 
     final StringWriter w = new StringWriter();
     w.append("token=").append(token).append("&");
-    w.append("text=").append(URLEncoder.encode(messagePrefix + " - " + message, "UTF-8")).append('&');
+    
+    if (messageOverride != null) {
+      w.append("text=").append(URLEncoder.encode(messageOverride, "UTF-8")).append('&');
+    } else {
+      w.append("text=").append(URLEncoder.encode(messagePrefix + " - " + message, "UTF-8")).append('&');
+    }
+    
     if (slackChannel != null) {
       w.append("channel=").append(URLEncoder.encode(slackChannel, "UTF-8")).append('&');
     }
