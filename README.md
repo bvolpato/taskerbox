@@ -125,7 +125,7 @@ fileToUse: /home/bruno/taskerbox.xml
 
 Download the [release JAR](https://github.com/brunocvcunha/taskerbox/releases), and start using `java -jar taskerbox.jar server /path/to/taskerbox.yml`.
 
-It will start a HTTP server in the port specified, with all the jobs configured in the XML file.
+It will start a HTTP server in the port specified to access: [http://localhost:8000/static/index.html](http://localhost:8000/static/index.html), with all the jobs configured in the XML file.
 
 
 
