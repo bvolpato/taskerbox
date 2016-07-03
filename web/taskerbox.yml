@@ -6,4 +6,4 @@ server:
   - type: http
     port: 8001
 
-fileToUse: ../taskerbox.xml
+fileToUse: ~/taskerbox.xml
