@@ -82,26 +82,54 @@ To test if a specific URL returns an expected response, and send a message on Sl
 
 ```
 
-Download
+Usage
 --------
 
-Download [the latest JAR][1] or grab via Maven:
+Create a XML configuration file with the desired channels and actions.
+
+Example:
 ```xml
-<dependency>
-  <groupId>org.brunocvcunha.taskerbox</groupId>
-  <artifactId>taskerbox-core</artifactId>
-  <version>0.1</version>
-</dependency>
-```
-or Gradle:
-```groovy
-compile 'org.brunocvcunha.taskerbox:taskerbox-core:0.1'
+<taskerbox>
+		
+	<org.brunocvcunha.taskerbox.impl.http.HTTPUptimeChannel
+		id="production" url="https://production-url/api/v1/status"
+		contains="false" filter="expected-content-in-response" every="300000" numTries="2">
+	
+		<org.brunocvcunha.taskerbox.impl.slack.SlackAction
+			token="xoxb-xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx" iconEmoji=":see_no_evil:" slackChannel="#production"
+			username="production-status" messageOverride="Production Server is down. Please check https://production-url/"/>
+	
+	</org.brunocvcunha.taskerbox.impl.http.HTTPUptimeChannel>
+
+
+</taskerbox>
 ```
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+Create a Yaml file with the server configuration, that points the `fileToUse` to the file created above.
+
+Example:
+```
+server:
+  applicationConnectors:
+  - type: http 
+    port: 8000
+  adminConnectors:
+  - type: http
+    port: 8001
+
+fileToUse: /home/bruno/taskerbox.xml
+```
+
+
+
+
+Download the [release JAR](https://github.com/brunocvcunha/taskerbox/releases), and start using `java -jar taskerbox.jar server /path/to/taskerbox.yml`.
+
+It will start a HTTP server in the port specified, with all the jobs configured in the XML file.
+
+
+
+
 
 Taskerbox requires at minimum Java 7.
 
-
- [1]: https://search.maven.org/remote_content?g=org.brunocvcunha.taskerbox&a=taskerbox&v=LATEST
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
