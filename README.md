@@ -26,7 +26,7 @@ Actions
 - Desktop Toaster
 - Email Sending
 - SMS Sending ([Plivo](https://www.plivo.com/))
-- WhatsApp
+- Slack messaging
 
 
 Example
@@ -67,7 +67,20 @@ To receive [Hacker News (YCombinator)](https://news.ycombinator.com/) in your Gm
 
 ```
 
+To test if a specific URL returns an expected response, and send a message on Slack if it fails:
 
+```xml
+	<org.brunocvcunha.taskerbox.impl.http.HTTPUptimeChannel
+		id="production" url="https://production-url/api/v1/status"
+		contains="false" filter="expected-content-in-response" every="300000" numTries="2">
+
+			<org.brunocvcunha.taskerbox.impl.slack.SlackAction
+				token="xoxb-xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx" iconEmoji=":see_no_evil:" slackChannel="#production"
+				username="production-status" messageOverride="Production Server is down. Please check https://production-url/ "/>
+
+	</org.brunocvcunha.taskerbox.impl.http.HTTPUptimeChannel>
+
+```
 
 Download
 --------
