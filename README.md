@@ -127,7 +127,7 @@ Download the [release JAR](https://github.com/brunocvcunha/taskerbox/releases), 
 
 It will start a HTTP server in the port specified to access: [http://localhost:8000/static/index.html](http://localhost:8000/static/index.html), with all the jobs configured in the XML file.
 
-
+![Sample Screenshot](https://github.com/brunocvcunha/taskerbox/blob/master/.meta/ss.png?raw=true)
 
 
 
