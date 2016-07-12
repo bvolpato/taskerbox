@@ -26,9 +26,7 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.brunocvcunha.taskerbox</groupId>
 	<artifactId>taskerbox-web</artifactId>
-	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Taskerbox Web</name>
 	<description>Taskerbox Web App</description>

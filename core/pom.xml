@@ -25,9 +25,7 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.brunocvcunha.taskerbox</groupId>
 	<artifactId>taskerbox-core</artifactId>
-	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Taskerbox Core</name>
 	<description>Taskerbox Core for Java</description>
@@ -224,7 +222,6 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
