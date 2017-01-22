@@ -110,7 +110,7 @@ public class LinkedInJobSeeker extends DefaultJobSearchChannel {
       LinkedInJobSeeker seeker = new LinkedInJobSeeker();
       seeker.setCountries(new String[] { "us" });
       seeker.setUserEmail("brunocvcunha@gmail.com");
-      seeker.setUserPassword("***REMOVED***");
+      seeker.setUserPassword("YOURPASSWORD");
       seeker.setSearch("java");
       seeker.setExternalApply(false);
       seeker.setPaused(false);
