@@ -414,7 +414,7 @@
 		<dependency>
 			<groupId>com.plivo</groupId>
 			<artifactId>plivo-java</artifactId>
-			<version>3.0.6</version>
+			<version>5.29.0</version>
 		</dependency>
 
 		<!-- dropped whatsapp support -->
