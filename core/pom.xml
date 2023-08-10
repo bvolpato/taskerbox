@@ -402,7 +402,7 @@
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-transport-http</artifactId>
-			<version>1.6.2</version>
+			<version>1.8.2</version>
 		</dependency>
 
 		<dependency>
