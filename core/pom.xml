@@ -111,7 +111,7 @@
 			<plugin>
 				<groupId>org.apache.axis2</groupId>
 				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
-				<version>1.6.2</version>
+				<version>1.8.2</version>
 				<executions>
 					<execution>
 						<id>DatasetService</id>
