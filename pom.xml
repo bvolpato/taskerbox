@@ -65,7 +65,7 @@
 		<version.junit>4.13.2</version.junit>
 
 		<!-- Plugins -->
-		<version.compiler.plugin>3.11.0</version.compiler.plugin>
+		<version.compiler.plugin>3.13.0</version.compiler.plugin>
 
     </properties>
 
