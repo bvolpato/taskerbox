@@ -34,7 +34,7 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<properties>
-		<dropwizard.version>4.0.3</dropwizard.version>
+		<dropwizard.version>5.0.1</dropwizard.version>
 		
 		<jackson.version>2.21.1</jackson.version>
 	</properties>
