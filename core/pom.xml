@@ -343,7 +343,7 @@
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-client</artifactId>
-			<version>5.19.4</version>
+			<version>6.2.5</version>
 		</dependency>
 
 
