@@ -1,11 +1,11 @@
-/**
- * Copyright (C) 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
+/*
+ * Copyright © 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.v1.ResponseList;
+import twitter4j.v1.Status;
 
 /**
  * Twitter Input Channel
@@ -93,15 +91,11 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
   public void setup() throws IllegalStateException, TwitterException {
     logInfo(log, "Twitter setup...");
 
-    ConfigurationBuilder cb = new ConfigurationBuilder();
-    cb.setDebugEnabled(true).setOAuthConsumerKey(this.consumerKey)
-        .setOAuthConsumerSecret(this.consumerSecret).setOAuthAccessToken(this.accessToken)
-        .setOAuthAccessTokenSecret(this.accessTokenSecret);
-    TwitterFactory tf = new TwitterFactory(cb.build());
+    this.twitter = Twitter.newBuilder().prettyDebugEnabled(true)
+        .oAuthConsumer(this.consumerKey, this.consumerSecret)
+        .oAuthAccessToken(this.accessToken, this.accessTokenSecret).build();
 
-    this.twitter = tf.getInstance();
-
-    this.loggedUser = this.twitter.getScreenName();
+    this.loggedUser = this.twitter.v1().users().verifyCredentials().getScreenName();
 
     logInfo(log, "Twitter setup finished! Logged user is " + this.loggedUser);
   }
@@ -122,9 +116,9 @@ public class TwitterChannel extends TaskerboxChannel<StatusWrapper> {
 
 
     if (this.username == null || this.username.equals("")) {
-      statusList = this.twitter.getHomeTimeline();
+      statusList = this.twitter.v1().timelines().getHomeTimeline();
     } else {
-      statusList = this.twitter.getUserTimeline(this.username);
+      statusList = this.twitter.v1().timelines().getUserTimeline(this.username);
     }
 
     status: for (Status status : statusList) {

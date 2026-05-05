@@ -131,5 +131,4 @@ It will start a HTTP server in the port specified to access: [http://localhost:8
 
 
 
-Taskerbox requires at minimum Java 7.
-
+Taskerbox requires at minimum Java 17.

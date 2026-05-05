@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
+    Copyright © 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,7 +56,7 @@
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 
 		<!-- Java -->
-		<version.java>1.8</version.java>
+		<version.java>17</version.java>
 
 		<!-- Java EE Dependency -->
 		<version.javaee>6.0</version.javaee>
@@ -66,6 +66,7 @@
 
 		<!-- Plugins -->
 		<version.compiler.plugin>3.15.0</version.compiler.plugin>
+		<version.lombok>1.18.46</version.lombok>
 
     </properties>
 
@@ -77,10 +78,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler.plugin}</version>
 				<configuration>
-					<source>${version.java}</source>
-					<target>${version.java}</target>
+					<release>${version.java}</release>
 					<encoding>${project.build.sourceEncoding}</encoding>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${version.lombok}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -98,6 +106,7 @@
 				<version>5.0.0</version>
 				<configuration>
 					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+					<skipExistingHeaders>true</skipExistingHeaders>
 					<properties>
 						<owner>Bruno Candido Volpato da Cunha</owner>
 						<email>brunocvcunha@gmail.com</email>
@@ -225,7 +234,7 @@
 	<repositories>
 		<repository>
 	    <id>demoiselle-releases</id>
-	    <url>http://demoiselle.c3sl.ufpr.br/maven/repository/release/</url>
+	    <url>https://demoiselle.c3sl.ufpr.br/maven/repository/release/</url>
 	  </repository>
 
 	</repositories>

@@ -1,11 +1,11 @@
-/**
- * Copyright (C) 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
+/*
+ * Copyright © 2015 Bruno Candido Volpato da Cunha (brunocvcunha@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,13 @@
  */
 package org.brunocvcunha.taskerbox.impl.sms;
 
-import com.plivo.helper.api.client.RestAPI;
-import com.plivo.helper.api.response.message.MessageResponse;
-import com.plivo.helper.exception.PlivoException;
+import com.plivo.api.Plivo;
+import com.plivo.api.exceptions.PlivoRestException;
+import com.plivo.api.models.message.Message;
+import com.plivo.api.models.message.MessageCreateResponse;
 
 import java.awt.TrayIcon.MessageType;
-import java.util.LinkedHashMap;
+import java.io.IOException;
 
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
@@ -61,31 +62,24 @@ public class PlivoSMSAction extends DefaultTaskerboxAction<Object> {
   public void action(Object text) {
     logInfo(log, "Sending SMS: " + text.toString());
 
-    RestAPI restAPI = new RestAPI(this.authId, this.authToken, "v1");
+    Plivo.init(this.authId, this.authToken);
 
-    LinkedHashMap<String, String> params = new LinkedHashMap<>();
-    params.put("src", this.from);
-    params.put("dst", this.to);
-
+    String messageText;
     if (text instanceof ITaskerboxMessageable) {
       ITaskerboxMessageable messageble = (ITaskerboxMessageable) text;
-      params.put(
-          "text",
-          messageble.getMessageTitle(getChannel()) + " - "
-              + messageble.getMessageBody(getChannel()));
+      messageText =
+          messageble.getMessageTitle(getChannel()) + " - " + messageble.getMessageBody(getChannel());
     } else if (text instanceof ITaskerboxEmailable) {
       ITaskerboxEmailable emailable = (ITaskerboxEmailable) text;
-      params.put("text",
-          emailable.getEmailTitle(getChannel()) + " - " + emailable.getEmailBody(getChannel()));
+      messageText = emailable.getEmailTitle(getChannel()) + " - " + emailable.getEmailBody(getChannel());
     } else {
-      params.put("text", text.toString());
+      messageText = text.toString();
     }
 
-    MessageResponse response;
     try {
-      response = restAPI.sendMessage(params);
-      logInfo(log, "Response: " + response.apiId);
-    } catch (PlivoException e) {
+      MessageCreateResponse response = Message.creator(this.from, this.to, messageText).create();
+      logInfo(log, "Response: " + response.getMessageUuid());
+    } catch (IOException | PlivoRestException e) {
       logError(log, "Error while sending SMS", e);
     }
 
