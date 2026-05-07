@@ -19,8 +19,11 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 /**
  * Taskerbox Validation Utilities
@@ -37,17 +40,27 @@ public class TaskerboxValidationUtils {
    * @throws IllegalArgumentException
    */
   public static <T extends Object> void validate(T object) throws IllegalArgumentException {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
-    Set<ConstraintViolation<T>> valRes = validator.validate(object);
-    if (!valRes.isEmpty()) {
-      StringBuilder sb = new StringBuilder("Validation failed for: ");
-      sb.append(object);
+    try (ValidatorFactory factory = buildValidatorFactory()) {
+      Validator validator = factory.getValidator();
+      Set<ConstraintViolation<T>> valRes = validator.validate(object);
+      if (!valRes.isEmpty()) {
+        StringBuilder sb = new StringBuilder("Validation failed for: ");
+        sb.append(object);
 
-      for (ConstraintViolation<T> fail : valRes) {
-        sb.append("\n  ").append(fail.getPropertyPath() + " - " + fail.getMessage());
+        for (ConstraintViolation<T> fail : valRes) {
+          sb.append("\n  ").append(fail.getPropertyPath() + " - " + fail.getMessage());
+        }
+        throw new IllegalArgumentException(sb.toString());
       }
-      throw new IllegalArgumentException(sb.toString());
+    }
+  }
+
+  private static ValidatorFactory buildValidatorFactory() {
+    try {
+      return Validation.buildDefaultValidatorFactory();
+    } catch (ValidationException e) {
+      return Validation.byDefaultProvider().configure()
+          .messageInterpolator(new ParameterMessageInterpolator()).buildValidatorFactory();
     }
   }
 
