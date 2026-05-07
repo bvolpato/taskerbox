@@ -27,8 +27,8 @@ import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;

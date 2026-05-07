@@ -25,7 +25,7 @@ import org.brunocvcunha.taskerbox.core.ITaskerboxAction;
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.ws.MessageWebService;
 import org.brunocvcunha.taskerbox.core.ws.TaskerboxWebService;
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import lombok.extern.log4j.Log4j;

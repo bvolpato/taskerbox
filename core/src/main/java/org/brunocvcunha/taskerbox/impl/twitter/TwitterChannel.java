@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;

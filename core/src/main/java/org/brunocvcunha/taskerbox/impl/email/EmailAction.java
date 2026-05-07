@@ -35,16 +35,16 @@ import javax.mail.internet.MimeMessage;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.http.ssl.SSLAuthenticator;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxDateUtils;
 import org.brunocvcunha.taskerbox.impl.toaster.StringToasterAction;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;
