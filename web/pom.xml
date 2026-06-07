@@ -37,7 +37,7 @@
 		<dropwizard.version>5.0.1</dropwizard.version>
 		
 		<jackson.version>2.22.0</jackson.version>
-		<jackson.annotations.version>2.21</jackson.annotations.version>
+		<jackson.annotations.version>2.22</jackson.annotations.version>
 	</properties>
 
 	<build>
