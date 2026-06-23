@@ -22,13 +22,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 import org.brunocvcunha.inutils4j.MyStreamUtils;
 import org.brunocvcunha.taskerbox.core.DefaultTaskerboxAction;
 import org.brunocvcunha.taskerbox.core.ITaskerboxEmailable;
 import org.brunocvcunha.taskerbox.core.ITaskerboxMessageable;
 import org.brunocvcunha.taskerbox.core.annotation.TaskerboxField;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;

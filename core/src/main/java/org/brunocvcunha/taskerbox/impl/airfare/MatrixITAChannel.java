@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

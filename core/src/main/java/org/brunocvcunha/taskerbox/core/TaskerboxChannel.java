@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 import org.brunocvcunha.inutils4j.MyStringUtils;
 import org.brunocvcunha.taskerbox.core.utils.TaskerboxFileUtils;
 import org.brunocvcunha.taskerbox.gui.TaskerboxControlFrame;
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;
