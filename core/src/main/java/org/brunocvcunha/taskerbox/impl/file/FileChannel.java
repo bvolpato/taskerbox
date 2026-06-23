@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.brunocvcunha.taskerbox.core.ITaskerboxAction;

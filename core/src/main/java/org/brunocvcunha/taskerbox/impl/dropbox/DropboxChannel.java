@@ -23,7 +23,7 @@ import com.dropbox.core.v1.DbxEntry;
 
 import java.util.Locale;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.brunocvcunha.taskerbox.core.TaskerboxChannel;
 
